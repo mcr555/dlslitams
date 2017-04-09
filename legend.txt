@@ -1,0 +1,32 @@
+Legend
+
+software
+	type
+	0=freeware
+	1=software
+hardware
+	asset type 
+	1=lendable
+	2=pc
+	3=others
+
+	status
+	0=undeployed
+	1=deployed
+	2=retired
+	3=decommissioned
+	4=repair
+	5=borrowed
+
+ticket_view
+	0=pending
+	1=approved
+	2=rejected
+
+ticket
+	tistatus
+	0=pending
+	1=approved
+	2=rejected
+	3=requestor
+
