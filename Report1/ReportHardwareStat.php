@@ -81,9 +81,9 @@
 
           <!-- /.form group -->
           <div class="form-group" Align='center'>
-             Start Date : <input type="text"  name="startdate" id="from-datepicker">
+             Start Date : <input type="text" required name="startdate"  id="from-datepicker">
              &nbsp;&nbsp;&nbsp;&nbsp;
-          End Date : <input type="text"  name="enddate" id="from-datepicker2">
+          End Date : <input type="text" required name="enddate" id="from-datepicker2">
           <br><br><br>
             <select  name=hardware>
 

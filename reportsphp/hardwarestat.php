@@ -2,11 +2,9 @@
 require('reports/fpdf.php');
 require("include/conn.php");
 
-$gen2 = $_POST["startdate"];
-$gen1 = $_POST["enddate"];
+$gen1 = $_POST["startdate"];
+$gen2 = $_POST["enddate"];
 $gen=$_POST['hardware'];
-
-
 
 
 
@@ -53,10 +51,10 @@ class PDF extends FPDF
 if($gen=='all')
 {
 	
-    $query = mysql_query("SELECT * FROM hardware WHERE dateBought >='$gen1' AND dateBought <= '$gen2'");
+    $query = mysql_query("SELECT * FROM hardware supplier_id LEFT JOIN supplier supplier_name ON supplier_id.supplier_id=supplier_name.supplier_id WHERE dateBought >='$gen1' AND dateBought <= '$gen2'");
 			
 if(mysql_num_rows($query) == 0){
-		echo "<script>alert('No report found. Please try again'); location.href='../hardwareRepstat.php';</script>";
+		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportHardwareStat.php';</script>";
 		}
 
 
@@ -132,6 +130,7 @@ if ($row['status'] == "5")
 		$pdf->setX(186);$pdf->Cell(0,0,''.$row['buying_price'],0,0,'L');
 		$pdf->setX(210);$pdf->Cell(0,0,''.$row['location'],0,0,'L');
 		$pdf->setX(238);$pdf->Cell(0,0,''.$status,0,0,'L');
+		$pdf->setX(267);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');
 
 
 		}
@@ -143,10 +142,13 @@ $pdf->setX(7);$pdf->Cell(0,0,'__________________________________________________
 $pdf->Output();
 $pdf->Output('Receipt.pdf', 'F');
 }
-else if($gen == "0" && " 1" && "2" && " 3" && "4" && " 5")
+else if($gen == "0" ||  $gen=="1" || $gen=="2"|| $gen=="3"|| $gen=="4"|| $gen=="5")
 {
 	
-    $query = mysql_query("SELECT * FROM hardware where status ='$gen'And dateBought >='$gen1' AND dateBought <= '$gen2'");
+    $query = mysql_query("SELECT * FROM hardware supplier_id LEFT JOIN supplier supplier_name ON supplier_id.supplier_id=supplier_name.supplier_id where status ='$gen' And dateBought >='$gen1' AND dateBought <= '$gen2'");
+    if(mysql_num_rows($query) == 0){
+		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportHardwareStat.php';</script>";
+		}
 			
 
 if ($gen == "0")
@@ -224,6 +226,7 @@ if ($gen == "5")
 		$pdf->setX(186);$pdf->Cell(0,0,''.$row['buying_price'],0,0,'L');
 		$pdf->setX(210);$pdf->Cell(0,0,''.$row['location'],0,0,'L');
 		$pdf->setX(240);$pdf->Cell(0,0,$status,0,0,'L');
+		$pdf->setX(267);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');
 
 
 		}
@@ -233,7 +236,7 @@ if ($gen == "5")
 		$pdf->setX(7);$pdf->Cell(0,0,' ',0,0,'C');
 $pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
 $pdf->Output();
-$pdf->Output('Receipt.pdf', 'F');
+$pdf->Output('Receipt.pdf', 'F');	
 }
 
-			?>
+?>
