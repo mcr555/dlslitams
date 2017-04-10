@@ -2,10 +2,9 @@
 require('reports/fpdf.php');
 require("include/conn.php");
 
-
+$gen1 = $_POST["startdate"];
+$gen2 = $_POST["enddate"];
 $gen=$_POST['software'];
-
-
 
 
 
@@ -13,7 +12,7 @@ $gen=$_POST['software'];
 date_default_timezone_set("Asia/Manila");
 
 //date_default_timezone_set('Hongkong');
-$vd=date("F d Y");
+$vd=date("Y/m/d");
 $vsd1=date("F d Y");
 $ved1=date("F d Y");	
 //echo $vd;
@@ -52,16 +51,18 @@ class PDF extends FPDF
 if($gen=='all')
 {
 	
-    $query = mysql_query("SELECT * FROM software");
+    $query = mysql_query("SELECT * FROM software WHERE date_bought >='$gen1' AND date_bought <= '$gen2'");
 			
 if(mysql_num_rows($query) == 0){
-		echo "<script>alert('No report found. Please try again'); location.href='../softwareRepstat.php';</script>";
+		echo "<script>alert('No report found. Please try again'); location.href='../Report/ReportSoftwareStat.php';
+		</script>";
 		}
 
 
+
 		
 		
-		$pdf->Ln(2);
+	$pdf->Ln(2);
 		//Image("image name", y, x, image size);
 		$pdf->Ln(20);
 		$pdf->SetFont('arial','b',50);
@@ -89,6 +90,7 @@ if(mysql_num_rows($query) == 0){
 		$pdf->setX(200);$pdf->Cell(0,0,'Date Added',0,0,'L');
 		$pdf->setX(240);$pdf->Cell(0,0,'Date Warn',0,0,'L');
 		$pdf->setX(270);$pdf->Cell(0,0,'Status',0,0,'L');
+
 
 
 		//$pdf->Ln(6.0001);
@@ -133,12 +135,15 @@ if ($row['type'] == "1")
 		$pdf->setX(7);$pdf->Cell(0,0,' ',0,0,'C');
 $pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
 $pdf->Output();
-$pdf->Output('Receipt.pdf', 'F');
+$pdf->Output('allsoftware.pdf', 'F');
 }
-else if($gen == "0" && "1")
+else if($gen == "0" || $gen == "1")
 {
 	
-    $query = mysql_query("SELECT * FROM software where type ='$gen'");
+    $query = mysql_query("SELECT * FROM software where type ='$gen' WHERE date_bought >='$gen1' AND date_bought <= '$gen2'");
+    if(mysql_num_rows($query) == 0){
+		echo "<script>alert('No report found. Please try again'); location.href='../Report/ReportSoftwareStat.php';</script>";
+		}
 			
 
 if ($gen == "0")
@@ -219,23 +224,15 @@ $pdf->setX(7);$pdf->Cell(0,0,'__________________________________________________
 $pdf->Output();
 $pdf->Output('Receipt.pdf', 'F');
 }
-else if($gen == "3")
+else if($gen == "2")
 {
 
-	if ($gen == "3")
-	$status1 = date("Y/m/d");
 	
-    $query = mysql_query("SELECT * FROM software where expiration_date <='$status1'");
-			
+    $query = mysql_query("SELECT * FROM software where expiration_date >='$gen1' AND expiration_date <='$gen2' ORDER BY  expiration_date ASC");
+			if(mysql_num_rows($query) == 0){
+		echo "<script>alert('No report found. Please try again'); location.href='../Report/ReportSoftwareStat.php';</script>";
+		}
 
-
-
-
-
-
-
-
-		
 		
 		$pdf->Ln(2);
 		//Image("image name", y, x, image size);

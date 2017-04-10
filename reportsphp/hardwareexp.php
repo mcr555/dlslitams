@@ -4,10 +4,13 @@ require("include/conn.php");
 
 
 
+
+
+
 date_default_timezone_set("Asia/Manila");
 
 //date_default_timezone_set('Hongkong');
-$vd=date("F d Y");
+$vd=date("Y/m/d");
 $vsd1=date("F d Y");
 $ved1=date("F d Y");	
 //echo $vd;
@@ -42,14 +45,14 @@ class PDF extends FPDF
 
 	$con = mysql_connect("localhost","root","");
 	mysql_select_db("itams", $con);
+{
+	
+        $query = mysql_query("SELECT * FROM hardware supplier_id LEFT JOIN supplier supplier_name ON supplier_id.supplier_id=supplier_name.supplier_id where warranty_expiration <='$vd'");
 
-$query = mysql_query("SELECT * FROM software WHERE expiration_date >='$vd'");
-	if(mysql_num_rows($query) == 0){
-		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportSoftwareExp.php';</script>";
-		}
-  
 			
-
+if(mysql_num_rows($query) == 0){
+		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportHardwareWE.php';</script>";
+		}
 
 
 		
@@ -62,27 +65,25 @@ $query = mysql_query("SELECT * FROM software WHERE expiration_date >='$vd'");
 		
 		$pdf->Ln(30);
 		$pdf->SetFont('arial','b',20);
-		$pdf->setX(110);$pdf->Cell(0,0,'Expired Software Report',0,0,'L');
+		$pdf->setX(120);$pdf->Cell(0,0,'Expired Hardware Reports',0,0,'L');
+		$pdf->Ln(10);
+
 		$pdf->Ln(10);
 
 
-		$pdf->Ln(10);
 
-
-
-	//$pdf->Ln(10);
+		
 		$pdf->SetFont('arial','b',10);
-		$pdf->setX(5);$pdf->Cell(0,0,'Software ID',0,0,'L');
-		$pdf->setX(30);$pdf->Cell(0,0,'Asset ID',0,0,'L');
-		$pdf->setX(50);$pdf->Cell(0,0,'Name',0,0,'L');
-		$pdf->setX(86);$pdf->Cell(0,0,'Version',0,0,'L');
-		$pdf->setX(108);$pdf->Cell(0,0,'Status',0,0,'L');
-		$pdf->setX(140);$pdf->Cell(0,0,'Date bought',0,0,'L');
-		$pdf->setX(172);$pdf->Cell(0,0,'Serial',0,0,'L');
-		$pdf->setX(200);$pdf->Cell(0,0,'Date Added',0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,'Date Warn',0,0,'L');
-		$pdf->setX(270);$pdf->Cell(0,0,'Status',0,0,'L');
-
+		$pdf->setX(10);$pdf->Cell(0,0,'Asset ID',0,0,'L');
+		$pdf->setX(30);$pdf->Cell(0,0,'Barcode',0,0,'L');
+		$pdf->setX(55);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,'Date bought',0,0,'L');
+		$pdf->setX(115);$pdf->Cell(0,0,'Waranty Expiration ',0,0,'L');
+		$pdf->setX(155);$pdf->Cell(0,0,'Book Value',0,0,'L');
+		$pdf->setX(182);$pdf->Cell(0,0,'Buying price',0,0,'L');
+		$pdf->setX(211);$pdf->Cell(0,0,'Location',0,0,'L');
+		$pdf->setX(240);$pdf->Cell(0,0,'Status',0,0,'L');
+		$pdf->setX(270);$pdf->Cell(0,0,'Supplier',0,0,'L');
 
 		//$pdf->Ln(6.0001);
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
@@ -90,6 +91,8 @@ $query = mysql_query("SELECT * FROM software WHERE expiration_date >='$vd'");
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
 		while($row=mysql_fetch_array($query))
 		{
+
+
 		
 		
 		$pdf->Ln(7);
@@ -97,27 +100,28 @@ $query = mysql_query("SELECT * FROM software WHERE expiration_date >='$vd'");
 		//$pdf->Image($row['picture'],9.5,8,13);
 		
 		
+		$pdf->setX(13);$pdf->Cell(0,0,''.$row['asset_id'],0,0,'L');
+		$pdf->setX(30);$pdf->Cell(0,0,''.$row['barcode'],0,0,'L');
+		$pdf->setX(55);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,''.$row['dateBought'],0,0,'L');
+		$pdf->setX(120);$pdf->Cell(0,0,''.$row['warranty_expiration'],0,0,'L');
+		$pdf->setX(159);$pdf->Cell(0,0,''.$row['book_value'],0,0,'L');
+		$pdf->setX(186);$pdf->Cell(0,0,''.$row['buying_price'],0,0,'L');
+		$pdf->setX(210);$pdf->Cell(0,0,''.$row['location'],0,0,'L');
+		$pdf->setX(240);$pdf->Cell(0,0,'Expired',0,0,'L');
+		$pdf->setX(267);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');
 		
-		$pdf->setX(10);$pdf->Cell(0,0,''.$row['software_id'],0,0,'L');
-		$pdf->setX(33);$pdf->Cell(0,0,''.$row['asset_id'],0,0,'L');
-		$pdf->setX(50);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,''.$row['version'],0,0,'L');
-		$pdf->setX(107);$pdf->Cell(0,0,''.'Expired',0,0,'L');
-		$pdf->setX(140);$pdf->Cell(0,0,''.$row['date_bought'],0,0,'L');
-		$pdf->setX(172);$pdf->Cell(0,0,''.$row['serial'],0,0,'L');
-		$pdf->setX(200);$pdf->Cell(0,0,''.$row['date_added'],0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,''.$row['date_warn'],0,0,'L');
-		$pdf->setX(270);$pdf->Cell(0,0,''.$row['type'],0,0,'L');
+
 
 
 		}
+
 				
 	
 		$pdf->Ln(7);
 		$pdf->setX(7);$pdf->Cell(0,0,' ',0,0,'C');
 $pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
 $pdf->Output();
-$pdf->Output('Receipt.pdf', 'F');
-
-
-			?>
+$pdf->Output('Expired.pdf', 'F');
+}
+?>

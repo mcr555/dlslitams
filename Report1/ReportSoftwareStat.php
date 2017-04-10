@@ -81,12 +81,16 @@
 
           <!-- /.form group -->
           <div class="form-group" Align='center'>
+          Start Date : <input type="text" required name="startdate"  id="from-datepicker">
+             &nbsp;&nbsp;&nbsp;&nbsp;
+          End Date : <input type="text" required name="enddate" id="from-datepicker2">
+          <br><br><br>
            <select name=software>
 
            <option value="all">All</option>
            <option value="0">undeployed</option>
            <option value="1">deployed</option>
-           <option value="3">Expired</option>
+           <option value="2">Expired</option>
 
 
 </select>
@@ -111,7 +115,6 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 2.2.3 -->
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="../bootstrap/js/bootstrap.min.js"></script>
@@ -123,5 +126,23 @@
 <script src="../dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
+<!-- bootstrap datepicker -->
+<script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
+<script>
+$( document ).ready(function() {
+    $("#from-datepicker").datepicker({ 
+        format: 'yyyy-mm-dd'
+    });
+    $("#from-datepicker").on("change", function () {
+        var fromdate = $(this).val();
+    });
+    $("#from-datepicker2").datepicker({ 
+        format: 'yyyy-mm-dd'
+    });
+    $("#from-datepicker2").on("change", function () {
+        var fromdate = $(this).val();
+    });
+}); 
+</script>
 </body>
 </html>

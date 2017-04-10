@@ -89,11 +89,15 @@
 
         <option value="all">All</option>
         <option value="0">Undeployed</option>
-        <option value="1">Deployed</option>
+        <option value="1">Deployed</option> 
         <option value="4">Repaired</option>
         <option value="5">Donated</option>
         <option value="2">Retired</option>
         <option value="3">Decomissioned</option>
+        <option value="6">Warranty Expiry</option>
+        
+
+
         </select>
             
           <!-- /.form group -->
