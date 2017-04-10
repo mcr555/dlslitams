@@ -62,7 +62,7 @@
         Reports
       </h1>
       <ol class="breadcrumb">
-        <li>Hardware Report</li>
+        <li>User Report</li>
       </ol>
     </section>
 
@@ -73,8 +73,8 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border" >
-        <form action="../reportsphp/hardwarestat.php" method="POST">
-          <h3 class="box-title">Hardware Report</h3>
+        <form action="../reportsphp/users.php" method="POST">
+          <h3 class="box-title">User Report</h3>
         </div>
         <div class="box-body">
 
@@ -85,16 +85,11 @@
              &nbsp;&nbsp;&nbsp;&nbsp;
           End Date : <input type="text" required name="enddate" id="from-datepicker2">
           <br><br><br>
-            <select  name=hardware>
+            <select  name=user>
 
         <option value="all">All</option>
-        <option value="0">Undeployed</option>
-        <option value="1">Deployed</option> 
-        <option value="4">Repaired</option>
-        <option value="5">Donated</option>
-        <option value="2">Retired</option>
-        <option value="3">Decomissioned</option>
-        <option value="6">Warranty Expiry</option>
+        <option value="0">Activated</option>
+        <option value="1">Deactivated</option>
         
 
 

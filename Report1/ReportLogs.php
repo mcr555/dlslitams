@@ -62,7 +62,7 @@
         Reports
       </h1>
       <ol class="breadcrumb">
-        <li>Hardware Report</li>
+        <li>Logs</li>
       </ol>
     </section>
 
@@ -73,32 +73,15 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border" >
-        <form action="../reportsphp/hardwarestat.php" method="POST">
-          <h3 class="box-title">Hardware Report</h3>
+        <form action="../reportsphp/componentsdate.php" method="POST">     
+        <h3 class="box-title">Logs</h3>
         </div>
         <div class="box-body">
 
 
           <!-- /.form group -->
           <div class="form-group" Align='center'>
-             Start Date : <input type="text" required name="startdate"  id="from-datepicker">
-             &nbsp;&nbsp;&nbsp;&nbsp;
-          End Date : <input type="text" required name="enddate" id="from-datepicker2">
-          <br><br><br>
-            <select  name=hardware>
 
-        <option value="all">All</option>
-        <option value="0">Undeployed</option>
-        <option value="1">Deployed</option> 
-        <option value="4">Repaired</option>
-        <option value="5">Donated</option>
-        <option value="2">Retired</option>
-        <option value="3">Decomissioned</option>
-        <option value="6">Warranty Expiry</option>
-        
-
-
-        </select>
             
           <!-- /.form group -->
         </div>
@@ -120,7 +103,7 @@
 </div>
 <!-- ./wrapper -->
 
-
+<!-- jQuery 2.2.3 -->
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="../bootstrap/js/bootstrap.min.js"></script>
@@ -132,23 +115,5 @@
 <script src="../dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
-<!-- bootstrap datepicker -->
-<script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
-<script>
-$( document ).ready(function() {
-    $("#from-datepicker").datepicker({ 
-        format: 'yyyy-mm-dd'
-    });
-    $("#from-datepicker").on("change", function () {
-        var fromdate = $(this).val();
-    });
-    $("#from-datepicker2").datepicker({ 
-        format: 'yyyy-mm-dd'
-    });
-    $("#from-datepicker2").on("change", function () {
-        var fromdate = $(this).val();
-    });
-}); 
-</script>
 </body>
 </html>
