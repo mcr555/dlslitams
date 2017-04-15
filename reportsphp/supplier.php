@@ -53,7 +53,7 @@ $query = mysql_query("SELECT *,supplier.supplier_name FROM hardware LEFT JOIN su
 		date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
                  $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
-                $result = $conn->query($sql1);
+                $row=mysql_fetch_array($sql1);
 
             $vn=$_SESSION["firstname"] ;
              $vn1=$_SESSION["middlename"] ;
