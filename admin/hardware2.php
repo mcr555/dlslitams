@@ -32,44 +32,56 @@ if(isset($_POST['donate2']))
 			echo $location;
 			$sql = "SELECT * FROM hardware WHERE asset_id='$id'";
 			$result = $conn->query($sql);
+
 			
 			if ($result->num_rows > 0)
 			{
 				while($row = $result->fetch_assoc()) 
 			    {
 			    	$name=$row['name'];
+			    	$vn4=$row["barcode"];
+
 
 			    	$sql2 = "INSERT INTO donated_assets (dasset_id,name,location)
 			    	VALUES ($id,'$name','$location')";
 			    	mysqli_query($conn, $sql2);
 
+
 			    	$sql2 = "DELETE FROM hardware WHERE asset_id ='$id'";
 			    	mysqli_query($conn, $sql2);
+
+			    	
 
 
 			    }
 			 	$_SESSION['notification']=1;
+
 			 	date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                $row = $result->fetch_array(MYSQLI_ASSOC);
-				$vn4=$id;
-                
                  $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
-        	$result1= $conn->query($sql1);
+                $result1 = $conn->query($sql1);
+                $sql3 ="select * from donated_assets ORDER BY donated_id DESC LIMIT 1"; 
+                $result1 = $conn->query($sql3);
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
+
+                
+
 
             $vn=$_SESSION["firstname"] ;
              $vn1=$_SESSION["middlename"] ;
             $vn2=$_SESSION["lastname"] ;
             $vn3=$_SESSION["accountType"] ;
-            
-            
+            $vn5=$row["location"];
 
-                  $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time, Log_Function) VALUES ('$vn $vn1 $vn2','$vn3','$vd','donated asset($vn4)')";
+            
+           
+
+            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','donate $name to $vn5','$vn4')";
 
             if (mysqli_query($conn, $sql3)){}
             else 
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-
+            echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
+			 	
 			}
 		} 
 	}
@@ -94,30 +106,33 @@ if(isset($_POST['retire']))
 			    	if (mysqli_query($conn, $sql)){}
 			    	else 
 				    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-				  
-
-			    }
-			    $_SESSION['notification']=1;
-			    date_default_timezone_set("Asia/Manila"); 
+				date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                $row = $result->fetch_array(MYSQLI_ASSOC);
-				$vn4=$id;
-                
                  $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
-        	$result1= $conn->query($sql1);
+                $result1 = $conn->query($sql1);
+
 
             $vn=$_SESSION["firstname"] ;
              $vn1=$_SESSION["middlename"] ;
             $vn2=$_SESSION["lastname"] ;
             $vn3=$_SESSION["accountType"] ;
-            
-            
+            $vn4=$row["barcode"];
+            $vn5=$row["name"];
 
-                  $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time, Log_Function) VALUES ('$vn $vn1 $vn2','$vn3','$vd','retired asset($vn4)')";
+            
+           
+
+            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','retired a $vn5','$vn4')";
 
             if (mysqli_query($conn, $sql3)){}
             else 
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
+
+				  
+
+			    }
+			    $_SESSION['notification']=1;
+			  
 			}
 		}
 	}
@@ -142,30 +157,33 @@ if(isset($_POST['decommission']))
 			    	if (mysqli_query($conn, $sql)){}
 			    	else 
 				    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-				  
 
-			    }
-			    $_SESSION['notification']=1;
-			    date_default_timezone_set("Asia/Manila"); 
+								date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                $row = $result->fetch_array(MYSQLI_ASSOC);
-				$vn4=$id;
-                
                  $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
-        	$result1= $conn->query($sql1);
+                $result1 = $conn->query($sql1);
+
 
             $vn=$_SESSION["firstname"] ;
              $vn1=$_SESSION["middlename"] ;
             $vn2=$_SESSION["lastname"] ;
             $vn3=$_SESSION["accountType"] ;
-            
-            
+            $vn4=$row["barcode"];
+            $vn5=$row["name"];
 
-                  $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time, Log_Function) VALUES ('$vn $vn1 $vn2','$vn3','$vd','decommissioned asset($vn4)')";
+            
+           
+
+            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','decommission a $vn5','$vn4')";
 
             if (mysqli_query($conn, $sql3)){}
             else 
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
+				  
+
+			    }
+			    $_SESSION['notification']=1;
+			   
 
 			}
 		}

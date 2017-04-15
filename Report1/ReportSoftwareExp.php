@@ -62,7 +62,7 @@
         Reports
       </h1>
       <ol class="breadcrumb">
-        <li>Hardware Status</li>
+        <li>Expired Software Report</li>
       </ol>
     </section>
 

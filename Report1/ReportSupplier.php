@@ -37,6 +37,9 @@
   session_start();
   include_once('../Admin/denyAccess.php');
   require_once('../db.php');
+
+$sql = "SELECT DISTINCT supplier_name FROM supplier";
+$result = $conn->query($sql);
   
 ?>
 <body class="hold-transition skin-green sidebar-mini">
@@ -62,7 +65,7 @@
         Reports
       </h1>
       <ol class="breadcrumb">
-        <li>Hardware Report</li>
+        <li>Supplier Report</li>
       </ol>
     </section>
 
@@ -73,24 +76,36 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border" >
-        <form action="../reportsphp/Logs.php" method="POST">
-          <h3 class="box-title">Log Report</h3>
+        <form action="../reportsphp/supplier.php" method="POST">
+          <h3 class="box-title">Supplier Report</h3>
         </div>
         <div class="box-body">
 
 
           <!-- /.form group -->
           <div class="form-group" Align='center'>
-             Start Date : <input type="text" required name="startdate"  id="from-datepicker">
-             &nbsp;&nbsp;&nbsp;&nbsp;
-          End Date : <input type="text" required name="enddate" id="from-datepicker2">
-          <br><br><br>
-            
+  <?php
+
+    $select= '<select name="asset_id">';
+    
+    while($row = $result->fetch_assoc()) 
+    $select.='<option value="'.$row['supplier_name'].'">'.$row['supplier_name'].'</option>';
+    $select.='</select>';
+
+
+
+echo $select;
+
+
+
+?>
+
           <!-- /.form group -->
         </div>
         <!-- /.box-body -->
         <div class="box-footer" align="center">
          <input  type='submit' class="btn btn-success" value="Generate" name="change" />
+
         </div>
         <!-- /.box-footer-->
       </form>
@@ -106,7 +121,7 @@
 </div>
 <!-- ./wrapper -->
 
-
+<!-- jQuery 2.2.3 -->
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="../bootstrap/js/bootstrap.min.js"></script>
@@ -118,23 +133,5 @@
 <script src="../dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
-<!-- bootstrap datepicker -->
-<script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
-<script>
-$( document ).ready(function() {
-    $("#from-datepicker").datepicker({ 
-        format: 'yyyy-mm-dd'
-    });
-    $("#from-datepicker").on("change", function () {
-        var fromdate = $(this).val();
-    });
-    $("#from-datepicker2").datepicker({ 
-        format: 'yyyy-mm-dd'
-    });
-    $("#from-datepicker2").on("change", function () {
-        var fromdate = $(this).val();
-    });
-}); 
-</script>
 </body>
 </html>
