@@ -38,7 +38,7 @@
   include_once('../Admin/denyAccess.php');
   require_once('../db.php');
 
-$sql = "SELECT DISTINCT location FROM hardware";
+$sql = "SELECT DISTINCT department FROM users";
 $result = $conn->query($sql);
   
 ?>
@@ -65,7 +65,7 @@ $result = $conn->query($sql);
         Reports
       </h1>
       <ol class="breadcrumb">
-        <li>Ticket Status</li>
+        <li>Users Department</li>
       </ol>
     </section>
 
@@ -76,22 +76,26 @@ $result = $conn->query($sql);
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border" >
-        <form action="../reportsphp/ticket.php" method="POST">
-          <h3 class="box-title">Ticket Status</h3>
+        <form action="../reportsphp/usersdept.php" method="POST">
+          <h3 class="box-title">Users Department</h3>
         </div>
         <div class="box-body">
 
 
           <!-- /.form group -->
- <div class="form-group" Align='center'>
- <select name=ticket>
+          <div class="form-group" Align='center'>
+  <?php
 
-  <option value="all">All</option>
-  <option value="0">Pending Request</option>
-    <option value="1">Approved Request</option>
-    <option value="2">Rejected Request</option>
+    $select= '<select name="dept">';
+    
+    while($row = $result->fetch_assoc()) 
+    $select.='<option value="'.$row['department'].'">'.$row['department'].'</option>';
+    $select.='</select>';
 
-</select>
+
+
+echo $select;
+?>
           <!-- /.form group -->
         </div>
         <!-- /.box-body -->

@@ -29,7 +29,13 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-  
+  <script>
+  $('#password, #confirm_password').on('keyup', function () {
+    if ($('#password').val() == $('#confirm_password').val()) {
+        $('#message').html('Matching').css('color', 'green');
+    } else 
+        $('#message').html('Not Matching').css('color', 'red');
+});</script>
 </head>
 <?php
   session_start();
@@ -92,34 +98,25 @@
 
   <?php 
   include_once('main-header.php');
-  include_once('sidebar.php');
-   $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
-               $row = mysql_fetch_assoc($sql1);
+  include_once('sidebar.php');?>
   
-      
-            ?>
-
 
   <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->
-
-
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Profile
+        Create new account
       </h1>
       <ol class="breadcrumb">
-        <li>Profile</li>
+        <li>Create new account</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-
-
 
       <!-- Default box -->
       <div class="box box-success">
@@ -131,53 +128,97 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                <div class="user-panel">
-                <div class="pull-left image"><img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"></div>
-                        <label>idnumber</label>
-                        <input type="number" class="form-control" disabled name="idnumber" value="<?php echo $row['idnumber'];?>">
+                        <label>Employee Number</label>
+                        <input type="text" class="form-control" required name="idnumber" required name='name' placeholder="Enter Employee Number" onkeypress="return isNumberKey(event)">
                       </div>
                       <!-- /.form-group -->
                       
                       <!-- /.form-group -->
-                       <div class="form-group">
-                        <label>name</label>
-                        <input type="text" class="form-control" disabled name="name" value="<?php echo $row['firstname'];?>">
+                      <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" class="form-control" required name="password" id="password" pattern=".{4,}" title="Four or more characters" placeholder="Enter Password" >
                       </div>
-                     <div class="form-group">
-                        <label>Gender</label>
-                        <input type="text" class="form-control" disabled name="gender" value="<?php echo $row['gender'];?>">
+                      <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="password" class="form-control" required name="confirm_password" id="confirm_pasasword" pattern=".{4,}" title="Four or more characters" placeholder="Enter Password" >
+                        <span id='message'></span>
                       </div>
                       <!-- /.form-group -->
                       <div class="form-group">
-                        <label>Email</label>
-                        <input type="text" class="form-control" disabled name="email" value="<?php echo $row['email'];?>"></td>
+                        <label>First Name</label>
+                        <input type="text" required name="firstname" class="form-control" placeholder="Enter First name" >
                       </div>
                       <!-- /.form-group -->
-                      
+                      <div class="form-group">
+                        <label>Middle Name</label>
+                        <input type="text" required name="middlename" class="form-control" placeholder="Enter Middle name" >
                       </div>
                       <!-- /.form-group -->
                     </div>
                     <!-- /.col -->
-                    <div class="form-group">
-                        <label>Department</label>
-                        <input type="text" class="form-control" disabled name="department" value="<?php echo $row['department'];?>">
-                        <!-- /.form-group -->
-                    <div class="form-group">
-                        <label>Privilige</label>
-                        <input type="text" class="form-control" disabled name="accounttype" value="<?php echo $row['accountType'];?>">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" required name="lastname" class="form-control" placeholder="Enter Last name">
                       </div>
                       <!-- /.form-group -->
                     <div class="form-group">
-                        <label>Status</label>
-                        <input type="text" class="form-control" disabled name="status" value="<?php echo $status;?>">
-                      </div>
-                    
+                      <label>Gender</label>
+                      <select class="form-control" name="gender">
+                        <option>Male</option>
+                        <option>Female</option>
+                      </select>
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                      <label>Email Address</label>
+                      <input type="email" name="email" required class="form-control" placeholder="Enter Email address">
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                      <label>Department</label>
+                      <select class="form-control" name="department">
+                        <option value="CITE">CITE</option>  
+                        <option value="CIHTM" >CIHTM</option>
+                        <option value="CBEAM">CBEAM</option>
+                        <option value="CEAS" >CEAS</option>
+                        <option value="CON" >CON</option>
+                        <option value="COL" >COL</option>
+                      </select>
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                      <label>Privelege</label>
+                      <select class="form-control" name="accounttype">
+                          <option value="Regular Employee">Regular Employee</option>  
+                          <option value="Immediate Superior" >Immediate Superior</option>
+                          <option value="Dean">Dean</option>
+                          <option value="Budget Analyst" >Budget Analyst</option>
+                          <option value="FRD Manager" >FRD Manager</option>
+                          <option value="VCAR" >VCAR</option>
+                          <option value="VCAD" >VCAD</option>
+                          <option value="VCM" >VCM</option>
+                          <option value="Chancellor" >Chancellor</option>
+                          <option value="FHP Director" >FHP Director</option>
+                          <option value="Property Custodian" >Property Custodian</option>
+                          <option value="Properties and Reservation Officer" >Properties and Reservations Officer</option>
+                          <option value="ICT Manager" >ICT Manager</option>
+                          <option value="Admin" >ICT Administrator</option>
+                          <option value="ICT Staff" >ICT Staff</option>
+                          <option value="Director" >Director</option>
+                          <option value="Section Head" >Section Head</option>
+                          <option value="Principal" >Principal</option>
+                      </select>
+                    </div>
                     <!-- /.form-group -->
               </div>
             </div>
         </div>
         <!-- /.box-body -->
         <div>&nbsp;</div>
+          <div class="box-footer">
+            <input type='submit' class="btn btn-success pull-right" value="Submit" name='reg'/>
+          </div>
       </form>
       </div>
       <!-- /.box -->
@@ -202,5 +243,13 @@
 <script src="../dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
+<script>
+function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+</script>
 </body>
 </html>

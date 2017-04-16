@@ -46,8 +46,22 @@ class PDF extends FPDF
 $query = mysql_query("SELECT * FROM software WHERE expiration_date >='$vd'");
 	if(mysql_num_rows($query) == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportSoftwareExp.php';</script>";
+				exit(0);
+
+
+
+
 		}
-  
+
+			  session_start();
+		date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
+
+
+
+$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Report','Generate report of expired software ','')") or die(mysql_error());	
 			
 
 

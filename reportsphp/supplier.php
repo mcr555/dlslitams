@@ -47,29 +47,22 @@ class PDF extends FPDF
 $query = mysql_query("SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hardware.supplier_id=supplier.supplier_id where supplier_name = '$gen' ");
 	if(mysql_num_rows($query) == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../Report1/Reportsupplier.php';</script>";
+		exit(0);
+
+
+
+
 		}
-  
+
 			  session_start();
 		date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                 $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
-                $row=mysql_fetch_array($sql1);
-
-            $vn=$_SESSION["firstname"] ;
-             $vn1=$_SESSION["middlename"] ;
-            $vn2=$_SESSION["lastname"] ;
-            $vn3=$_SESSION["accountType"] ;
-            $gen = $_POST['asset_id'];
-           
-
-            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Reports','Generate report of $gen','')";
-
-            if (mysqli_query($conn, $sql3)){}
-            else 
-            echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
 
 
 
+$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Report','Generate supplier report of $gen','')") or die(mysql_error());	
 
 		
 		

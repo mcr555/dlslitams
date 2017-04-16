@@ -2,7 +2,7 @@
 require('reports/fpdf.php');
 require("include/conn.php");
 
-$gen=$_POST['user'];
+$gen=$_POST['dept'];
 
 
 
@@ -47,7 +47,7 @@ class PDF extends FPDF
 
 {
 	
-    $query = mysql_query("SELECT * FROM users WHERE accountType ='$gen'");
+    $query = mysql_query("SELECT * FROM users WHERE department ='$gen'");
 			
 if(mysql_num_rows($query) == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportUserStat.php';</script>";
@@ -64,10 +64,9 @@ if(mysql_num_rows($query) == 0){
 
 
 
-$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Report','Generate report of all $gen User','')") or die(mysql_error());	
+$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Report','Generate report of all $gen department User','')") or die(mysql_error());	
 
 
-		
 		
 		$pdf->Ln(2);
 		//Image("image name", y, x, image size);
@@ -137,6 +136,6 @@ $queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,cate
 		$pdf->setX(7);$pdf->Cell(0,0,' ',0,0,'C');
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
 $pdf->Output();
-$pdf->Output('priviliges.pdf', 'F');
+$pdf->Output('userdepartment.pdf', 'F');
 }
 ?>

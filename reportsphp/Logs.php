@@ -49,7 +49,22 @@ class PDF extends FPDF
 $query = mysql_query("SELECT * FROM tbl_log WHERE Log_Date_Time >='$gen' AND Log_Date_Time <= '$gen1'");
 	if(mysql_num_rows($query) == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../ReportLogs.php';</script>";
+				exit(0);
+
+
+
+
 		}
+
+			  session_start();
+		date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
+
+
+
+$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Report','Generate report of Logs date $gen-$gen1 ','')") or die(mysql_error());	
   
 			
 
@@ -76,11 +91,13 @@ $query = mysql_query("SELECT * FROM tbl_log WHERE Log_Date_Time >='$gen' AND Log
 
 	//$pdf->Ln(10);
 		$pdf->SetFont('arial','b',10);
-		$pdf->setX(60);$pdf->Cell(0,0,'Time',0,0,'L');
-		$pdf->setX(100);$pdf->Cell(0,0,'Category',0,0,'L');
-		$pdf->setX(130);$pdf->Cell(0,0,'Account Type',0,0,'L');
-		$pdf->setX(180);$pdf->Cell(0,0,'Function',0,0,'L');
-		$pdf->setX(235);$pdf->Cell(0,0,'Reference id',0,0,'L');
+		$pdf->setX(20);$pdf->Cell(0,0,'Time',0,0,'L');
+		$pdf->setX(65);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,'Category',0,0,'L');
+		$pdf->setX(110);$pdf->Cell(0,0,'Account Type',0,0,'L');
+		$pdf->setX(140);$pdf->Cell(0,0,'Reference id',0,0,'L');
+		$pdf->setX(170);$pdf->Cell(0,0,'Function',0,0,'L');
+
 
 
 		//$pdf->Ln(6.0001);
@@ -97,11 +114,13 @@ $query = mysql_query("SELECT * FROM tbl_log WHERE Log_Date_Time >='$gen' AND Log
 		
 		
 		
-		$pdf->setX(50);$pdf->Cell(0,0,''.$row['Log_Date_Time'],0,0,'L');
-		$pdf->setX(100);$pdf->Cell(0,0,''.$row['category'],0,0,'L');
-		$pdf->setX(135);$pdf->Cell(0,0,''.$row['Log_LOP'],0,0,'L');
-		$pdf->setX(170);$pdf->Cell(0,0,''.$row['Log_Name'].' '.$row['Log_Function'],0,0,'L');
-		$pdf->setX(245);$pdf->Cell(0,0,''.$row['id'],0,0,'L');
+		$pdf->setX(10);$pdf->Cell(0,0,''.$row['Log_Date_Time'],0,0,'L');
+		$pdf->setX(60);$pdf->Cell(0,0,''.$row['Log_Name'],0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,''.$row['category'],0,0,'L');
+		$pdf->setX(115);$pdf->Cell(0,0,''.$row['Log_LOP'],0,0,'L');
+		$pdf->setX(140);$pdf->Cell(0,0,''.$row['id'],0,0,'L');
+		$pdf->setX(170);$pdf->Cell(0,0,''.$row['Log_Function'],0,0,'L');
+		
 
 
 		}

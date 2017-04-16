@@ -55,7 +55,20 @@ if($gen=='all')
 			
 if(mysql_num_rows($query) == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportHardwareStat.php';</script>";
+		exit(0);
+
+
 		}
+
+			  session_start();
+		date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
+
+
+
+$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of all $gen hardware date $gen1-$gen2','')") or die(mysql_error());	
 
 
 		
@@ -148,10 +161,11 @@ else if($gen == "0" ||  $gen=="1" || $gen=="2"|| $gen=="3"|| $gen=="4"|| $gen=="
     $query = mysql_query("SELECT * FROM hardware supplier_id LEFT JOIN supplier supplier_name ON supplier_id.supplier_id=supplier_name.supplier_id where status ='$gen' And dateBought >='$gen1' AND dateBought <= '$gen2'");
     if(mysql_num_rows($query) == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportHardwareStat.php';</script>";
-		}
-			
+				exit(0);
 
-if ($gen == "0")
+
+		}
+		if ($gen == "0")
 	$status = 'Undeployed ';
 
 if ($gen == "1")
@@ -168,6 +182,18 @@ if ($gen == "4")
 
 if ($gen == "5")
 	$status = 'Donated ';
+
+			  session_start();
+		date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
+
+
+
+$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of all $status hardware date $gen1-$gen2','')") or die(mysql_error());
+
+
 
 
 
@@ -244,11 +270,24 @@ else if($gen == "6")
     $query = mysql_query("SELECT * FROM hardware supplier_id LEFT JOIN supplier supplier_name ON supplier_id.supplier_id=supplier_name.supplier_id where  warranty_expiration >='$gen1' AND warranty_expiration <= '$gen2' ORDER BY  warranty_expiration ASC");
     if(mysql_num_rows($query) == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportHardwareStat.php';</script>";
+				exit(0);
+
+
 		}
-			
+
+
+			  session_start();
+		date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
+
+
+
+$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Report','Generate report of hardware warranty exp on date $gen1-$gen2','')") or die(mysql_error());
 
 if ($gen == "0")
-	$status = 'Undeployed ';
+$status = 'Undeployed ';
 
 if ($gen == "1")
 	$status = 'Deployed ';
@@ -264,7 +303,6 @@ if ($gen == "4")
 
 if ($gen == "5")
 	$status = 'Donated ';
-
 
 
 		

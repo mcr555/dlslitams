@@ -46,12 +46,25 @@ class PDF extends FPDF
 	$con = mysql_connect("localhost","root","");
 	mysql_select_db("itams", $con);
 
-
+$query = mysql_query("SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hardware.supplier_id=supplier.supplier_id where location ='$gen' ");
 	
-    $query = mysql_query("SELECT * FROM hardware Where location ='$gen'");
 				if(mysql_num_rows($query) == 0){
-		echo "<script>alert('No report found. Please try again'); location.href='../hardwareReploc.php';</script>";
+		echo "<script>alert('No report found. Please try again'); location.href='..Report1/ReportHardwareLoc.php';</script>";
+		exit(0);
+
+
 		}
+
+			  session_start();
+		date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
+
+
+
+$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of hardware located at $gen','')") or die(mysql_error());	
+
 
 
 
@@ -109,6 +122,7 @@ class PDF extends FPDF
 		$pdf->setX(193);$pdf->Cell(0,0,''.$row['buying_price'],0,0,'L');
 		$pdf->setX(220);$pdf->Cell(0,0,''.$row['location'],0,0,'L');
 		$pdf->setX(253);$pdf->Cell(0,0,''.$row['status'],0,0,'L');
+		$pdf->setX(265);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');
 
 
 		}
