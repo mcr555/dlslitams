@@ -16,7 +16,7 @@ if(isset($_POST['checkbox']))
     echo "<input type='hidden' name='checkbox[]' value='$id'>";
   }
 }
-else header('Location: ' . $_SERVER['HTTP_REFERER']);
+else echo "<script>window.close();</script>";
 echo "<input type='submit' value='Submit' name='donate2'></form>";
 exit();
 }
@@ -73,7 +73,13 @@ if(isset($_POST['donate2']))
 			}
 		} 
 	}
-	header("Location: hardware"); 
+	?><script>
+    window.onunload = refreshParent;
+    function refreshParent() {
+        window.opener.location.reload();
+    }
+</script><?php
+	echo "<script>window.close();</script>";
 	exit();
 }
 

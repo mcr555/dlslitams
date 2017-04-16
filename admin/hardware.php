@@ -113,7 +113,7 @@
       </ol>
     </section>
 
-    <form method="post" action="hardware2">
+    <form method="post" action="hardware2" name="myform">
     <!-- Main content -->
     <section class="content">
 
@@ -130,7 +130,7 @@
                   More <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <ul class="dropdown-menu">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareComputerAdd">Add Hardware</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareComputerAdd">Add Computer</a></li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareAdd">Add Asset</a></li>
                 </ul>
               </li>
@@ -139,9 +139,9 @@
                   View <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <ul class="dropdown-menu">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareRetired.php">Retired Asset</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDonated.php">Donated Asset</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDecommissioned.php">Decommissioned Asset</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareRetired">Retired Asset</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDonated">Donated Asset</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDecommissioned">Decommissioned Asset</a></li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="hardware">All Hardware</a></li>
                 </ul>
               </li>
@@ -150,7 +150,10 @@
                   Action <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <ul class="dropdown-menu">
-                  <li role="presentation"><input type="submit" class="btn btn-default"  name="donate" value="Donate"/></li>
+                  <li role="presentation">
+                  <input type="submit" class="btn btn-default"  name="donate" value="Donate"
+                  onclick="myform.target='POPUPW'; POPUPW = window.open(
+                  'about:blank','POPUPW','width=600,height=400');"></li>
                   <li role="presentation"><input type="submit" class="btn btn-default"  name="retire" value="Retire"/></li>
                   <li role="presentation"><input type="submit" class="btn btn-default"  name="decommission" value="Decommission"/></li>
                 </ul>
@@ -164,7 +167,7 @@
         
           <table id="example1" class="table table-bordered table-striped">
             <?php
-            $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hardware.supplier_id=supplier.supplier_id WHERE status!=2";
+            $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hardware.supplier_id=supplier.supplier_id WHERE status!=2 ORDER BY asset_id desc";
             $result = $conn->query($sql);
 
             echo "<thead><tr><th></th><th>";

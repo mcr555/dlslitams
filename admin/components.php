@@ -130,7 +130,7 @@
                   More <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <ul class="dropdown-menu">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="componentAdd">Add Component</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="componentsAdd">Add Component</a></li>
             </ul>
            
             <!-- /.tab-content -->
