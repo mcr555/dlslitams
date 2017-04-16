@@ -46,6 +46,28 @@
   if (mysqli_query($conn, $sql)){}
   else 
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+  date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                $sql2 ="select * from users WHERE idnumber = '$idnumber'";
+                $result1 = $conn->query($sql2);
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
+                $sql1 = "select * from users where idnumber = '".$_SESSION['idnumber']."'"; 
+                 $result = $conn->query($sql1);
+
+            $vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
+            $vn5=$row["firstname"];
+            $vn6=$row["middlename"];  
+            $vn7=$row["lastname"];
+           
+
+            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','User','Deactivated account of $vn5 $vn6 $vn7','$idnumber')";
+
+            if (mysqli_query($conn, $sql3)){}
+            else 
+            echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
   }
 ?>
 <body class="hold-transition skin-green sidebar-mini">

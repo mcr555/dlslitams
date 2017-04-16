@@ -140,7 +140,7 @@
       <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-      <li><a href="profile"><i class="fa fa-circle-o"></i>Profile</a></li>
+      <li><a href="profile1"><i class="fa fa-circle-o"></i>Profile</a></li>
       <li><a href="changePass"><i class="fa fa-circle-o"></i>Change Password</a></li>
       <li><a href="../logout"><i class="fa fa-circle-o"></i>Sign Out</a></li>
     </ul>

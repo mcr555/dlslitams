@@ -41,6 +41,12 @@
             <i class="fa fa-history"></i> <span>My History Requests</span>
           </a>
         </li>
+         </li>
+        <li class="treeview">
+          <a href="profile1">
+            <i class="fa fa-history"></i> <span>Profile</span>
+          </a>
+        </li>
          <li class="treeview">
           <a href="../logout">
             <i class="fa fa-sign-out"></i> <span>Log out</span>

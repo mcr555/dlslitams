@@ -148,15 +148,17 @@ if (isset($_POST['submit']))
 
             if(isset($_POST['checkbox']))
             {
+              $desc="usable";
               $sql = "INSERT INTO hardware (lifespanEnd,hardware_category,supplier_id,name,buying_price,book_value,warranty_expiration,dateBought,barcode,asset_type)
         VALUES ('$lifespanEnd','$category','$supplier_id','$name','$buying_price','$buying_price','$warranty_expiration','$dateBought','$value',1)";
             }
             else 
             {
+              $desc="";
                 $sql = "INSERT INTO hardware (lifespanEnd,hardware_category,location,supplier_id,name,buying_price,book_value,warranty_expiration,dateBought,barcode,asset_type)
         VALUES ('$lifespanEnd','$category','warehouse','$supplier_id','$name','$buying_price','$buying_price','$warranty_expiration','$dateBought','$value',3)";
             }
-                       if (mysqli_query($conn, $sql)){}
+            if (mysqli_query($conn, $sql)){}
             else 
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }
@@ -165,7 +167,7 @@ if (isset($_POST['submit']))
                 $sql2 ="select * from hardware ORDER BY asset_id DESC LIMIT 1"; 
                 $result1 = $conn->query($sql2);
                 $row = $result1->fetch_array(MYSQLI_ASSOC);
-                 $sql1 = "select * from users where idnumber = '".$_SESSION['idnumber']."'"; 
+                $sql1 = "select * from users where idnumber = '".$_SESSION['idnumber']."'"; 
         $result = $conn->query($sql1);
 
             $vn=$_SESSION["firstname"] ;
@@ -176,7 +178,7 @@ if (isset($_POST['submit']))
             $vn5=$row["name"];
            
 
-            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','add a $vn5','$vn4')";
+            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','add a $desc $vn5','$vn4')";
 
             if (mysqli_query($conn, $sql3)){}
             else 

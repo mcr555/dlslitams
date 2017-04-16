@@ -115,7 +115,7 @@
       </div>
       <div class="row">
         <div class="col-xs-8">
-          <a href="forgetPassword">I forgot my password</a><br>
+          <a href="forgetPassword">Forgot Password</a><br>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">

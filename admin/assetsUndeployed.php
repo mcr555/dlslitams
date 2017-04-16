@@ -155,7 +155,7 @@
         
           <table id="example1" class="table table-bordered table-striped">
             <?php
-            $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hardware.supplier_id=supplier.supplier_id WHERE asset_type>1 AND status!=3 AND location='warehouse' ORDER BY asset_id desc";
+            $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hardware.supplier_id=supplier.supplier_id WHERE asset_type>1 AND status!=3 AND status!=2 AND location='warehouse' ORDER BY asset_id desc";
             $result = $conn->query($sql);
 
             echo "<thead><tr><th></th><th>";
