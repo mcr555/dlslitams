@@ -146,34 +146,45 @@ if (isset($_POST['submit']))
       {
         while($row = $result->fetch_assoc())
         {
-          if($value2=='') continue;
-          $sql2 = "INSERT INTO components (asset_id,name,component_status,component_category)
-          VALUES ('$asset_id','$value2',1,'$nam[$index2]')";
-          
-          mysqli_query($conn, $sql2);
-
+          echo "Duplicate barcode found: $value<BR>";
+          $duplicate=1;
+          $message=1;
+          break;
         }
-        date_default_timezone_set("Asia/Manila"); 
-                $vd=date("Y-m-d h:i:a");
-                $sql2 ="select * from hardware ORDER BY asset_id DESC LIMIT 1"; 
-                $result1 = $conn->query($sql2);
-                $row = $result1->fetch_array(MYSQLI_ASSOC);
-                 $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
+      } 
+    if($duplicate==1) continue;
+
+    $sql = "INSERT INTO hardware (lifespanEnd,hardware_category,location,supplier_id,name,buying_price,book_value,warranty_expiration,dateBought,barcode,asset_type)
+      VALUES ('$lifespanEnd','$category','warehouse','$supplier_id','$name','$buying_price','$buying_price','$warranty_expiration','$dateBought','$value',2)";
+      
+    if (mysqli_query($conn, $sql))
+    {
+      $asset_id = mysqli_insert_id($conn);
+      foreach($_POST['com'] as $index2 => $value2)
+      {
+        if($value2=='') continue;
+        $sql2 = "INSERT INTO components (asset_id,name,component_status,component_category,dateBuy,warranty_expiration,supplier_id)
+        VALUES ('$asset_id','$value2',1,'$nam[$index2]','$dateBought','$warranty_expiration','$supplier_id')";
+        mysqli_query($conn, $sql2);
+
+        date_default_timezone_set("Asia/Manila");
+        $vd=date("Y-m-d h:i:a");
+        $sql2 ="select * from hardware ORDER BY asset_id DESC LIMIT 1"; 
+        $result1 = $conn->query($sql2);
+        $row = $result1->fetch_array(MYSQLI_ASSOC);
+        $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
         $result = $conn->query($sql1);
 
-            $vn=$_SESSION["firstname"] ;
-             $vn1=$_SESSION["middlename"] ;
-            $vn2=$_SESSION["lastname"] ;
-            $vn3=$_SESSION["accountType"] ;
-            $vn4=$row["barcode"];
-            $vn5=$row["name"];
-           
+        $vn=$_SESSION["firstname"] ;
+        $vn1=$_SESSION["middlename"] ;
+        $vn2=$_SESSION["lastname"] ;
+        $vn3=$_SESSION["accountType"] ;
+        $vn4=$row["barcode"];
+        $vn5=$row["name"];
 
-                  $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','add a $vn5','$vn4')";
-
-            if (mysqli_query($conn, $sql3)){}
-            else 
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','add a $vn5','$vn4')";
+        if (mysqli_query($conn, $sql3)){}
+        else echo "Error: " . $sql . "<br>" . mysqli_error($conn);
       }
     }
     else echo "Error: " . $sql . "<br>" . mysqli_error($conn);

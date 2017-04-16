@@ -89,7 +89,7 @@ if(isset($_POST['checkbox']))
     echo "<input type='hidden' name='checkbox[]' value='$id'>";
   }
 }
-else header('Location: ' . $_SERVER['HTTP_REFERER']);
+else echo "<script>window.close();</script>";
 echo "<BR><input type='submit' value='Submit' name='submit2'></form>";
 exit();
 }

@@ -28,7 +28,6 @@
   <!-- inadd -->
   <link rel="stylesheet" type="text/css" href="../logo/design1.css"/>
   <link rel="icon" href="../images/icon.png"/>
-
   <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="../bootstrap/js/bootstrap.min.js"></script>
@@ -42,35 +41,25 @@
 <script src="../dist/js/demo.js"></script>
 <!-- bootstrap datepicker -->
 <script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
-<script src="../js/enterToTab.js"></script>
 
 <script>
-  $(document).ready(function() {
-    var max_fields      = 50; //maximum input boxes allowed
-    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-    var add_button      = $(".add_field_button"); //Add button ID
-   
-    var x = 1; //initlal text box count
-    var quantity=parseInt("<?php echo $quantity;?>");
-    $(add_button).click(function(e){ //on add input button click
-        e.preventDefault();
-        if(x < max_fields){ //max input box allowed
-            x++; //text box increment
-            $(wrapper).append('<div class="form-group"><input type="text" class="form-control" name="serial[]"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
-        }
-        quantity += 1;
-        document.getElementById("quantity").innerHTML = quantity;
-    });
-   
-    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-        e.preventDefault(); $(this).parent('div').remove(); x--;
-        quantity -= 1;
-        document.getElementById("quantity").innerHTML = quantity;
-    })
-  });
-  </script> 
+function validateForm() {
+    var dateBought = document.forms["myForm"]["dateBought"].value;
+    var warranty_expiration = document.forms["myForm"]["warranty_expiration"].value;
+    
+    var selectedDate = new Date(dateBought);
+    var now = new Date();
+    if (selectedDate > now) {
+      alert("Date bought is greater than current date");
+      return false;
+    }
 
-
+    if (dateBought > warranty_expiration) {
+      alert("Warranty expiration date is earlier than the Date Bought");
+      return false;
+    }
+}
+</script>
 
 <script>
 $( document ).ready(function() {
@@ -88,47 +77,37 @@ $( document ).ready(function() {
     });
 }); 
 </script>
+<script src="../js/popup.js"></script> 
+<script src="../js/ajax.js"></script> 
 
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-</head>
 <?php
-  if (isset($_POST['submit']))
-  {
-      if (!isset($_POST['version']))
-      $version='';
-      else $version=$_POST['version'];
-      $name=$_POST['name'];
-      $expiration_date=$_POST['expiration_date'];
-      $date_bought=$_POST['date_bought'];
-      
-      
-      $date = strtotime($expiration_date .' -1 months');
-      $final=date('Y-m-d', $date);    
-      foreach($_POST['serial'] as $index => $value) {
-      if($value!='')
-      {
-          $sql = "INSERT INTO software (name,version,expiration_date,date_bought,serial,date_warn,type)
-      VALUES ('$name','$version','$expiration_date','$date_bought','$value','$final',1)";
+if (isset($_POST['submit']))
+{
+    $name=$_POST['name'];
+    $supplier_id=$_POST['supplier_id'];
+    $buying_price=$_POST['buying_price'];
+    $category=$_POST['category'];
+    $warranty_expiration=$_POST['warranty_expiration'];
+    $dateBought=$_POST['dateBought'];
+    $quantity=$_POST['quantity'];
 
-      if (mysqli_query($conn, $sql)) 
+    for($i=0;$i<$quantity;$i++)
       {
-        
+               $sql = "INSERT INTO components (name,supplier_id,component_status,component_category,dateBuy,warranty_expiration,buy_price)
+        VALUES ('$name','$supplier_id',0,'$category','$dateBought','$warranty_expiration','$buying_price')";
+
+          if (mysqli_query($conn, $sql)){}
+          else echo "Error: " . $sql . "<br>" . mysqli_error($conn); 
       }
+        
+    $_SESSION['notification']=1;
+    header("Location: components");
 
-      else 
-      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-      } 
-  }
-  header("Location: software");
-  exit();
-  }
+exit();
+}
 ?>
+
 <body class="hold-transition skin-green sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
@@ -146,69 +125,95 @@ $( document ).ready(function() {
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Software
+        Components
       </h1>
       <ol class="breadcrumb">
         <li>Assets</li>
-        <li>Software</li>
-        <li>Licensed Software</li>
-        <li>Add Licensed Software</li>
+        <li>Components</li>
+        <li>Add Components</li>
       </ol>
     </section>
 
-    <!-- Main content -->
-    <section class="content">
-
-      <!-- Default box -->
       <div class="box box-success">
         <div class="box-header with-border">
-          <h3 class="box-title">Add Licensed Software</h3>
+          <h3 class="box-title">Add Components</h3>
         </div>
         <div class="box-body">
-          <form role="form" action="softwareAdd" method="post">
+          <form role="form" name="myForm" onsubmit="return validateForm()" action="" method="post">
             <div class="row">
               <div class="col-md-6">
+
                 <div class="form-group">
-                    <label>Software Name</label>
-                    <input type="text" class="form-control" id="InputSoftwareName" required name='name' placeholder="Enter Software Name">
+
+
+                    <label>Name</label>
+                    <input type="text" class="form-control" id="InputSoftwareName" required name='name' placeholder="Enter Component Name">
                 </div>
-                      <!-- /.form-group -->
                 <div class="form-group">
-                        <label>Expiration Date</label>
-                        <input type="text" class="form-control" required name='expiration_date' id="from-datepicker" placeholder="Enter Expiration Date">
+                        <label>Price</label>
+                        <input class="form-control" type="number" step="0.01" min="0" required name='buying_price' placeholder="Enter Price">
                 </div>
-                      <!-- /.form-group -->
                 <div class="form-group">
-                <p>Quantity: <a id="quantity"><?php echo $quantity;?></a></p>
-                        <button class="add_field_button">Add More Fields</button>
+
+                        <div id="output">
+                        <?php
+                        echo '<label>Supplier</label>';
+                        $sql = "SELECT * FROM supplier";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0)
+                        {
+                            $select= '<select name="supplier_id">';
+                            $select.='<option value=""></option>';
+                            while($row = $result->fetch_assoc()) 
+                                $select.='<option value="'.$row['supplier_id'].'">'.$row['supplier_name'].'</option>';
+                        }
+                        $select.='</select>';
+                        echo $select;
+                        ?>
+                        <input type='button'  onClick="popitup2('suppliersAddNoRefresh')" value='Add Supplier'><BR>
+
+                        <?php
+                        echo '<label>Categories</label>';
+                        $sql = "SELECT * FROM dropdown_list WHERE dropdown_type=2";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0)
+                        {
+                            $select= '<select name="category">';
+                            while($row = $result->fetch_assoc()) 
+                                $select.='<option value="'.$row['dropdown_name'].'">'.$row['dropdown_name'].'</option>';
+                        }
+                        $select.='</select>';
+                        echo $select;
+                        ?>
+                        <input type='button'  onClick="popitup2('addComponentDrop')" value='Add Category'><BR>
                 </div>
-                      <!-- /.form-group -->
-                <div id="room_fields" class="input_fields_wrap" >
-                        <label>Serial</label>
-                        <div><input type="text"  class="form-control" required name="serial[]"><a href="#" class="remove_field">Remove</a></div>
+                        <input type='button' onclick="return getOutput('dropdownSupCat2')" value='Refresh Dropdown Values'>
                 </div>
-                      <!-- /.form-group -->
+                <div class="form-group">
+                <label>Quantity</label><input class="form-control" type="number" min="1" required name='quantity' placeholder="Enter Quantity">
+                  
+                </div>
+                
               </div>
                     <!-- /.col -->
               <div class="col-md-6">
                   <div class="form-group">
-                        <label>Date Bought</label>
-                        <input type="text" class="form-control" required name='date_bought' id="from-datepicker2" placeholder="Enter Date Bought">
+                        <label>Warranty Expiration</label>
+                        <input type="text" class="form-control" required name='warranty_expiration' id="from-datepicker">
                   </div>
                       <!-- /.form-group -->
                   <div class="form-group">
                     <div class="form-group">
-                        <label>Version</label>
-                        <input type="text" class="form-control" id="InputVersion" name='version' placeholder="Enter Version">
+                        <label>Date Bought</label>
+                        <input type="text" class="form-control" required name='dateBought' id="from-datepicker2">
                     </div>
                 <!-- /.form-group -->
                   </div>
               </div>
             </div>
         <!-- /.box-body -->
-        <div>&nbsp;</div>
           <div class="box-footer">
-            <input type='button' class="btn btn-default" onclick="location.href='software';" value='Cancel'/>
+            <input type='button' class="btn btn-default" onclick="location.href='components';" value='Cancel'/>
             <input type='submit' class="btn btn-success pull-right" name='submit' value='Submit' />
           </div>
         </form>
@@ -219,10 +224,10 @@ $( document ).ready(function() {
   </div>
   <!-- /.content-wrapper -->
 
-  <?php include_once('footer.php');?>
 </div>
-<!-- ./wrapper -->
+  <?php include_once('footer.php');?>
 
-<!-- jQuery 2.2.3 -->
+
 </body>
 </html>
+
