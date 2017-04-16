@@ -41,53 +41,7 @@
   session_start();
   include_once('denyAccess.php');
   require_once('../db.php');
-  if (isset($_POST['reg']))
-  {
-    $idnumber=$_POST["idnumber"];
-    $password=$_POST["password"];
-    $password=md5($password);
-    $lastname=$_POST["lastname"];
-    $firstname=$_POST["firstname"];
-    $middlename=$_POST["middlename"];
-    $gender=$_POST["gender"];
-    $email=$_POST["email"];
-    $department=$_POST["department"];
-    $accounttype=$_POST["accounttype"];
-    if($accounttype=='Immediate Superior' ||$accounttype=='Dean') $accounttype= $department . ' ' . $accounttype;
-
-     $sql = "SELECT * FROM users WHERE idnumber='$idnumber' OR email='$email'";
-     $result = $conn->query($sql);
-
-    if ($result->num_rows > 0)
-    {
-      while($row = $result->fetch_assoc()) 
-      {
-          echo "Record already exist<BR>";
-          ?><button onclick="history.go(-1);">Back </button><?php
-          exit();
-      }
-    } 
-
-    else
-    {
-      $sql = "INSERT INTO users (idnumber,password,lastname,firstname,middlename,gender,department,email,accountType)
-      VALUES ($idnumber,'$password','$lastname','$firstname','$middlename','$gender','$department','$email','$accounttype')";
-
-      if (mysqli_query($conn, $sql)) 
-      {
-        echo "Registration Successfull! You will be redirected in 3 Seconds";
-        $_SESSION['notification']=1;
-        header( "refresh:3;url=users" );  
-        exit();
-      }
-
-      else 
-      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-      exit();
-    }
-
-
-  }
+  
 ?>
 <body class="hold-transition skin-green sidebar-mini">
 <!-- Site wrapper -->
@@ -99,10 +53,22 @@
   <?php 
   include_once('main-header.php');
   include_once('sidebar.php');
+                $sql2 = "select imagepath from users where idnumber = '".$_SESSION['id']."'"; 
+                $result1 = $conn->query($sql2);
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
 
                  $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
                 $result = $conn->query($sql1);
                 $row = $result->fetch_array(MYSQLI_ASSOC);
+                if($row['userStatus'] =='0')
+                {
+                  $status="Activated";
+                }
+                else
+                {
+                  $status="Deactivated";
+                }
+
   ?>
   
 
@@ -129,12 +95,20 @@
           <h3 class="box-title">Create new account</h3>
         </div>
         <div class="box-body">
-          <form role="form" action='register' method="post">
+          <form role="form" action='saveimage' enctype="multipart/form-data" method="post">
             <div class="row">
               <div class="col-md-6">
-              <div class="form-group">
-                        <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                      </div>
+            <div>
+  <div> <img src="../img/<?php echo $row["imagepath"];?>"  width=200 height=200  alt="User Image">
+                    
+                        <input name="uploadedimage" type="file" value="change" >
+                         <input name="Upload Now" type="submit" value="Upload Image">
+                         </form>
+                         </div>
+                        </div>
+                        
+                    <br>
+
                 <div class="form-group">
                         <label>ID Number</label>
                         <input type="number" class="form-control" disabled name="idnumber" value="<?php echo $row['idnumber'];?>">
@@ -147,7 +121,7 @@
                         <input type="text" class="form-control" disabled name="name" value="<?php echo $row['firstname'];?>">
                       </div>
                       <div class="form-group">
-                        <<label>Gender</label>
+                        <label>Gender</label>
                         <input type="text" class="form-control" disabled name="gender" value="<?php echo $row['gender'];?>">
                       </div>
                       <!-- /.form-group -->
@@ -160,12 +134,7 @@
                       <label>Department</label>
                         <input type="text" class="form-control" disabled name="department" value="<?php echo $row['department'];?>">
                         </div>
-                      </div>
-                      <!-- /.form-group -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-6">
-                      <div class="form-group">
+                         <div class="form-group">
                        <label>Privilige</label>
                         <input type="text" class="form-control" disabled name="accounttype" value="<?php echo $row['accountType'];?>">
                       </div>
@@ -174,16 +143,22 @@
                    <label>Status</label>
                         <input type="text" class="form-control" disabled name="status" value="<?php echo $status;?>">
                         </div>
+                      </div>
+                      <!-- /.form-group -->
+                    </div>
+                    <!-- /.col -->
+                  
+                     
                     <!-- /.form-group -->
               </div>
             </div>
         </div>
         <!-- /.box-body -->
         <div>&nbsp;</div>
-          <div class="box-footer">
-            <input type='submit' class="btn btn-success pull-right" value="Submit" name='reg'/>
-          </div>
-      </form>
+  
+           
+
+     
       </div>
       <!-- /.box -->
     </section>

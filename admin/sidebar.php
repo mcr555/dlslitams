@@ -1,8 +1,15 @@
 <aside class="main-sidebar">
 <section class="sidebar">
+            <?php
+             
+            require_once('../db.php');
 
+                $sql2 = "select imagepath from users where idnumber = '".$_SESSION['id']."'"; 
+                $result1 = $conn->query($sql2);
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
+?>
 <div class="user-panel">
-  <div class="pull-left image"><img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"></div>
+  <div class="pull-left image"> <img src="../img/<?php echo $row["imagepath"];?>" class="img-circle" alt="User Image"></div>
   <div class="pull-left info">
     <p><?php echo $_SESSION['firstname'];?></p>
     <a href="#"><?php echo $_SESSION['accountType'];?> </a>
