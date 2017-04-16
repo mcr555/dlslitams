@@ -99,7 +99,7 @@
         <!-- /.box-body -->
         <div>&nbsp;</div>
           <div class="box-footer">
-            <input type='button' class="btn btn-default" onclick="location.href='suppliers';" value='Cancel'/>
+            <input type='button' class="btn btn-default" onclick="window.close();" value='Cancel'/>
             <input type='submit' class="btn btn-success pull-right" value="Submit" name='submit'/>
           </div>
       </form>

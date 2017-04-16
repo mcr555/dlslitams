@@ -47,7 +47,7 @@
     $("#example1").DataTable({
       "order": [],
       "columnDefs": [{
-        'orderable': false, 'targets': [6]
+        'orderable': false, 'targets': [7]
       }]
     });
     $('#example2').DataTable({
@@ -176,6 +176,7 @@
             echo "Name</th><th>";
             echo "Location</th><th>";
             echo "Status</th><th>";
+            echo "Custodian</th><th>";
             echo "&nbsp;</th></thead><tbody>";
 
 
@@ -211,6 +212,12 @@
                     {
                       echo "<span class='label bg-red'>Decommissioned</span>";
                     }
+                  echo "</td><td>";
+                  $custodian= $row['custodian'];
+                  $sql2= "SELECT * FROM users WHERE idnumber=$custodian";
+                  $result2 = $conn->query($sql2);
+                  while($row2 = $result2->fetch_assoc())  
+                  {echo $row2["firstname"]." ".$row2["lastname"];}
                   echo "</td><td>";
                   ?><button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> View Details</button><?php
                   echo "</td></tr>";    

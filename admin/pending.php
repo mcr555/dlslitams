@@ -105,11 +105,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Hardware
+        Work Order
       </h1>
       <ol class="breadcrumb">
-        <li><i class="fa fa-dashboard"></i> Assets</li>
-        <li>Hardware</li>
+        <li><i class="fa fa-dashboard"></i> Work Order</li>
+        <li>Pending</li>
       </ol>
     </section>
 
