@@ -23,7 +23,6 @@ ticket_view
 	1=approved
 	2=rejected
 
-test2
 ticket
 	tistatus
 	0=pending
@@ -31,7 +30,8 @@ ticket
 	2=rejected
 	3=requestor
 
-
-
-
-test1
+dropdown
+	1=hardware
+	2=component
+	3=office
+	

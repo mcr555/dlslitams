@@ -6,11 +6,7 @@ include("../db.php");
 
 ?>
 <?php
-<<<<<<< HEAD
   session_start();
-=======
-session_start();
->>>>>>> origin/master
     function GetImageExtension($imagetype)
     {
 
@@ -29,10 +25,7 @@ session_start();
      }
 
 if (!empty($_FILES["uploadedimage"]["name"])) {
-    $date = new DateTime();
-    $x= $date->format('U');
-    $imagename=$x.$_FILES["uploadedimage"]["name"];
-
+    $imagename=$_FILES["uploadedimage"]["name"];
     $temp_name=$_FILES["uploadedimage"]["tmp_name"];
     $imgtype=$_FILES["uploadedimage"]["type"];
     $ext= GetImageExtension($imgtype);
@@ -47,7 +40,7 @@ if (move_uploaded_file($temp_name, "../img/".$imagename)) {
 
       if (mysqli_query($conn, $query_upload)) 
       {
-        header("Location: profile1");
+        
       }
 
       else 

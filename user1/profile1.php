@@ -51,8 +51,7 @@
   <!-- =============================================== -->
 
   <?php 
-  include_once('main-header.php');
-  include_once('sidebar.php');
+include_once('user1Header.php');
                 $sql2 = "select imagepath from users where idnumber = '".$_SESSION['id']."'"; 
                 $result1 = $conn->query($sql2);
                 $row = $result1->fetch_array(MYSQLI_ASSOC);
@@ -165,8 +164,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
-  <?php include_once('footer.php');?>
+ <?php include_once('../admin/footer.php');?>
 </div>
 <!-- ./wrapper -->
 

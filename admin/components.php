@@ -140,12 +140,12 @@
         
           <table id="example1" class="table table-bordered table-striped">
             <?php
-            $sql = "SELECT * FROM components";
+            $sql = "SELECT *,hardware.barcode,components.name as cname FROM components LEFT JOIN hardware ON hardware.asset_id=components.asset_id ORDER BY component_id desc";
             $result = $conn->query($sql);
 
             echo "<thead><tr><th></th><th>";
             echo "Component ID</th><th>";
-            echo "Asset ID</th><th>";
+            echo "Asset Barcode</th><th>";
             echo "Name</th><th>";
             echo "Category</th><th>";
             echo "&nbsp;</th></thead><tbody>";
@@ -159,9 +159,9 @@
                   echo "<input type='checkbox' name='checkbox[]' class='flat-red' value='". $row["component_id"] ."'/></td><td>";
                   echo $row["component_id"]."</td><td>";
                   ?><a href='#' onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')"><?php
-                  echo $row["asset_id"] . '</a>';
+                  echo $row["barcode"] . '</a>';
                   echo "</td><td>";
-                  echo $row["name"]."</td><td>";
+                  echo $row["cname"]."</td><td>";
                   echo $row["component_category"]."</td><td>";
                   echo "</td></tr>";    
                 }

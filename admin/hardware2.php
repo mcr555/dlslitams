@@ -112,8 +112,16 @@ if(isset($_POST['retire']))
 			    	if (mysqli_query($conn, $sql)){}
 			    	else 
 				    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-				date_default_timezone_set("Asia/Manila"); 
+								  
+
+			    }
+			    $_SESSION['notification']=1;
+
+			    date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
+                $sql2 = "SELECT * FROM hardware WHERE asset_id='$id'";
+				$result2 = $conn->query($sql2);
+				$row = $result2->fetch_array(MYSQLI_ASSOC);
                  $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
                 $result1 = $conn->query($sql1);
 
@@ -134,10 +142,7 @@ if(isset($_POST['retire']))
             else 
             echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
 
-				  
 
-			    }
-			    $_SESSION['notification']=1;
 			  
 			}
 		}
