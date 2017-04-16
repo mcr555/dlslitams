@@ -108,12 +108,12 @@
         Deployment
       </h1>
       <ol class="breadcrumb">
-        <li><i class="fa fa-dashboard"></i> Assets</li>
+        <li><i class="fa fa-dashboard"></i> Deployment</li>
         <li>Undeployed Assets</li>
       </ol>
     </section>
 
-    <form method="post" action="deploy">
+    <form method="post" name="myform" action="deploy">
     <!-- Main content -->
     <section class="content">
 
@@ -139,7 +139,11 @@
                   Action <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <ul class="dropdown-menu">
-                  <li role="presentation"><input type="submit" class="btn btn-default"  name="deploy" value="Transfer"/></li>
+                  <li role="presentation">
+                    <input type="submit" class="btn btn-default"  name="deploy" value="Deploy"
+                    onclick="myform.target='POPUPW'; POPUPW = window.open(
+                    'about:blank','POPUPW','width=600,height=400');">
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -151,7 +155,7 @@
         
           <table id="example1" class="table table-bordered table-striped">
             <?php
-            $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hardware.supplier_id=supplier.supplier_id WHERE asset_type>1 AND status!=3 AND location='warehouse'";
+            $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hardware.supplier_id=supplier.supplier_id WHERE asset_type>1 AND status!=3 AND location='warehouse' ORDER BY asset_id desc";
             $result = $conn->query($sql);
 
             echo "<thead><tr><th></th><th>";

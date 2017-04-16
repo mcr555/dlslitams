@@ -1,3 +1,10 @@
+<script>
+    window.onunload = refreshParent;
+    function refreshParent() {
+        window.opener.location.reload();
+        window.close();
+    }
+</script>
 <?php
 session_start();
 include_once('denyAccess.php');
@@ -11,7 +18,7 @@ if (isset($_POST['accounttype']))
     $accounttype=$_POST['accounttype'];
     if($accounttype=='Immediate Superior' ||$accounttype=='Dean') $accounttype= $department . ' ' . $accounttype; 
     $sql ="UPDATE users SET accountType = '$accounttype' WHERE idnumber = '$idnumber'";
-    if (mysqli_query($conn, $sql)) header("Location: users");
+    if (mysqli_query($conn, $sql)) echo "<script>window.close();</script>";
     else echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     exit();
     
@@ -27,7 +34,7 @@ echo $_POST['firstname'] .' '. $_POST['lastname'];
 </head>
 <body>
 <BR></BR>
-<form method='post' action='changePriviledge'>
+<form method='post' action=''>
 Priviledge: <select type="text"   name="accounttype" ><br><br>
                           <option value="Regular Employee">Regular Employee</option>  
                           <option value="Immediate Superior" >Immediate Superior</option>

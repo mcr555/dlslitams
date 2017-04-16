@@ -113,7 +113,7 @@
       </ol>
     </section>
 
-    <form method="post" action="deploy">
+    <form name="myform" method="post" action="deploy">
     <!-- Main content -->
     <section class="content">
 
@@ -139,7 +139,11 @@
                   Action <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <ul class="dropdown-menu">
-                  <li role="presentation"><input type="submit" class="btn btn-default"  name="deploy" value="Transfer"/></li>
+                  <li role="presentation">
+                    <input type="submit" class="btn btn-default"  name="deploy" value="Transfer"
+                    onclick="myform.target='POPUPW'; POPUPW = window.open(
+                    'about:blank','POPUPW','width=600,height=400');">
+                  </li>
                 </ul>
               </li>
             </ul>
