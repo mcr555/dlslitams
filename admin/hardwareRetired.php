@@ -138,9 +138,9 @@
                   View <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <ul class="dropdown-menu">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareRetired.php">Retired Asset</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDonated.php">Donated Asset</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDecommissioned.php">Decommissioned Asset</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareRetired">Retired Asset</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDonated">Donated Asset</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDecommissioned">Decommissioned Asset</a></li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="hardware">All Hardware</a></li>
                 </ul>
               </li>
@@ -152,7 +152,7 @@
         <div class="box-body">
           <table id="example1" class="table table-bordered table-striped">
             <?php
-            $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hardware.supplier_id=supplier.supplier_id WHERE status=2";
+            $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hardware.supplier_id=supplier.supplier_id WHERE status=2 ORDER BY date_update desc";
             $result = $conn->query($sql);
 
             echo "<thead><tr><th>";

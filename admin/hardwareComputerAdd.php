@@ -41,6 +41,26 @@
 <script src="../dist/js/demo.js"></script>
 <!-- bootstrap datepicker -->
 <script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
+
+<script>
+function validateForm() {
+    var dateBought = document.forms["myForm"]["dateBought"].value;
+    var warranty_expiration = document.forms["myForm"]["warranty_expiration"].value;
+    
+    var selectedDate = new Date(dateBought);
+    var now = new Date();
+    if (selectedDate > now) {
+      alert("Date bought is greater than current date");
+      return false;
+    }
+
+    if (dateBought > warranty_expiration) {
+      alert("Warranty expiration date is earlier than the Date Bought");
+      return false;
+    }
+}
+</script>
+
 <script>
   $(document).ready(function() {
     var max_fields      = 50; //maximum input boxes allowed
@@ -53,7 +73,7 @@
         e.preventDefault();
         if(x < max_fields){ //max input box allowed
             x++; //text box increment
-            $(wrapper).append('<div class="form-group"><input type="text" class="form-control" name="barcode[]"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
+            $(wrapper).append('<div class="form-group"><input type="text" required class="form-control" name="barcode[]"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
         }
         quantity += 1;
         document.getElementById("quantity").innerHTML = quantity;
@@ -83,6 +103,7 @@ $( document ).ready(function() {
 }); 
 </script>
 <script src="../js/popup.js"></script> 
+<script src="../js/ajax.js"></script> 
 <script src="../js/enterToTab.js"></script>
 
 
@@ -90,10 +111,15 @@ $( document ).ready(function() {
 if (isset($_POST['submit']))
 {
   $name=$_POST['name'];
+  $message=0;
   $supplier_id=$_POST['supplier_id'];
   $buying_price=$_POST['buying_price'];
+  $lifespan=$_POST['lifespan'];
   $warranty_expiration=$_POST['warranty_expiration'];
   $dateBought=$_POST['dateBought'];   
+  $category=$_POST['category'];
+  $barcode=$_POST['barcode'];
+  $lifespanEnd = date("Y-m-d", strtotime(date("Y-m-d", strtotime($dateBought)) . " + " .$lifespan ." year"));
   $os=$_POST['os'];
   $nam[]='Processor';
   $nam[]='Memory';
@@ -108,18 +134,17 @@ if (isset($_POST['submit']))
       echo "<script>window.location.href='hardware';</script>";
       exit();
   }
-  foreach($_POST['barcode'] as $index => $value)
+  $barcode = array_unique($barcode); 
+  foreach($barcode as $index => $value)
   {
+    $duplicate=0;
     if($value!='')
     {
-      $sql = "INSERT INTO hardware (location,supplier_id,name,buying_price,book_value,warranty_expiration,dateBought,barcode,asset_type)
-      VALUES ('warehouse','$supplier_id','$name','$buying_price','$buying_price','$warranty_expiration','$dateBought','$value',2)";
-      
-      if (mysqli_query($conn, $sql))
+      $sql = "SELECT * FROM hardware WHERE barcode='$value'";
+      $result = $conn->query($sql);
+      if ($result->num_rows > 0)
       {
-        $asset_id = mysqli_insert_id($conn);
-
-        foreach($_POST['com'] as $index2 => $value2)
+        while($row = $result->fetch_assoc())
         {
           if($value2=='') continue;
           $sql2 = "INSERT INTO components (asset_id,name,component_status,component_category)
@@ -150,20 +175,23 @@ if (isset($_POST['submit']))
             else 
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
       }
-      else echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+    else echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 
-      $sql = "INSERT INTO software (name,type,asset_id)
+    $sql = "INSERT INTO software (name,type,asset_id)
       VALUES ('$os',1,'$asset_id')";
-
-      mysqli_query($conn, $sql);
-
-      $_SESSION['notification']=1;
-      echo "<script>window.location.href='hardware';</script>";
+    mysqli_query($conn, $sql);
     }
   }
-
-exit();
+  if($message==1){
+    echo '<BR>Barcodes with duplicate will not be saved<BR><a href="hardware">Back</a>';
+    exit();
+    }
+      $_SESSION['notification']=1;
+      echo "<script>window.location.href='hardware';</script>";
+      exit();
 }
+  
 ?>
 
 <body class="hold-transition skin-green sidebar-mini">
@@ -196,7 +224,7 @@ include_once('sidebar.php');?>
     </div>
 
     <div class="box-body">
-    <form role="form" action="hardwareComputerAdd" method="post">
+    <form role="form" name="myForm" onsubmit="return validateForm()" action="hardwareComputerAdd" method="post">
       <div class="row">
 
         <div class="col-md-6">
@@ -222,8 +250,23 @@ include_once('sidebar.php');?>
           </div>
 
           <div class="form-group">
-                  <label>Supplier</label>
+                  <label>Lifespan(Years)</label>
+                  <input type="number" min='0' class="form-control" required name='lifespan'>
+          </div>
+
+          <div class="form-group">
+                  <label>Category</label>
+                  <select name="category">';
+                      <option value="laptop">Laptop</option>
+                      <option value="desktop">Desktop</option>
+                  </select>
+          </div>
+
+          <div class="form-group">
+                  
+                  <div class="form-group" id="output">
                   <?php
+                  echo '<label>Supplier</label>';
                   $sql = "SELECT * FROM supplier";
                   $result = $conn->query($sql);
                   if ($result->num_rows > 0)
@@ -235,7 +278,11 @@ include_once('sidebar.php');?>
                   }
                   $select.='</select>';
                   echo $select;
-                  ?><input type='button'  onClick="popitup2('suppliersAdd')" value='Add Supplier'>
+                  ?>
+                  </div>
+
+                  <input type='button'  onClick="popitup2('suppliersAddNoRefresh')" value='Add Supplier'><BR>
+                  <input type='button' onclick="return getOutput('dropdownSuppliers')" value='Refresh Dropdown Values'>
           </div>
 
           <div class="form-group">
@@ -245,7 +292,7 @@ include_once('sidebar.php');?>
 
           <div id="room_fields" class="input_fields_wrap" >
                         <label>Barcode</label>
-                        <div><input type="text"  class="form-control" name="barcode[]"><a href="#" class="remove_field">Remove</a></div>
+                        <div><input type="text"  required class="form-control" name="barcode[]"><a href="#" class="remove_field">Remove</a></div>
                 </div>
 
         </div>

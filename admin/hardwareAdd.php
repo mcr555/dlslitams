@@ -41,6 +41,26 @@
 <script src="../dist/js/demo.js"></script>
 <!-- bootstrap datepicker -->
 <script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
+
+<script>
+function validateForm() {
+    var dateBought = document.forms["myForm"]["dateBought"].value;
+    var warranty_expiration = document.forms["myForm"]["warranty_expiration"].value;
+    
+    var selectedDate = new Date(dateBought);
+    var now = new Date();
+    if (selectedDate > now) {
+      alert("Date bought is greater than current date");
+      return false;
+    }
+
+    if (dateBought > warranty_expiration) {
+      alert("Warranty expiration date is earlier than the Date Bought");
+      return false;
+    }
+}
+</script>
+
 <script>
   $(document).ready(function() {
     var max_fields      = 50; //maximum input boxes allowed
@@ -53,7 +73,7 @@
         e.preventDefault();
         if(x < max_fields){ //max input box allowed
             x++; //text box increment
-            $(wrapper).append('<div class="form-group"><input type="text" class="form-control" name="barcode[]"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
+            $(wrapper).append('<div class="form-group"><input type="text" required class="form-control" name="barcode[]"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
         }
         quantity += 1;
         document.getElementById("quantity").innerHTML = quantity;
@@ -66,8 +86,6 @@
     })
   });
   </script> 
-
-
 <script>
 $( document ).ready(function() {
     $("#from-datepicker").datepicker({ 
@@ -85,6 +103,7 @@ $( document ).ready(function() {
 }); 
 </script>
 <script src="../js/popup.js"></script> 
+<script src="../js/ajax.js"></script> 
 <script src="../js/enterToTab.js"></script>
 
 
@@ -92,31 +111,50 @@ $( document ).ready(function() {
 if (isset($_POST['submit']))
 {
     $name=$_POST['name'];
+    $message=0;
     $supplier_id=$_POST['supplier_id'];
     $buying_price=$_POST['buying_price'];
+    $lifespan=$_POST['lifespan'];
+    $category=$_POST['category'];
     $warranty_expiration=$_POST['warranty_expiration'];
-    $dateBought=$_POST['dateBought'];    
+    $dateBought=$_POST['dateBought'];
+    $lifespanEnd = date("Y-m-d", strtotime(date("Y-m-d", strtotime($dateBought)) . " + " .$lifespan ." year"));
+    $barcode=$_POST['barcode'];    
     if (!isset($_POST['barcode']))
     {
       $_SESSION['notification']=2;
       echo "<script>window.location.href='hardware';</script>";
       exit();
     }
-    foreach($_POST['barcode'] as $index => $value)
+    $barcode = array_unique($barcode); 
+    foreach($barcode as $index => $value)
     {
-
+      $duplicate=0;
         if($value!='')
         {
-            
+            $sql = "SELECT * FROM hardware WHERE barcode='$value'";
+              $result = $conn->query($sql);
+              if ($result->num_rows > 0)
+              {
+                while($row = $result->fetch_assoc())
+                {
+                  echo "Duplicate barcode found: $value<BR>";
+                  $duplicate=1;
+                  $message=1;
+                  break;
+                }
+              } 
+            if($duplicate==1) continue;
+
             if(isset($_POST['checkbox']))
             {
-                $sql = "INSERT INTO hardware (supplier_id,name,buying_price,book_value,warranty_expiration,dateBought,barcode,asset_type)
-        VALUES ('$supplier_id','$name','$buying_price','$buying_price','$warranty_expiration','$dateBought','$value',1)";
+              $sql = "INSERT INTO hardware (lifespanEnd,hardware_category,supplier_id,name,buying_price,book_value,warranty_expiration,dateBought,barcode,asset_type)
+        VALUES ('$lifespanEnd','$category','$supplier_id','$name','$buying_price','$buying_price','$warranty_expiration','$dateBought','$value',1)";
             }
             else 
             {
-                $sql = "INSERT INTO hardware (location,supplier_id,name,buying_price,book_value,warranty_expiration,dateBought,barcode,asset_type)
-        VALUES ('warehouse','$supplier_id','$name','$buying_price','$buying_price','$warranty_expiration','$dateBought','$value',3)";
+                $sql = "INSERT INTO hardware (lifespanEnd,hardware_category,location,supplier_id,name,buying_price,book_value,warranty_expiration,dateBought,barcode,asset_type)
+        VALUES ('$lifespanEnd','$category','warehouse','$supplier_id','$name','$buying_price','$buying_price','$warranty_expiration','$dateBought','$value',3)";
             }
                        if (mysqli_query($conn, $sql)){}
             else 
@@ -127,8 +165,8 @@ if (isset($_POST['submit']))
                 $sql2 ="select * from hardware ORDER BY asset_id DESC LIMIT 1"; 
                 $result1 = $conn->query($sql2);
                 $row = $result1->fetch_array(MYSQLI_ASSOC);
-                 $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
-                $result = $conn->query($sql1);
+                 $sql1 = "select * from users where idnumber = '".$_SESSION['idnumber']."'"; 
+        $result = $conn->query($sql1);
 
             $vn=$_SESSION["firstname"] ;
              $vn1=$_SESSION["middlename"] ;
@@ -144,6 +182,10 @@ if (isset($_POST['submit']))
             else 
             echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
 
+    }
+    if($message==1){
+      echo '<BR>Barcodes with duplicate will not be saved<BR><a href="hardware">Back</a>';
+      exit();
     }
     $_SESSION['notification']=1;
     echo "<script>window.location.href='hardware';</script>";
@@ -183,7 +225,7 @@ exit();
           <h3 class="box-title">Add Hardware</h3>
         </div>
         <div class="box-body">
-          <form role="form" action="hardwareAdd" method="post">
+          <form role="form" name="myForm" onsubmit="return validateForm()" action="hardwareAdd" method="post">
             <div class="row">
               <div class="col-md-6">
 
@@ -198,8 +240,10 @@ exit();
                         <input class="form-control" type="number" step="0.01" min="0" required name='buying_price' placeholder="Enter Price">
                 </div>
                 <div class="form-group">
-                        <label>Supplier</label>
+
+                        <div id="output">
                         <?php
+                        echo '<label>Supplier</label>';
                         $sql = "SELECT * FROM supplier";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0)
@@ -211,9 +255,26 @@ exit();
                         }
                         $select.='</select>';
                         echo $select;
-                        ?><input type='button'  onClick="popitup2('suppliersAdd')" value='Add Supplier'>
+                        ?>
+                        <input type='button'  onClick="popitup2('suppliersAddNoRefresh')" value='Add Supplier'><BR>
+
+                        <?php
+                        echo '<label>Categories</label>';
+                        $sql = "SELECT * FROM dropdown_list WHERE dropdown_type=1";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0)
+                        {
+                            $select= '<select name="category">';
+                            while($row = $result->fetch_assoc()) 
+                                $select.='<option value="'.$row['dropdown_name'].'">'.$row['dropdown_name'].'</option>';
+                        }
+                        $select.='</select>';
+                        echo $select;
+                        ?>
+                        <input type='button'  onClick="popitup2('addDropNoRefresh')" value='Add Category'><BR>
                 </div>
-                
+                        <input type='button' onclick="return getOutput('dropdownSupCat')" value='Refresh Dropdown Values'>
+                </div>
                 <div class="form-group">
                 <label>Usable</label> <input name="checkbox" type="checkbox" value='1'/><BR><BR><BR>
                 <p>Quantity: <a id="quantity"><?php echo $quantity;?></a></p>
@@ -221,7 +282,7 @@ exit();
                 </div>
                 <div id="room_fields" class="input_fields_wrap" >
                         <label>Barcode</label>
-                        <div><input type="text"  class="form-control" name="barcode[]"><a href="#" class="remove_field">Remove</a></div>
+                        <div><input type="text" required class="form-control" name="barcode[]"><a href="#" class="remove_field">Remove</a></div>
                 </div>
               </div>
                     <!-- /.col -->
@@ -236,6 +297,11 @@ exit();
                         <label>Date Bought</label>
                         <input type="text" class="form-control" required name='dateBought' id="from-datepicker2">
                     </div>
+
+                  <div class="form-group">
+                  <label>Lifespan(Years)</label>
+                  <input type="number" min='0' class="form-control" required name='lifespan'>
+          </div>
                 <!-- /.form-group -->
                   </div>
               </div>

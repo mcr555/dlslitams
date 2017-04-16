@@ -124,11 +124,6 @@
 <script src="../dist/js/demo.js"></script>
 <!-- bootstrap datepicker -->
 <script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
-<script>
-    window.onunload = refreshParent;
-    function refreshParent() {
-        window.opener.location.reload();
-    }
-</script>
+
 </body>
 </html>
