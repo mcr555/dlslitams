@@ -1,8 +1,15 @@
 <aside class="main-sidebar">
 <section class="sidebar">
+            <?php
+             
+            require_once('../db.php');
 
+                $sql2 = "select imagepath from users where idnumber = '".$_SESSION['id']."'"; 
+                $result1 = $conn->query($sql2);
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
+?>
 <div class="user-panel">
-  <div class="pull-left image"><img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"></div>
+  <div class="pull-left image"> <img src="../img/<?php echo $row["imagepath"];?>" class="img-circle" alt="User Image"></div>
   <div class="pull-left info">
     <p><?php echo $_SESSION['firstname'];?></p>
     <a href="#"><?php echo $_SESSION['accountType'];?> </a>
@@ -51,7 +58,7 @@
     </ul>
   </li>
 
-  <li>
+  <li class="treeview">
     <a href="#">
       <i class="fa fa-bar-chart"></i> <span>Reports</span>
       <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
@@ -59,35 +66,49 @@
 
     <ul class="treeview-menu">
       <li>
-        <a href="#"><i class="fa fa-circle-o"></i> Hardware
+        <a href="#"><i class="fa fa-circle-o"></i>Hardware
           <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="../reports/hardwareRepstat"><i class="fa fa-circle-o"></i> Status</a></li>
-          <li><a href="../reports/hardwareReploc"><i class="fa fa-circle-o"></i> Location</a></li>
-          <li><a href="../reports/hardwareRepdate"><i class="fa fa-circle-o"></i> Date Range</a></li>
+          <li><a href="../Report1/ReportHardwareStat"><i class="fa fa-circle-o"></i>Status</a></li>
+          <li><a href="../Report1/ReportHardwareLoc"><i class="fa fa-circle-o"></i>Location</a></li>
+          <li><a href="../Report1/ReportHardwareWE"><i class="fa fa-circle-o"></i>Expired Warranty</a></li>
+          <li><a href="../Report1/ReportHardwareWarranty"><i class="fa fa-circle-o"></i>Warranty Expires</a></li>
         </ul>
       </li>
     </ul>
     <ul class="treeview-menu">
       <li>
-        <a href="../reports/componentsRepdate"><i class="fa fa-circle-o"></i> Components
-        </a>
-      </li>
-    </ul>
-    <ul class="treeview-menu">
-      <li>
-        <a href="#"><i class="fa fa-circle-o"></i> Software
+        <a href="#"><i class="fa fa-circle-o"></i>Software
           <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="../reports/softwareRepstat"><i class="fa fa-circle-o"></i> Status</a></li>
-          <li><a href="../reports/softwareRepexp"><i class="fa fa-circle-o"></i> Expired</a></li>
-          <li><a href="../reports/softwareRepdate"><i class="fa fa-circle-o"></i> Date Range</a></li>
+          <li><a href="../Report1/ReportSoftwareStat"><i class="fa fa-circle-o"></i>Status</a></li>
+          <li><a href="../Report1/ReportSoftwareExp"><i class="fa fa-circle-o"></i>Expired</a></li>
+          </a></li>
         </ul>
       </li>
     </ul>
-  </li>
+        <ul class="treeview-menu">
+      <li>
+        <a href="#"><i class="fa fa-circle-o"></i>User
+          <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="../Report1/ReportUserStat"><i class="fa fa-circle-o"></i>Status</a></li>
+          <li><a href="../Report1/ReportUserPriv"><i class="fa fa-circle-o"></i>Privilege</a></li>
+          <li><a href="../Report1/ReportUserDevice"><i class="fa fa-circle-o"></i>Device</a></li>
+          </a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="treeview-menu">
+    <li>
+      <li><a href="../Report1/ReportSupplier"><i class="fa fa-circle-o"></i>Supplier</a></li>
+      <li><a href="../Report1/ReportLogs"><i class="fa fa-circle-o"></i>Logs</a></li>
+    </li>
+    </ul>
+
 
   <li class="treeview">
     <a href="suppliers">

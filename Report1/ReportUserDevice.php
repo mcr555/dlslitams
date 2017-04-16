@@ -38,7 +38,7 @@
   include_once('../Admin/denyAccess.php');
   require_once('../db.php');
 
-$sql = "SELECT DISTINCT location FROM hardware";
+$sql = "SELECT * FROM users";
 $result = $conn->query($sql);
   
 ?>
@@ -86,16 +86,26 @@ $result = $conn->query($sql);
           <div class="form-group" Align='center'>
   <?php
 
-    $select= '<select name="asset_id">';
+    $select= '<select name="user">';
     
     while($row = $result->fetch_assoc()) 
-    $select.='<option value="'.$row['location'].'">'.$row['location'].'</option>';
+    $select.='<option value="'.$row['idnumber'].'">'.$row['firstname'].' '.$row['middlename'].' '.$row['lastname'].'</option>';
     $select.='</select>';
 
-
-
 echo $select;
+
+
+
+    $select1= '<select name="device">';
+    
+    while($row = $result->fetch_assoc()) 
+    $select1.='<option value="'.$row['firstname'].'">'.$row['firstname'].' '.$row['middlename'].' '.$row['lastname'].'</option>';
+    $select1.='</select1>';
+
+echo $select1;
 ?>
+
+
           <!-- /.form group -->
         </div>
         <!-- /.box-body -->

@@ -3,9 +3,6 @@ require('reports/fpdf.php');
 require("include/conn.php");
 
 
-$del = $_REQUEST["del"];
-
-
 
 date_default_timezone_set("Asia/Manila");
 
@@ -46,11 +43,25 @@ class PDF extends FPDF
 	$con = mysql_connect("localhost","root","");
 	mysql_select_db("itams", $con);
 
-$query = mysql_query("SELECT * FROM software WHERE expiration_date >='$del'");
+$query = mysql_query("SELECT * FROM software WHERE expiration_date >='$vd'");
 	if(mysql_num_rows($query) == 0){
-		echo "<script>alert('No report found. Please try again'); location.href='../softwareRepexp.php';</script>";
+		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportSoftwareExp.php';</script>";
+				exit(0);
+
+
+
+
 		}
-  
+
+			  session_start();
+		date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
+
+
+
+$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Report','Generate report of expired software ','')") or die(mysql_error());	
 			
 
 
@@ -65,10 +76,9 @@ $query = mysql_query("SELECT * FROM software WHERE expiration_date >='$del'");
 		
 		$pdf->Ln(30);
 		$pdf->SetFont('arial','b',20);
-		$pdf->setX(130);$pdf->Cell(0,0,'Software Report',0,0,'L');
+		$pdf->setX(110);$pdf->Cell(0,0,'Expired Software Report',0,0,'L');
 		$pdf->Ln(10);
-		$pdf->setX(120);$pdf->Cell(0,0,'Expired: '.$del,0,0,'L');
-		$pdf->Ln(10);
+
 
 		$pdf->Ln(10);
 
@@ -78,9 +88,9 @@ $query = mysql_query("SELECT * FROM software WHERE expiration_date >='$del'");
 		$pdf->SetFont('arial','b',10);
 		$pdf->setX(5);$pdf->Cell(0,0,'Software ID',0,0,'L');
 		$pdf->setX(30);$pdf->Cell(0,0,'Asset ID',0,0,'L');
-		$pdf->setX(60);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(50);$pdf->Cell(0,0,'Name',0,0,'L');
 		$pdf->setX(86);$pdf->Cell(0,0,'Version',0,0,'L');
-		$pdf->setX(108);$pdf->Cell(0,0,'Expiration Date',0,0,'L');
+		$pdf->setX(108);$pdf->Cell(0,0,'Status',0,0,'L');
 		$pdf->setX(140);$pdf->Cell(0,0,'Date bought',0,0,'L');
 		$pdf->setX(172);$pdf->Cell(0,0,'Serial',0,0,'L');
 		$pdf->setX(200);$pdf->Cell(0,0,'Date Added',0,0,'L');
@@ -106,7 +116,7 @@ $query = mysql_query("SELECT * FROM software WHERE expiration_date >='$del'");
 		$pdf->setX(33);$pdf->Cell(0,0,''.$row['asset_id'],0,0,'L');
 		$pdf->setX(50);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
 		$pdf->setX(90);$pdf->Cell(0,0,''.$row['version'],0,0,'L');
-		$pdf->setX(110);$pdf->Cell(0,0,''.$row['expiration_date'],0,0,'L');
+		$pdf->setX(107);$pdf->Cell(0,0,''.'Expired',0,0,'L');
 		$pdf->setX(140);$pdf->Cell(0,0,''.$row['date_bought'],0,0,'L');
 		$pdf->setX(172);$pdf->Cell(0,0,''.$row['serial'],0,0,'L');
 		$pdf->setX(200);$pdf->Cell(0,0,''.$row['date_added'],0,0,'L');

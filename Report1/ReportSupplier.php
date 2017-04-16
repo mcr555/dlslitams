@@ -38,7 +38,7 @@
   include_once('../Admin/denyAccess.php');
   require_once('../db.php');
 
-$sql = "SELECT DISTINCT location FROM hardware";
+$sql = "SELECT DISTINCT supplier_name FROM supplier";
 $result = $conn->query($sql);
   
 ?>
@@ -65,7 +65,7 @@ $result = $conn->query($sql);
         Reports
       </h1>
       <ol class="breadcrumb">
-        <li>Location of hardware</li>
+        <li>Supplier Report</li>
       </ol>
     </section>
 
@@ -76,8 +76,8 @@ $result = $conn->query($sql);
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border" >
-        <form action="../reportsphp/hardwareloc.php" method="POST">
-          <h3 class="box-title">Location of hardware</h3>
+        <form action="../reportsphp/supplier.php" method="POST">
+          <h3 class="box-title">Supplier Report</h3>
         </div>
         <div class="box-body">
 
@@ -89,18 +89,23 @@ $result = $conn->query($sql);
     $select= '<select name="asset_id">';
     
     while($row = $result->fetch_assoc()) 
-    $select.='<option value="'.$row['location'].'">'.$row['location'].'</option>';
+    $select.='<option value="'.$row['supplier_name'].'">'.$row['supplier_name'].'</option>';
     $select.='</select>';
 
 
 
 echo $select;
+
+
+
 ?>
+
           <!-- /.form group -->
         </div>
         <!-- /.box-body -->
         <div class="box-footer" align="center">
          <input  type='submit' class="btn btn-success" value="Generate" name="change" />
+
         </div>
         <!-- /.box-footer-->
       </form>

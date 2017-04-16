@@ -37,9 +37,6 @@
   session_start();
   include_once('../Admin/denyAccess.php');
   require_once('../db.php');
-
-$sql = "SELECT DISTINCT location FROM hardware";
-$result = $conn->query($sql);
   
 ?>
 <body class="hold-transition skin-green sidebar-mini">
@@ -65,7 +62,7 @@ $result = $conn->query($sql);
         Reports
       </h1>
       <ol class="breadcrumb">
-        <li>Location of hardware</li>
+        <li>Hardware Report</li>
       </ol>
     </section>
 
@@ -76,26 +73,19 @@ $result = $conn->query($sql);
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border" >
-        <form action="../reportsphp/hardwareloc.php" method="POST">
-          <h3 class="box-title">Location of hardware</h3>
+        <form action="../reportsphp/Logs.php" method="POST">
+          <h3 class="box-title">Log Report</h3>
         </div>
         <div class="box-body">
 
 
           <!-- /.form group -->
           <div class="form-group" Align='center'>
-  <?php
-
-    $select= '<select name="asset_id">';
-    
-    while($row = $result->fetch_assoc()) 
-    $select.='<option value="'.$row['location'].'">'.$row['location'].'</option>';
-    $select.='</select>';
-
-
-
-echo $select;
-?>
+             Start Date : <input type="text" required name="startdate"  id="from-datepicker">
+             &nbsp;&nbsp;&nbsp;&nbsp;
+          End Date : <input type="text" required name="enddate" id="from-datepicker2">
+          <br><br><br>
+            
           <!-- /.form group -->
         </div>
         <!-- /.box-body -->
@@ -116,7 +106,7 @@ echo $select;
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 2.2.3 -->
+
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="../bootstrap/js/bootstrap.min.js"></script>
@@ -128,5 +118,23 @@ echo $select;
 <script src="../dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
+<!-- bootstrap datepicker -->
+<script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
+<script>
+$( document ).ready(function() {
+    $("#from-datepicker").datepicker({ 
+        format: 'yyyy-mm-dd'
+    });
+    $("#from-datepicker").on("change", function () {
+        var fromdate = $(this).val();
+    });
+    $("#from-datepicker2").datepicker({ 
+        format: 'yyyy-mm-dd'
+    });
+    $("#from-datepicker2").on("change", function () {
+        var fromdate = $(this).val();
+    });
+}); 
+</script>
 </body>
 </html>

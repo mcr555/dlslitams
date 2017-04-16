@@ -156,7 +156,11 @@ if (isset($_POST['submit']))
                 $sql = "INSERT INTO hardware (lifespanEnd,hardware_category,location,supplier_id,name,buying_price,book_value,warranty_expiration,dateBought,barcode,asset_type)
         VALUES ('$lifespanEnd','$category','warehouse','$supplier_id','$name','$buying_price','$buying_price','$warranty_expiration','$dateBought','$value',3)";
             }
-            date_default_timezone_set("Asia/Manila"); 
+                       if (mysqli_query($conn, $sql)){}
+            else 
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
+        date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
                 $sql2 ="select * from hardware ORDER BY asset_id DESC LIMIT 1"; 
                 $result1 = $conn->query($sql2);
@@ -168,18 +172,16 @@ if (isset($_POST['submit']))
              $vn1=$_SESSION["middlename"] ;
             $vn2=$_SESSION["lastname"] ;
             $vn3=$_SESSION["accountType"] ;
-            $vn4=$row["asset_id"];
-            $vn5=$vn4+1;
+            $vn4=$row["barcode"];
+            $vn5=$row["name"];
+           
 
-                  $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time, Log_Function) VALUES ('$vn $vn1 $vn2','$vn3','$vd','add a hardware($vn5)')";
+            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','add a $vn5','$vn4')";
 
-            if (mysqli_query($conn, $sql)){}
+            if (mysqli_query($conn, $sql3)){}
             else 
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-          if (mysqli_query($conn, $sql3)){}
-            else 
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-        }
+            echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
+
     }
     if($message==1){
       echo '<BR>Barcodes with duplicate will not be saved<BR><a href="hardware">Back</a>';
