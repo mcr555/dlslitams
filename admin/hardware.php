@@ -219,7 +219,9 @@
                   while($row2 = $result2->fetch_assoc())  
                   {echo $row2["firstname"]." ".$row2["lastname"];}
                   echo "</td><td>";
-                  ?><button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> View Details</button><?php
+                  ?><button type='button' class="btn btn-default" onClick="popitup2('hardwareEdit?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i>Edit</button>
+                  <button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> View Details</button>
+                  <?php
                   echo "</td></tr>";    
                 }
             }

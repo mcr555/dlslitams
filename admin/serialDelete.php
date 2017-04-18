@@ -5,8 +5,7 @@ require_once('../db.php');
 if(isset($_GET['id']))
 {
   $id=$_GET['id'];
-  $sql = "DELETE FROM software WHERE software_id=$id";
-  
+  $sql="UPDATE software SET asset_id = 0 WHERE software_id = '$id'";
 	
   if (mysqli_query($conn, $sql)){$_SESSION['notification']=1;}
   else echo "Error: " . $sql . "<br>" . mysqli_error($conn);

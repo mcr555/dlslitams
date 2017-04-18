@@ -6,11 +6,8 @@ include("../db.php");
 
 ?>
 <?php
-<<<<<<< HEAD
-  session_start();
-=======
 session_start();
->>>>>>> origin/master
+
     function GetImageExtension($imagetype)
     {
 

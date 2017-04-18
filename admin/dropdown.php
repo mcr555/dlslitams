@@ -107,9 +107,9 @@
         <div class="box-body">
         
           <table id="example1" class="table table-bordered table-striped">
-            <button type='button' class="btn btn-default" onClick="popitup2('addDropdown?type=1')" name='submit'><i class="fa fa-eye"></i> Add Hardware Category</button>
-            <button type='button' class="btn btn-default" onClick="popitup2('addDropdown?type=2')" name='submit'><i class="fa fa-eye"></i> Add Component Category</button>
-            <button type='button' class="btn btn-default" onClick="popitup2('addDropdown?type=3')" name='submit'><i class="fa fa-eye"></i> Add Offices</button>
+            <button type='button' class="btn btn-default" onClick="popitup2('addDropdown?type=1')" name='submit'> Add Hardware Category</button>
+            <button type='button' class="btn btn-default" onClick="popitup2('addDropdown?type=2')" name='submit'> Add Component Category</button>
+            <button type='button' class="btn btn-default" onClick="popitup2('addDropdown?type=3')" name='submit'> Add Offices</button>
             <?php
             $sql = "SELECT * FROM dropdown_list WHERE dropdown_type=1";
             $result = $conn->query($sql);

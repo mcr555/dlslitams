@@ -102,7 +102,7 @@ if (isset($_POST['submit']))
       }
         
     $_SESSION['notification']=1;
-    header("Location: components");
+    header("Location: componentsUnused");
 
 exit();
 }
