@@ -83,7 +83,7 @@ $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hard
 		
 		$pdf->Ln(20);
 		$pdf->SetFont('arial','b',20);
-	$pdf->setX(164);$pdf->Cell(0,0,'Hardware location-'.$gen,0,0,'L');
+	$pdf->setX(168);$pdf->Cell(0,0,'Hardware location-'.$gen,0,0,'L');
 		$pdf->Ln(10);
 
 		$pdf->Ln(10);

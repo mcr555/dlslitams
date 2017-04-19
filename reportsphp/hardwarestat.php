@@ -214,6 +214,7 @@ $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Funct
 		
 		
 		
+		
 		$pdf->Ln(25);
 		$pdf->SetFont('arial','b',25);
 		$pdf->Image("icon.png", 127,10,20);
@@ -334,10 +335,11 @@ if ($gen == "5")
 
 		
 		
+		
 		$pdf->Ln(25);
 		$pdf->SetFont('arial','b',25);
-		$pdf->Image("icon.png", 65,10,20);
-		$pdf->setX(85);$pdf->Cell(0,0,' Dlsl IT Asset Management System',0,0,'L');
+		$pdf->Image("icon.png", 127,10,20);
+		$pdf->setX(145);$pdf->Cell(0,0,' Dlsl IT Asset Management System',0,0,'L');
 		
 		$pdf->Ln(30);
 		$pdf->SetFont('arial','b',20);

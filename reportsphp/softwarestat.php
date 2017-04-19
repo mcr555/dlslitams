@@ -101,7 +101,7 @@ if($gen=='all')
 
 		
 		//$pdf->Ln(10);
-		$pdf->SetFont('arial','b',10);
+		$pdf->SetFont('arial','b',15);
 		$pdf->setX(20);$pdf->Cell(0,0,'Name',0,0,'L');
 		$pdf->setX(55);$pdf->Cell(0,0,'Version',0,0,'L');
 		$pdf->setX(90);$pdf->Cell(0,0,'Expiration Date',0,0,'L');

@@ -35,7 +35,7 @@ class PDF extends FPDF
 
 	//Instanciation of inherited class
 	//Instanciation of inherited class
-	$pdf=new PDF('L','mm','A4');
+	$pdf=new PDF('L','mm','A3');
 	$pdf->AliasNbPages();
 	$pdf->AddPage();
 
@@ -81,12 +81,13 @@ $sql = "SELECT * FROM tbl_log WHERE Log_Date_Time >='$gen' AND Log_Date_Time <= 
 		
 		$pdf->Ln(25);
 		$pdf->SetFont('arial','b',25);
-		$pdf->Image("icon.png", 65,10,20);
-		$pdf->setX(85);$pdf->Cell(0,0,' Dlsl IT Asset Management System',0,0,'L');
-		
-		$pdf->Ln(30);
+		$pdf->Image("icon.png", 127,10,20);
+		$pdf->setX(145);$pdf->Cell(0,0,' Dlsl IT Asset Management System',0,0,'L');
+
+
+		$pdf->Ln(20);
 		$pdf->SetFont('arial','b',20);
-		$pdf->setX(130);$pdf->Cell(0,0,'Log Report',0,0,'L');
+		$pdf->setX(150);$pdf->Cell(0,0,'Log Report',0,0,'L');
 		$pdf->Ln(10);
 		$pdf->setX(100);$pdf->Cell(0,0,'From: '.$gen.' to '.$gen,0,0,'L');
 		$pdf->Ln(10);
@@ -96,13 +97,13 @@ $sql = "SELECT * FROM tbl_log WHERE Log_Date_Time >='$gen' AND Log_Date_Time <= 
 
 
 	//$pdf->Ln(10);
-		$pdf->SetFont('arial','b',10);
+		$pdf->SetFont('arial','b',12);
 		$pdf->setX(20);$pdf->Cell(0,0,'Time',0,0,'L');
-		$pdf->setX(65);$pdf->Cell(0,0,'Name',0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,'Category',0,0,'L');
-		$pdf->setX(110);$pdf->Cell(0,0,'Account Type',0,0,'L');
-		$pdf->setX(140);$pdf->Cell(0,0,'Reference id',0,0,'L');
-		$pdf->setX(170);$pdf->Cell(0,0,'Function',0,0,'L');
+		$pdf->setX(70);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(120);$pdf->Cell(0,0,'Category',0,0,'L');
+		$pdf->setX(155);$pdf->Cell(0,0,'Account Type',0,0,'L');
+		$pdf->setX(210);$pdf->Cell(0,0,'Reference id',0,0,'L');
+		$pdf->setX(260);$pdf->Cell(0,0,'Function',0,0,'L');
 
 
 
@@ -121,11 +122,11 @@ $sql = "SELECT * FROM tbl_log WHERE Log_Date_Time >='$gen' AND Log_Date_Time <= 
 		
 		
 		$pdf->setX(10);$pdf->Cell(0,0,''.$row['Log_Date_Time'],0,0,'L');
-		$pdf->setX(60);$pdf->Cell(0,0,''.$row['Log_Name'],0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,''.$row['category'],0,0,'L');
-		$pdf->setX(115);$pdf->Cell(0,0,''.$row['Log_LOP'],0,0,'L');
-		$pdf->setX(140);$pdf->Cell(0,0,''.$row['id'],0,0,'L');
-		$pdf->setX(170);$pdf->Cell(0,0,''.$row['Log_Function'],0,0,'L');
+		$pdf->setX(70);$pdf->Cell(0,0,''.$row['Log_Name'],0,0,'L');
+		$pdf->setX(120);$pdf->Cell(0,0,''.$row['category'],0,0,'L');
+		$pdf->setX(160);$pdf->Cell(0,0,''.$row['Log_LOP'],0,0,'L');
+		$pdf->setX(210);$pdf->Cell(0,0,''.$row['id'],0,0,'L');
+		$pdf->setX(260);$pdf->Cell(0,0,''.$row['Log_Function'],0,0,'L');
 		
 
 
