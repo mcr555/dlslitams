@@ -95,7 +95,7 @@ class PDF extends FPDF
 		$pdf->SetFont('arial','b',10);
 		$pdf->setX(10);$pdf->Cell(0,0,'Id Number',0,0,'L');
 		$pdf->setX(40);$pdf->Cell(0,0,'Full Name',0,0,'L');
-		$pdf->setX(70);$pdf->Cell(0,0,'Gender',0,0,'L');
+		$pdf->setX(80);$pdf->Cell(0,0,'Gender',0,0,'L');
 		$pdf->setX(110);$pdf->Cell(0,0,'Email',0,0,'L');
 		$pdf->setX(150);$pdf->Cell(0,0,'Department ',0,0,'L');
 		$pdf->setX(180);$pdf->Cell(0,0,'Account Type',0,0,'L');
@@ -122,17 +122,15 @@ class PDF extends FPDF
 		
 		//$pdf->Image($row['picture'],9.5,8,13);
 		
-		
-
+	
 		$pdf->setX(13);$pdf->Cell(0,0,''.$row['idnumber'],0,0,'L');
-		$pdf->setX(40);$pdf->Cell(0,0,''.$row['firstname'].''.$row['middlename'].''.$row['lastname'],0,0,'L');
-		$pdf->setX(70);$pdf->Cell(0,0,''.$row['gender'],0,0,'L');
-		$pdf->setX(100);$pdf->Cell(0,0,''.$row['email'],0,0,'L');
+		$pdf->setX(40);$pdf->Cell(0,0,''.$row['firstname'].' '.$row['middlename'].' '.$row['lastname'],0,0,'L');
+		$pdf->setX(80);$pdf->Cell(0,0,''.$row['gender'],0,0,'L');
+		$pdf->setX(105);$pdf->Cell(0,0,''.$row['email'],0,0,'L');
 		$pdf->setX(155);$pdf->Cell(0,0,''.$row['department'],0,0,'L');
 		$pdf->setX(180);$pdf->Cell(0,0,''.$row['accountType'],0,0,'L');
 		$pdf->setX(227);$pdf->Cell(0,0,''.$row['dateAdded'],0,0,'L');
 		$pdf->setX(270);$pdf->Cell(0,0,''.$status,0,0,'L');
-
 
 
 		}
