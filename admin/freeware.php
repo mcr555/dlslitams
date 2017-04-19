@@ -92,7 +92,7 @@
         <div class="box-body">
           <form method='post' action='softwareAction'>
           <table id="example1" class="table table-bordered table-striped">
-            <button type='submit' name='delete' class="btn btn-default" ><i class="fa fa-trash"></i> Delete</button>
+            <button type='submit' name='delete' class="btn btn-default" ><i class="fa fa-trash"></i> Remove</button>
             <input type="hidden" name="link" value="freeware"/>
             <?php
             $sql = "SELECT * FROM software WHERE type=0 ORDER BY software_id desc";
@@ -128,7 +128,7 @@
                 if($row["asset_id"]>0){
                 ?>
                 <button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> View Details</button><?php }?>
-                <button type='button' class="btn btn-default" onclick="buttonCall('serialDelete?id=<?php echo $row['software_id'];?>')"  ><i class="fa fa-trash"></i> Delete</button>
+                <button type='button' class="btn btn-default" onclick="buttonCall('serialDelete?id=<?php echo $row['software_id'];?>')"  ><i class="fa fa-trash"></i> Remove</button>
                 <?php
               }
             }

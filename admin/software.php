@@ -98,7 +98,7 @@
         <div class="box-body">
           <table id="example1" class="table table-bordered table-striped">
             <?php
-            $sql = "SELECT * FROM software WHERE type=1 ORDER BY date_warn asc";
+            $sql = "SELECT * FROM software WHERE type=1 ORDER BY software_id desc";
             $result = $conn->query($sql);
 
                 echo "<thead><tr><th>";
@@ -146,7 +146,7 @@
                   }
                   echo "</td><td>";
                 ?>
-                <button type="submit" class="btn btn-default" name="submit" onclick="return ConfirmDelete('serialDelete?id=<?php echo $row['software_id'];?>')" /><i class="fa fa-trash"></i> Delete</button></td></tr>
+                <button type="submit" class="btn btn-default" name="submit" onclick="return ConfirmDelete('serialDelete?id=<?php echo $row['software_id'];?>')" /><i class="fa fa-trash"></i> Remove</button></td></tr>
                 <?php
                 }
             }

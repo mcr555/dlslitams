@@ -102,7 +102,6 @@
             echo "Expiration Date</th><th>";
             echo "Date Bought</th><th>";
             echo "Serial</th><th>";
-            echo "&nbsp;</th><th>";
             echo "&nbsp;</th></thead><tbody>";
 
              if ($result->num_rows > 0)
@@ -116,9 +115,9 @@
                   echo $row["date_bought"]."</td><td>";
                   echo $row["serial"]."</td><td>";
                   ?><input type='button' class="btn btn-default" onClick="popitup('softwareUnused2?sid=<?php echo $row['software_id'];?>')" value='Use'></td>
-                  <td><button type="submit" class="btn btn-default" name="submit" onclick="return ConfirmDelete('serialDelete?id=<?php echo $row['software_id'];?>')" /><i class="fa fa-trash"></i> Delete</button>
+                  
                   <?php
-                  echo "</td></tr>";
+                  echo "</tr>";
                 } 
             }
             echo "</tbody></table>";
@@ -156,7 +155,7 @@
     $("#example1").DataTable({
       "order": [],
       "columnDefs": [{
-        'orderable': false, 'targets': [5, 6]
+        'orderable': false, 'targets': [5]
       }]
     });
     $('#example2').DataTable({

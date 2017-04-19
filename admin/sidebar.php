@@ -41,7 +41,17 @@
           <li><a href="freeware"><i class="fa fa-circle-o"></i> Freeware </a></li>
         </ul>
       </li>
-      <li><a href="components"><i class="fa fa-circle-o"></i> Component</a></li>
+
+      <li>
+        <a href="#"><i class="fa fa-circle-o"></i> Components
+          <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="componentsUsed"><i class="fa fa-circle-o"></i> Used Components</a></li>
+          <li><a href="componentsUnused"><i class="fa fa-circle-o"></i> Unused Components </a></li>
+        </ul>
+      </li>
+
     </ul>
   </li>
 

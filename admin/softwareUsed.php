@@ -103,7 +103,8 @@
             echo "Version</th><th>";
             echo "Expiration Date</th><th>";
             echo "Date Bought</th><th>";
-            echo "Serial</th></thead><tbody>";
+            echo "Serial</th><th>";
+            echo "</th></thead><tbody>";
 
 
              if ($result->num_rows > 0)
@@ -117,7 +118,8 @@
                   echo $row["version"]."</td><td>";
                   echo $row["expiration_date"]."</td><td>";
                   echo $row["date_bought"]."</td><td>";
-                  echo $row["serial"];
+                  echo $row["serial"]."</td><td>";
+                  ?><button type="submit" class="btn btn-default" name="submit" onclick="return ConfirmDelete('serialDelete?id=<?php echo $row['software_id'];?>')" /><i class="fa fa-trash"></i> Remove</button><?php
                   echo "</td></tr>";
                 }
             }
@@ -165,5 +167,6 @@
     });
   });
 </script>
+<script src="../js/popup.js"></script>
 </body>
 </html>

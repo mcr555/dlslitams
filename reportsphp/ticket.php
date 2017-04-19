@@ -1,6 +1,6 @@
 <?php
 require('reports/fpdf.php');
-require("include/conn.php");
+require_once('../db.php');
 
 $gen=$_POST['ticket'];
 
@@ -43,12 +43,12 @@ class PDF extends FPDF
 
 	// Adds image to beginning of d
 
-	$con = mysql_connect("localhost","root","");
-	mysql_select_db("itams", $con);
 if($gen=='all')
 {
-$query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber ");
-	if(mysql_num_rows($query) == 0){
+$sql = "SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber ";
+        $result = $conn->query($sql);
+
+ if ($result->num_rows == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
 	exit(0);
 
@@ -57,24 +57,29 @@ $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT J
 			  session_start();
 		date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
-               $row = mysql_fetch_assoc($sql1);
 
+		$sql1 = "select * from users where idnumber = '".$_SESSION['id']."'";
+        $result1 = $conn->query($sql1);
 
+ 
+ 			$vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
 
-		$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of $gen Request','')") or die(mysql_error());	
-
-
+            $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate Report of $gen Request','')";
+			if (mysqli_query($conn, $sql)){}
+            else 
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 
 
 
 		
 		
-		$pdf->Ln(2);
-		//Image("image name", y, x, image size);
-		$pdf->Ln(20);
-		$pdf->SetFont('arial','b',50);
-		$pdf->setX(25);$pdf->Cell(0,0,'IT Asset Management System',0,0,'L');
+		$pdf->Ln(25);
+		$pdf->SetFont('arial','b',25);
+		$pdf->Image("icon.png", 65,10,20);
+		$pdf->setX(85);$pdf->Cell(0,0,' Dlsl IT Asset Management System',0,0,'L');
 		
 		$pdf->Ln(30);
 		$pdf->SetFont('arial','b',20);
@@ -103,7 +108,7 @@ $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT J
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
 		$pdf->Ln(3);
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
-		while($row=mysql_fetch_array($query))
+		while($row=$result->fetch_assoc())
 		{
 			 if ($row['tstatus'] == "0")
 			$status = 'Pending ';
@@ -140,12 +145,14 @@ $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT J
 		$pdf->setX(7);$pdf->Cell(0,0,' ',0,0,'C');
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
 $pdf->Output();
-$pdf->Output('Receipt.pdf', 'F');
+$pdf->Output('Allticket.pdf', 'F');
 }
 else if($gen == "0")
 {
-	$query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber WHERE tstatus = $gen");
-	if(mysql_num_rows($query) == 0){
+	$sql = "SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber WHERE tstatus = $gen";
+        $result = $conn->query($sql);
+
+ if ($result->num_rows == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
 			exit(0);
 
@@ -153,15 +160,24 @@ else if($gen == "0")
 			if ($gen == "0")
 			$status = 'Pending ';
 
+			 
 			  session_start();
 		date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
-               $row = mysql_fetch_assoc($sql1);
 
+		$sql1 = "select * from users where idnumber = '".$_SESSION['id']."'";
+        $result1 = $conn->query($sql1);
 
+ 
+ 			$vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
 
-		$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of $status Request','')") or die(mysql_error());	
+            $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id)VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate Report of $status Request','')";
+			if (mysqli_query($conn, $sql)){}
+            else 
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
   
 
 
@@ -204,7 +220,7 @@ else if($gen == "0")
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
 		$pdf->Ln(3);
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
-		while($row=mysql_fetch_array($query))
+		while($row=$result->fetch_assoc())
 		{
 			 if ($row['tstatus'] == "0")
 			$status = 'Pending ';
@@ -240,12 +256,14 @@ else if($gen == "0")
 		$pdf->setX(7);$pdf->Cell(0,0,' ',0,0,'C');
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
 $pdf->Output();
-$pdf->Output('Receipt.pdf', 'F');
+$pdf->Output('Pending.pdf', 'F');
 }
 else if($gen == "1")
 {
-$query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber WHERE  tstatus = $gen ");
-	if(mysql_num_rows($query) == 0){
+$sql="SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber WHERE  tstatus = $gen ";
+      $result = $conn->query($sql);
+
+ if ($result->num_rows == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
 			exit(0);
 
@@ -256,22 +274,28 @@ $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT J
 			  session_start();
 		date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
-               $row = mysql_fetch_assoc($sql1);
+                $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'";
+        $result1 = $conn->query($sql1);
 
+ 			$vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
 
-
-		$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of $status Request','')") or die(mysql_error());	
+$sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id)  VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate Report of $status Request','')";
+			if (mysqli_query($conn, $sql)){}
+            else 
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);	
   
 
 
 		
 		
-		$pdf->Ln(2);
-		//Image("image name", y, x, image size);
-		$pdf->Ln(20);
-		$pdf->SetFont('arial','b',50);
-		$pdf->setX(25);$pdf->Cell(0,0,'IT Asset Management System',0,0,'L');
+		
+		$pdf->Ln(25);
+		$pdf->SetFont('arial','b',25);
+		$pdf->Image("icon.png", 65,10,20);
+		$pdf->setX(85);$pdf->Cell(0,0,' Dlsl IT Asset Management System',0,0,'L');
 		
 		$pdf->Ln(30);
 		$pdf->SetFont('arial','b',20);
@@ -300,7 +324,7 @@ $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT J
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
 		$pdf->Ln(3);
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
-		while($row=mysql_fetch_array($query))
+		while($row=$result->fetch_assoc())
 		{
 			 if ($row['tstatus'] == "0")
 			$status = 'Pending ';
@@ -337,12 +361,14 @@ $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT J
 		$pdf->setX(7);$pdf->Cell(0,0,' ',0,0,'C');
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
 $pdf->Output();
-$pdf->Output('Receipt.pdf', 'F');
+$pdf->Output('Approved.pdf', 'F');
 }
 else if($gen=="2")
 {
-$query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber where  tstatus = $gen ");
-	if(mysql_num_rows($query) == 0){
+$sql="SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber where  tstatus = $gen ";
+    $result = $conn->query($sql);
+
+ if ($result->num_rows == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
 				exit(0);
 
@@ -354,23 +380,28 @@ $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT J
 			  session_start();
 		date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
-               $row = mysql_fetch_assoc($sql1);
+                $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'";
+        $result1 = $conn->query($sql1);
 
 
+ 			$vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
 
-		$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of $status Request','')") or die(mysql_error());	
-  
+$sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate Report of $status Request','')";
+			if (mysqli_query($conn, $sql)){}
+            else 
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 
 
 
 		
 		
-		$pdf->Ln(2);
-		//Image("image name", y, x, image size);
-		$pdf->Ln(20);
-		$pdf->SetFont('arial','b',50);
-		$pdf->setX(25);$pdf->Cell(0,0,'IT Asset Management System',0,0,'L');
+		$pdf->Ln(25);
+		$pdf->SetFont('arial','b',25);
+		$pdf->Image("icon.png", 65,10,20);
+		$pdf->setX(85);$pdf->Cell(0,0,' Dlsl IT Asset Management System',0,0,'L');
 		
 		$pdf->Ln(30);
 		$pdf->SetFont('arial','b',20);
@@ -400,7 +431,7 @@ $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT J
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
 		$pdf->Ln(3);
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
-		while($row=mysql_fetch_array($query))
+		while($row=$result->fetch_assoc())
 		{
 			 if ($row['tstatus'] == "0")
 			$status = 'Pending ';
@@ -437,6 +468,6 @@ $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT J
 		$pdf->setX(7);$pdf->Cell(0,0,' ',0,0,'C');
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
 $pdf->Output();
-$pdf->Output('Receipt.pdf', 'F');
+$pdf->Output('Rejected.pdf', 'F');
 }
 			?>
