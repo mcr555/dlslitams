@@ -14,14 +14,63 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
-      <!-- DataTables -->
+    <!-- DataTables -->
   <link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="../../plugins/iCheck/all.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../dist/css/skins/skin-green.min.css">
   <!-- inadd -->
   <link rel="stylesheet" type="text/css" href="../logo/design1.css"/>
   <link rel="icon" href="../images/icon.png"/>
+
+  <!-- jQuery 2.2.3 -->
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../plugins/fastclick/fastclick.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="../../plugins/iCheck/icheck.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../dist/js/demo.js"></script>
+<!-- DataTables -->
+<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "order": [],
+      "columnDefs": [{
+        'orderable': false, 'targets': [5]
+      }]
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
+<script src="../js/popup.js"></script>
+<script src="../js/ajax.js"></script> 
+<script>
+  $(function () {
+    //Flat red color scheme for iCheck
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+      checkboxClass: 'icheckbox_flat-green',
+      radioClass: 'iradio_flat-green'
+    });
+  });
+</script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,11 +83,13 @@
   session_start();
   include_once('denyAccess.php');
   require_once('../db.php');
+
 ?>
 <body class="hold-transition skin-green sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 
+  
 
   <!-- =============================================== -->
 
@@ -54,82 +105,73 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Software
+        Components
       </h1>
       <ol class="breadcrumb">
-        <li> Assets</li>
-        <li> Licensed Software</li>
-        <li> Used Software</li>
+        <li><i class="fa fa-dashboard"></i> Assets</li>
+        <li>Components</li>
       </ol>
     </section>
 
+    <form method="post" action="hardware2">
     <!-- Main content -->
     <section class="content">
 
       <!-- Default box -->
       <div class="box box-success">
         <div class="box-header with-border">
-          <div class="nav-tabs-custom">
+          
+           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs pull-right">
              
-              <li class="pull-left header">Used Software</li>
+              <li class="pull-left header">Used Components</li>
                <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                   More <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <ul class="dropdown-menu">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="softwareAdd">Add Software</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="software">All Software</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="softwareUnused">Used Software</a></li>
-                </ul>
-              </li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="componentsAdd">Add Component</a></li>
             </ul>
            
             <!-- /.tab-content -->
           </div>
         </div>
         <div class="box-body">
-           <table id="example1" class="table table-bordered table-striped">
-
+        
+          <table id="example1" class="table table-bordered table-striped">
             <?php
-            $sql= "SELECT software.asset_id,software.name as sname,version,expiration_date,date_bought,serial,hardware.name as hname FROM software LEFT JOIN hardware ON hardware.asset_id=software.asset_id WHERE software.asset_id>0 AND type=1";
+            $sql = "SELECT *,hardware.barcode,components.name as cname FROM components LEFT JOIN hardware ON hardware.asset_id=components.asset_id WHERE component_status=1 ORDER BY component_id desc";
             $result = $conn->query($sql);
 
-            echo "<thead>";
-            echo "<tr><th>";
-            echo "Asset ID</th><th>";
-            echo "Asset Name</th><th>";
+            echo "<thead><tr><th></th><th>";
+            echo "Component ID</th><th>";
+            echo "Asset Barcode</th><th>";
             echo "Name</th><th>";
-            echo "Version</th><th>";
-            echo "Expiration Date</th><th>";
-            echo "Date Bought</th><th>";
-            echo "Serial</th><th>";
-            echo "</th></thead><tbody>";
+            echo "Category</th><th>";
+            echo "&nbsp;</th></thead><tbody>";
 
 
-             if ($result->num_rows > 0)
+            if ($result->num_rows > 0)
             {
-                while($row = $result->fetch_assoc())  
+                while($row = $result->fetch_assoc()) 
                 {
                   echo "<tr><td>";
-                  echo $row["asset_id"]."</td><td>";
-                  echo $row["hname"]."</td><td>";
-                  echo $row["sname"]."</td><td>";
-                  echo $row["version"]."</td><td>";
-                  echo $row["expiration_date"]."</td><td>";
-                  echo $row["date_bought"]."</td><td>";
-                  echo $row["serial"]."</td><td>";
-                  ?><button type="submit" class="btn btn-default" name="submit" onclick="return ConfirmDelete('serialDelete?id=<?php echo $row['software_id'];?>')" /><i class="fa fa-trash"></i> Remove</button><?php
-                  echo "</td></tr>";
+                  echo "<input type='checkbox' name='checkbox[]' class='flat-red' value='". $row["component_id"] ."'/></td><td>";
+                  echo $row["component_id"]."</td><td>";
+                  ?><a href='#' onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')"><?php
+                  echo $row["barcode"] . '</a>';
+                  echo "</td><td>";
+                  echo $row["cname"]."</td><td>";
+                  echo $row["component_category"]."</td><td>";
+                  echo "</td></tr>";    
                 }
             }
-            echo "</tbody></table>";
+            echo "</tbody></table></form>";
             ?>
         </div>
         <!-- /.box-body -->
       </div>
       <!-- /.box -->
-
     </section>
     <!-- /.content -->
   </div>
@@ -139,34 +181,6 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 2.2.3 -->
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="../bootstrap/js/bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="../plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="../dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../dist/js/demo.js"></script>
-<!-- DataTables -->
-<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
-<script>
-  $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false
-    });
-  });
-</script>
-<script src="../js/popup.js"></script>
+
 </body>
 </html>

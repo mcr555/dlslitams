@@ -113,7 +113,7 @@
       </ol>
     </section>
 
-    <form method="post" action="hardware2">
+    <form method="post" name="myform" action="components2">
     <!-- Main content -->
     <section class="content">
 
@@ -123,14 +123,28 @@
           
            <div class="nav-tabs-custom">
             <ul class="nav nav-tabs pull-right">
-             
-              <li class="pull-left header">Components</li>
+
+             <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  Action <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </a>
+                <ul class="dropdown-menu">
+                  <li role="presentation">
+                  <input type="submit" class="btn btn-default"  name="connect" value="Connect"
+                  onclick="myform.target='POPUPW'; POPUPW = window.open(
+                  'about:blank','POPUPW','width=600,height=400');"></li>
+                  
+                </ul>
+              </li>
+
+              <li class="pull-left header">Unused Components</li>
                <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                   More <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <ul class="dropdown-menu">
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="componentsAdd">Add Component</a></li>
+
             </ul>
            
             <!-- /.tab-content -->
@@ -140,7 +154,7 @@
         
           <table id="example1" class="table table-bordered table-striped">
             <?php
-            $sql = "SELECT *,hardware.barcode,components.name as cname FROM components LEFT JOIN hardware ON hardware.asset_id=components.asset_id ORDER BY component_id desc";
+            $sql = "SELECT *,hardware.barcode,components.name as cname FROM components LEFT JOIN hardware ON hardware.asset_id=components.asset_id  WHERE component_status=0 ORDER BY component_id desc";
             $result = $conn->query($sql);
 
             echo "<thead><tr><th></th><th>";
