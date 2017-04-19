@@ -14,11 +14,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
-    <!-- DataTables -->
-  <link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../dist/css/skins/skin-green.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css">
   <!-- inadd -->
   <link rel="stylesheet" type="text/css" href="../logo/design1.css"/>
   <link rel="icon" href="../images/icon.png"/>
@@ -39,14 +39,27 @@
 <!-- Site wrapper -->
 <div class="wrapper">
 
-  
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="../../index2.html" class="logo">
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>ITAMS</b></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+    </nav>
+  </header>
 
   <!-- =============================================== -->
 
-  <?php 
-  include_once('main-header.php');
-  include_once('sidebar.php');
-  require_once('notification.php');?>
+  <?php include_once('user2Header.php') ?>
 
   <!-- =============================================== -->
 
@@ -55,12 +68,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Software
+        History
       </h1>
       <ol class="breadcrumb">
-        <li>Assets</li>
-        <li>Sofware</li>
-        <li>Freeware</a></li>
+        <li>History</li>
       </ol>
     </section>
 
@@ -70,83 +81,60 @@
       <!-- Default box -->
       <div class="box box-success">
         <div class="box-header with-border">
-          <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs pull-right">
-             
-              <li class="pull-left header">Freeware</li>
-               <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                  More <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </a>
-                <ul class="dropdown-menu">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="freewareAdd">Add Freeware</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="freewareUsed">Used Freeware</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="freewareUnused">Unused Freeware</a></li>
-                </ul>
-              </li>
-            </ul>
-           
-            <!-- /.tab-content -->
-          </div>
+          <h3 class="box-title">Requests</h3>
         </div>
         <div class="box-body">
-          <form method='post' action='softwareAction'>
-          <table id="example1" class="table table-bordered table-striped">
-            <button type='submit' name='delete' class="btn btn-default" ><i class="fa fa-trash"></i> Delete</button>
-            <input type="hidden" name="link" value="freeware"/>
+           
             <?php
-            $sql = "SELECT * FROM software WHERE type=0 ORDER BY software_id desc";
+            $idnumber=$_SESSION["idnumber"];
+            $sql = "SELECT * FROM ticket WHERE user_id=$idnumber ORDER BY ticket_id desc";
             $result = $conn->query($sql);
 
-              echo "<thead><tr><th></th><th>";
-              echo "ID</th><th>";
-              echo "Name</th><th>";
-              echo "Version</th><th>";
-              echo "Status</th>
-                <th>&nbsp;</th>
-              </thead><tbody>";
 
+            echo '<table id="example1" class="table table-bordered table-striped"><thead>
+            <tr>
+              <th>ID</th>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>&nbsp;</th>
+              </tr></thead><tbody>';
 
             if ($result->num_rows > 0)
             {
-              while($row = $result->fetch_assoc()) 
-              {
-                echo "<tr><td>";
-                echo "<input name='checkbox[]' type='checkbox' value='". $row["software_id"] ."'/></td><td>";
-                echo $row["software_id"]."</td><td>";
-                echo $row["name"]."</td><td>";
-                echo $row["version"]."</td><td>";
-                if($row["asset_id"]>0)
+                while($row = $result->fetch_assoc()) 
                 {
-                  echo "<span class='label bg-purple'>Used</span></td>";
+                  echo "<tr><td>";
+                  echo $row["ticket_id"]."</td><td>";
+                  echo $row["ticket_type"]."</td><td>";
+                  echo $row["date_requested"]."</td><td>";
+                  if($row["tstatus"]==0) echo 'Ongoing';
+                  if($row["tstatus"]==1) echo 'Accepted';
+                  if($row["tstatus"]==2) echo 'Rejected';
+                  echo "</td><td>";
+                  $go='view'.$row["ticket_type"]?>
+                  <button type='button' class="btn btn-default" onClick="popitup2('../forms/<?php echo $go;?>?id=<?php echo $row['ticket_id'];?>')"><i class="fa fa-eye"></i> View Details</button>
+                  <?php echo "</td></tr>";    
                 }
-                else
-                {
-                  echo "<span class='label bg-navy'>Unused</span></td>";
-                }
-                echo "</td><td>";
-                if($row["asset_id"]>0){
-                ?>
-                <button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> View Details</button><?php }?>
-                <button type='button' class="btn btn-default" onclick="buttonCall('serialDelete?id=<?php echo $row['software_id'];?>')"  ><i class="fa fa-trash"></i> Delete</button>
-                <?php
-              }
             }
             echo "</tbody></table>";
             ?>
-            </form>
         </div>
         <!-- /.box-body -->
       </div>
       <!-- /.box -->
-
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
-  <?php include_once('footer.php');?>
-  
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Team</b>MAD
+    </div>
+    <strong>Copyright &copy; 2017 <a href="www.dlsl.edu.ph">De La Salle Lipa</a>.</strong> All rights
+      reserved 1962 J.P. Laurel National Highway, Lipa City 4217 Philippines
+  </footer>
 </div>
 <!-- ./wrapper -->
 
@@ -167,7 +155,7 @@
 <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script>
   $(function () {
-      $("#example1").DataTable({
+        $("#example1").DataTable({
       "order": [],
       "columnDefs": [{
         'orderable': false, 'targets': [4]
@@ -183,7 +171,6 @@
     });
   });
 </script>
-<script src="../js/buttonCallFunction.js"></script>
 <script src="../js/popup.js"></script> 
 </body>
 </html>

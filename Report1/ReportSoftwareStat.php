@@ -49,7 +49,7 @@
 
   <?php 
   include_once('../Admin/main-header.php');
-  include_once('../Admin/sidebar.php');
+include_once('sidebar1.php');
   require_once('../Admin/notification.php');?>
 
   <!-- =============================================== -->
@@ -90,7 +90,7 @@
            <option value="all">All</option>
            <option value="0">Unused</option>
            <option value="1">Used</option>
-           <option value="2">Expired</option>
+           <option value="2">Expiry date</option>
 
 
 </select>

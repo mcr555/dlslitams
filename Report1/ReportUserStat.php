@@ -49,7 +49,7 @@
 
   <?php 
   include_once('../Admin/main-header.php');
-  include_once('../Admin/sidebar.php');
+  include_once('sidebar1.php');
   require_once('../Admin/notification.php');?>
 
   <!-- =============================================== -->
@@ -81,10 +81,6 @@
 
           <!-- /.form group -->
           <div class="form-group" Align='center'>
-             Start Date : <input type="text" required name="startdate"  id="from-datepicker">
-             &nbsp;&nbsp;&nbsp;&nbsp;
-          End Date : <input type="text" required name="enddate" id="from-datepicker2">
-          <br><br><br>
             <select  name=user>
 
         <option value="all">All</option>

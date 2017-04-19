@@ -44,7 +44,7 @@
 
   <?php 
   include_once('../Admin/main-header.php');
-  include_once('../Admin/sidebar.php');
+  include_once('sidebar1.php');
   require_once('../Admin/notification.php');?>
 
   <!-- =============================================== -->

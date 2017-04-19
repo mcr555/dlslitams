@@ -35,7 +35,7 @@
 </head>
 <?php
   session_start();
-  include_once('../Admin/denyAccess.php');
+  include_once('../admin/denyAccess.php');
   require_once('../db.php');
   
 ?>
@@ -48,9 +48,9 @@
   <!-- =============================================== -->
 
   <?php 
-  include_once('../Admin/main-header.php');
-  include_once('../Admin/sidebar.php');
-  require_once('../Admin/notification.php');?>
+  include_once('../admin/main-header.php');
+  include_once('sidebar1.php');
+  require_once('../admin/notification.php');?>
 
   <!-- =============================================== -->
 

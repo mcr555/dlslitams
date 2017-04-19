@@ -136,7 +136,7 @@ $( document ).ready(function() {
              $vn1=$_SESSION["middlename"] ;
             $vn2=$_SESSION["lastname"] ;
             $vn3=$_SESSION["accountType"] ;
-            $vn4=$row["software_id"];
+            $vn4=$row["serial"];
             $vn5=$row["name"];
            
 

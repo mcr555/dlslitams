@@ -48,7 +48,7 @@ class PDF extends FPDF
 	$con = mysql_connect("localhost","root","");
 	mysql_select_db("itams", $con);
 
-if($gen=='all')
+if($gen=="all")
 {
 	
 	$sql = "SELECT * FROM software WHERE date_added >='$gen1' AND date_added <= '$gen2'";
@@ -101,7 +101,7 @@ if($gen=='all')
 
 		
 		//$pdf->Ln(10);
-		$pdf->SetFont('arial','b',15);
+		$pdf->SetFont('arial','b',10);
 		$pdf->setX(20);$pdf->Cell(0,0,'Name',0,0,'L');
 		$pdf->setX(55);$pdf->Cell(0,0,'Version',0,0,'L');
 		$pdf->setX(90);$pdf->Cell(0,0,'Expiration Date',0,0,'L');
@@ -216,16 +216,15 @@ $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Funct
 		
 		//$pdf->Ln(10);
 		$pdf->SetFont('arial','b',10);
-		$pdf->setX(5);$pdf->Cell(0,0,'Software ID',0,0,'L');
-		$pdf->setX(30);$pdf->Cell(0,0,'Asset ID',0,0,'L');
-		$pdf->setX(60);$pdf->Cell(0,0,'Name',0,0,'L');
-		$pdf->setX(86);$pdf->Cell(0,0,'Version',0,0,'L');
-		$pdf->setX(108);$pdf->Cell(0,0,'Expiration Date',0,0,'L');
-		$pdf->setX(140);$pdf->Cell(0,0,'Date bought',0,0,'L');
-		$pdf->setX(172);$pdf->Cell(0,0,'Serial',0,0,'L');
-		$pdf->setX(200);$pdf->Cell(0,0,'Date Added',0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,'Date Warn',0,0,'L');
-		$pdf->setX(270);$pdf->Cell(0,0,'Status',0,0,'L');
+		$pdf->setX(20);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(55);$pdf->Cell(0,0,'Version',0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,'Expiration Date',0,0,'L');
+		$pdf->setX(130);$pdf->Cell(0,0,'Date bought',0,0,'L');
+		$pdf->setX(168);$pdf->Cell(0,0,'Serial',0,0,'L');
+		$pdf->setX(190);$pdf->Cell(0,0,'Date Added',0,0,'L');
+		$pdf->setX(230);$pdf->Cell(0,0,'Date Warn',0,0,'L');
+		$pdf->setX(265);$pdf->Cell(0,0,'Status',0,0,'L');
+
 
 		//$pdf->Ln(6.0001);
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
@@ -236,22 +235,20 @@ $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Funct
 
 
 		
-		
+	
 		$pdf->Ln(7);
 		
 		//$pdf->Image($row['picture'],9.5,8,13);
 		
-		
-		$pdf->setX(10);$pdf->Cell(0,0,''.$row['software_id'],0,0,'L');
-		$pdf->setX(33);$pdf->Cell(0,0,''.$row['asset_id'],0,0,'L');
-		$pdf->setX(50);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,''.$row['version'],0,0,'L');
-		$pdf->setX(110);$pdf->Cell(0,0,''.$row['expiration_date'],0,0,'L');
-		$pdf->setX(140);$pdf->Cell(0,0,''.$row['date_bought'],0,0,'L');
-		$pdf->setX(172);$pdf->Cell(0,0,''.$row['serial'],0,0,'L');
-		$pdf->setX(200);$pdf->Cell(0,0,''.$row['date_added'],0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,''.$row['date_warn'],0,0,'L');
-		$pdf->setX(270);$pdf->Cell(0,0,'Unused',0,0,'L');
+
+		$pdf->setX(20);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
+		$pdf->setX(55);$pdf->Cell(0,0,''.$row['version'],0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,''.$row['expiration_date'],0,0,'L');
+		$pdf->setX(130);$pdf->Cell(0,0,''.$row['date_bought'],0,0,'L');
+		$pdf->setX(168);$pdf->Cell(0,0,''.$row['serial'],0,0,'L');
+		$pdf->setX(190);$pdf->Cell(0,0,''.$row['date_added'],0,0,'L');
+		$pdf->setX(230);$pdf->Cell(0,0,''.$row['date_warn'],0,0,'L');
+		$pdf->setX(265);$pdf->Cell(0,0,'Unused',0,0,'L');
 
 
 		}
@@ -319,19 +316,17 @@ $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Funct
 
 
 
-		
+	
 		//$pdf->Ln(10);
 		$pdf->SetFont('arial','b',10);
-		$pdf->setX(5);$pdf->Cell(0,0,'Software ID',0,0,'L');
-		$pdf->setX(30);$pdf->Cell(0,0,'Asset ID',0,0,'L');
-		$pdf->setX(60);$pdf->Cell(0,0,'Name',0,0,'L');
-		$pdf->setX(86);$pdf->Cell(0,0,'Version',0,0,'L');
-		$pdf->setX(108);$pdf->Cell(0,0,'Expiration Date',0,0,'L');
-		$pdf->setX(140);$pdf->Cell(0,0,'Date bought',0,0,'L');
-		$pdf->setX(172);$pdf->Cell(0,0,'Serial',0,0,'L');
-		$pdf->setX(200);$pdf->Cell(0,0,'Date Added',0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,'Date Warn',0,0,'L');
-		$pdf->setX(270);$pdf->Cell(0,0,'Status',0,0,'L');
+		$pdf->setX(20);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(55);$pdf->Cell(0,0,'Version',0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,'Expiration Date',0,0,'L');
+		$pdf->setX(130);$pdf->Cell(0,0,'Date bought',0,0,'L');
+		$pdf->setX(168);$pdf->Cell(0,0,'Serial',0,0,'L');
+		$pdf->setX(190);$pdf->Cell(0,0,'Date Added',0,0,'L');
+		$pdf->setX(230);$pdf->Cell(0,0,'Date Warn',0,0,'L');
+		$pdf->setX(265);$pdf->Cell(0,0,'Status',0,0,'L');
 
 		//$pdf->Ln(6.0001);
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
@@ -342,22 +337,19 @@ $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Funct
 
 
 		
-		
-		$pdf->Ln(7);
+			$pdf->Ln(7);
 		
 		//$pdf->Image($row['picture'],9.5,8,13);
 		
-		
-		$pdf->setX(10);$pdf->Cell(0,0,''.$row['software_id'],0,0,'L');
-		$pdf->setX(33);$pdf->Cell(0,0,''.$row['asset_id'],0,0,'L');
-		$pdf->setX(50);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,''.$row['version'],0,0,'L');
-		$pdf->setX(110);$pdf->Cell(0,0,''.$row['expiration_date'],0,0,'L');
-		$pdf->setX(140);$pdf->Cell(0,0,''.$row['date_bought'],0,0,'L');
-		$pdf->setX(172);$pdf->Cell(0,0,''.$row['serial'],0,0,'L');
-		$pdf->setX(200);$pdf->Cell(0,0,''.$row['date_added'],0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,''.$row['date_warn'],0,0,'L');
-		$pdf->setX(270);$pdf->Cell(0,0,'Used',0,0,'L');
+
+		$pdf->setX(20);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
+		$pdf->setX(55);$pdf->Cell(0,0,''.$row['version'],0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,''.$row['expiration_date'],0,0,'L');
+		$pdf->setX(130);$pdf->Cell(0,0,''.$row['date_bought'],0,0,'L');
+		$pdf->setX(168);$pdf->Cell(0,0,''.$row['serial'],0,0,'L');
+		$pdf->setX(190);$pdf->Cell(0,0,''.$row['date_added'],0,0,'L');
+		$pdf->setX(230);$pdf->Cell(0,0,''.$row['date_warn'],0,0,'L');
+		$pdf->setX(265);$pdf->Cell(0,0,'Unused',0,0,'L');
 
 
 		}
@@ -373,7 +365,7 @@ else if($gen == "2")
 {
 
 	
-    $sql="SELECT * FROM software where WHERE type ='1' and expiration_date >='$gen1' AND expiration_date <='$gen2' ORDER BY  expiration_date ASC";
+    $sql="SELECT * FROM software WHERE type ='1' and expiration_date >='$gen1' AND expiration_date <='$gen2' ORDER BY  expiration_date ASC";
     $result = $conn->query($sql);
 
  if ($result->num_rows == 0){
@@ -381,10 +373,7 @@ else if($gen == "2")
 				exit(0);
 
 
-
-
 		}
-		$status1 = 'Expired ';
 
 			
 			  session_start();
@@ -399,7 +388,7 @@ else if($gen == "2")
             $vn2=$_SESSION["lastname"] ;
             $vn3=$_SESSION["accountType"] ;
 
-$sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id)VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate report of $status Software date $gen1-$gen2 ','')";
+$sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id)VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate report of Software expire on date $gen1-$gen2 ','')";
 			if (mysqli_query($conn, $sql)){}
             else 
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -421,19 +410,18 @@ $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Funct
 
 
 
+	
 		
 		//$pdf->Ln(10);
 		$pdf->SetFont('arial','b',10);
-		$pdf->setX(5);$pdf->Cell(0,0,'Software ID',0,0,'L');
-		$pdf->setX(30);$pdf->Cell(0,0,'Asset ID',0,0,'L');
-		$pdf->setX(60);$pdf->Cell(0,0,'Name',0,0,'L');
-		$pdf->setX(86);$pdf->Cell(0,0,'Version',0,0,'L');
-		$pdf->setX(108);$pdf->Cell(0,0,'Expiration Date',0,0,'L');
-		$pdf->setX(140);$pdf->Cell(0,0,'Date bought',0,0,'L');
-		$pdf->setX(172);$pdf->Cell(0,0,'Serial',0,0,'L');
-		$pdf->setX(200);$pdf->Cell(0,0,'Date Added',0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,'Date Warn',0,0,'L');
-		$pdf->setX(270);$pdf->Cell(0,0,'Status',0,0,'L');
+		$pdf->setX(20);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(55);$pdf->Cell(0,0,'Version',0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,'Expiration Date',0,0,'L');
+		$pdf->setX(130);$pdf->Cell(0,0,'Date bought',0,0,'L');
+		$pdf->setX(168);$pdf->Cell(0,0,'Serial',0,0,'L');
+		$pdf->setX(190);$pdf->Cell(0,0,'Date Added',0,0,'L');
+		$pdf->setX(230);$pdf->Cell(0,0,'Date Warn',0,0,'L');
+		$pdf->setX(265);$pdf->Cell(0,0,'Status',0,0,'L');
 
 		//$pdf->Ln(6.0001);
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
@@ -441,6 +429,13 @@ $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Funct
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
 		while($row=$result->fetch_assoc())
 		{
+			 if ($row['asset_id'] == "0" && $row['type'] == "1" ){
+$status = 'Unused ';
+}
+else
+{
+	$status = 'Used ';
+}
 
 
 		
@@ -449,17 +444,15 @@ $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Funct
 		
 		//$pdf->Image($row['picture'],9.5,8,13);
 		
-		
-		$pdf->setX(10);$pdf->Cell(0,0,''.$row['software_id'],0,0,'L');
-		$pdf->setX(33);$pdf->Cell(0,0,''.$row['asset_id'],0,0,'L');
-		$pdf->setX(50);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,''.$row['version'],0,0,'L');
-		$pdf->setX(110);$pdf->Cell(0,0,''.$row['expiration_date'],0,0,'L');
-		$pdf->setX(140);$pdf->Cell(0,0,''.$row['date_bought'],0,0,'L');
-		$pdf->setX(172);$pdf->Cell(0,0,''.$row['serial'],0,0,'L');
-		$pdf->setX(200);$pdf->Cell(0,0,''.$row['date_added'],0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,''.$row['date_warn'],0,0,'L');
-		$pdf->setX(270);$pdf->Cell(0,0,$status1,0,0,'L');
+
+		$pdf->setX(20);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
+		$pdf->setX(55);$pdf->Cell(0,0,''.$row['version'],0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,''.$row['expiration_date'],0,0,'L');
+		$pdf->setX(130);$pdf->Cell(0,0,''.$row['date_bought'],0,0,'L');
+		$pdf->setX(168);$pdf->Cell(0,0,''.$row['serial'],0,0,'L');
+		$pdf->setX(190);$pdf->Cell(0,0,''.$row['date_added'],0,0,'L');
+		$pdf->setX(230);$pdf->Cell(0,0,''.$row['date_warn'],0,0,'L');
+		$pdf->setX(265);$pdf->Cell(0,0,''.$status,0,0,'L');
 
 
 		}

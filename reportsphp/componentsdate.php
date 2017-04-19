@@ -94,16 +94,16 @@ $sql = "SELECT * FROM components ";
 		//$pdf->Ln(10);
 		$pdf->SetFont('arial','b',10);
 
-		$pdf->setX(110);$pdf->Cell(0,0,'Components ID',0,0,'L');
-		$pdf->setX(152);$pdf->Cell(0,0,'Name',0,0,'L');
-		$pdf->setX(180);$pdf->Cell(0,0,'Category',0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,'Components ID',0,0,'L');
+		$pdf->setX(142);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(190);$pdf->Cell(0,0,'Category',0,0,'L');
 
 
 
 		//$pdf->Ln(6.0001);
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
 		$pdf->Ln(3);
-		$pdf->setX(25);$pdf->Cell(0,0,'_______________________________________________',0,0,'C');
+		$pdf->setX(20);$pdf->Cell(0,0,'______________________________________________________________',0,0,'C');
 		while($row=$result->fetch_assoc())
 		{
 		
@@ -114,9 +114,9 @@ $sql = "SELECT * FROM components ";
 		
 		
 
-		$pdf->setX(120);$pdf->Cell(0,0,''.$row['component_id'],0,0,'L');
-		$pdf->setX(155);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
-		$pdf->setX(180);$pdf->Cell(0,0,''.$row['component_category'],0,0,'L');
+		$pdf->setX(96);$pdf->Cell(0,0,''.$row['component_id'],0,0,'L');
+		$pdf->setX(142);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
+		$pdf->setX(190);$pdf->Cell(0,0,''.$row['component_category'],0,0,'L');
 
 
 
@@ -126,7 +126,7 @@ $sql = "SELECT * FROM components ";
 	
 		$pdf->Ln(7);
 		$pdf->setX(7);$pdf->Cell(0,0,' ',0,0,'C');
-		$pdf->setX(25);$pdf->Cell(0,0,'_______________________________________________',0,0,'C');
+		$pdf->setX(20);$pdf->Cell(0,0,'______________________________________________________________',0,0,'C');
 $pdf->Output();
 $pdf->Output('components.pdf', 'F');
 

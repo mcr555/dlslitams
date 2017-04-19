@@ -146,7 +146,7 @@
                   }
                   echo "</td><td>";
                 ?>
-                <button type="submit" class="btn btn-default" name="submit" onclick="return ConfirmDelete('serialDelete?id=<?php echo $row['software_id'];?>')" /><i class="fa fa-trash"></i> Remove</button></td></tr>
+                <button type="submit" class="btn btn-default" name="submit" onclick="return ConfirmDelete('serialDelete?id=<?php echo $row['software_id'];?>')" /><i class="fa fa-trash"></i> Delete</button></td></tr>
                 <?php
                 }
             }

@@ -2,8 +2,6 @@
 require('reports/fpdf.php');
 require_once('../db.php');
 
-$gen1 = $_POST["startdate"];
-$gen2 = $_POST["enddate"];
 $gen=$_POST['user'];
 
 
@@ -47,7 +45,7 @@ class PDF extends FPDF
 if($gen=="all")
 {
 	
-   $sql = "SELECT * FROM users WHERE userStatus ='$gen' AND dateAdded >='$gen1' AND dateAdded <= '$gen2'";
+   $sql = "SELECT * FROM users";
         $result = $conn->query($sql);
 
  if ($result->num_rows == 0){
@@ -73,7 +71,7 @@ if($gen=="all")
             $vn2=$_SESSION["lastname"] ;
             $vn3=$_SESSION["accountType"] ;
 
-            $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate report of $gen User date $gen1-$gen2','')";
+            $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate report of $gen User','')";
 			if (mysqli_query($conn, $sql)){}
             else 
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -153,7 +151,7 @@ $pdf->Output('alluser.pdf', 'F');
 if($gen=='0')
 {
 	
-   $sql="SELECT * FROM users WHERE userStatus ='$gen' AND  dateAdded >='$gen1' AND dateAdded <= '$gen2'";
+   $sql="SELECT * FROM users WHERE userStatus ='$gen'";
       $result = $conn->query($sql);
 
  if ($result->num_rows == 0){
@@ -162,7 +160,6 @@ if($gen=='0')
 
 
 		}
-			if ($gen == "0")
 			$status = 'Activated';
 
   session_start();
@@ -176,7 +173,7 @@ if($gen=='0')
             $vn2=$_SESSION["lastname"] ;
             $vn3=$_SESSION["accountType"] ;
 
-$sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id)  VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate report of $gen User date $gen1-$gen2','')";
+$sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id)  VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate report of $status User','')";
 			if (mysqli_query($conn, $sql)){}
             else 
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -253,7 +250,7 @@ $pdf->Output('activeuser.pdf', 'F');
 }
 else if($gen =='1')		
 {							
-	    $sql="SELECT * FROM users WHERE str_to_date(dateDeactivated,'%Y/%m/%d %H:%i:%s') >=str_to_date('$gen1','%Y-%m-%d') AND str_to_date(dateDeactivated,'%Y/%m/%d %H:%i:%s') <=str_to_date('$gen2','%Y-%m-%d')";
+	    $sql="SELECT * FROM users where userStatus ='$gen'";
     $result = $conn->query($sql);
 
  if ($result->num_rows == 0){
@@ -262,14 +259,13 @@ else if($gen =='1')
 
 
 		}
-			 if ($gen == "1")
 			$status = 'Deactivated';
 
 
 			  session_start();
 		date_default_timezone_set("Asia/Manila"); 
-                $vd=date("Y-m-d h:i:a");
-                $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'";
+        $vd=date("Y-m-d h:i:a");
+        $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'";
         $result1 = $conn->query($sql1);
 
 
@@ -278,7 +274,7 @@ else if($gen =='1')
             $vn2=$_SESSION["lastname"] ;
             $vn3=$_SESSION["accountType"] ;
 
-$sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate report of $gen User date $gen1-$gen2','')";
+$sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Report','Generate report of $status User','')";
 			if (mysqli_query($conn, $sql)){}
             else 
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);

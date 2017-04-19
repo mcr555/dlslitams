@@ -2,7 +2,11 @@
 require('reports/fpdf.php');
 require_once('../db.php');
 
-$gen=$_POST['ticket'];
+$gen=$_POST["ticket"];
+
+
+$gen1 = $_POST["startdate"];
+$gen2 = $_POST["enddate"];
 
 
 
@@ -42,14 +46,14 @@ class PDF extends FPDF
 
 
 	// Adds image to beginning of d
-
-if($gen=='all')
+	
+if($gen=="all")
 {
-$sql = "SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber ";
+$sql = "SELECT *,users.lastname,users.firstname FROM ticket  LEFT JOIN users ON ticket.user_id=users.idnumber where date_requested >= '$gen1' And date_requested <= '$gen2' ";
         $result = $conn->query($sql);
 
  if ($result->num_rows == 0){
-		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
+		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportTicketStat.php';</script>";
 	exit(0);
 
 		}
@@ -149,12 +153,13 @@ $pdf->Output('Allticket.pdf', 'F');
 }
 else if($gen == "0")
 {
-	$sql = "SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber WHERE tstatus = $gen";
+	$sql = "SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber WHERE tstatus = '$gen' and date_requested >= '$gen1' And date_requested <= '$gen2' ";
         $result = $conn->query($sql);
 
+ 
  if ($result->num_rows == 0){
-		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
-			exit(0);
+		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportTicketStat.php';</script>";
+	exit(0);
 
 		}
 			if ($gen == "0")
@@ -260,12 +265,13 @@ $pdf->Output('Pending.pdf', 'F');
 }
 else if($gen == "1")
 {
-$sql="SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber WHERE  tstatus = $gen ";
+$sql="SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber WHERE  tstatus = $gen  And date_requested >= '$gen1' And date_requested <= '$gen2' ";
       $result = $conn->query($sql);
 
+ 
  if ($result->num_rows == 0){
-		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
-			exit(0);
+		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportTicketStat.php';</script>";
+	exit(0);
 
 		}
 			if ($gen == "1")
@@ -365,12 +371,13 @@ $pdf->Output('Approved.pdf', 'F');
 }
 else if($gen=="2")
 {
-$sql="SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber where  tstatus = $gen ";
+$sql="SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber where  tstatus = $gen And date_requested >= '$gen1' And date_requested <= '$gen2' ";
     $result = $conn->query($sql);
 
+ 
  if ($result->num_rows == 0){
-		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
-				exit(0);
+		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportTicketStat.php';</script>";
+	exit(0);
 
 		}
 	if ($gen == "2")

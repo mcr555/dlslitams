@@ -44,6 +44,7 @@ if(isset($_POST['edit']))
             if (mysqli_query($conn, $sql3)){}
             else 
             echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
+          
   exit();
 }
 

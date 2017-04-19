@@ -167,24 +167,7 @@ if (isset($_POST['submit']))
         VALUES ('$asset_id','$value2',1,'$nam[$index2]','$dateBought','$warranty_expiration','$supplier_id')";
         mysqli_query($conn, $sql2);
 
-        date_default_timezone_set("Asia/Manila");
-        $vd=date("Y-m-d h:i:a");
-        $sql2 ="select * from hardware ORDER BY asset_id DESC LIMIT 1"; 
-        $result1 = $conn->query($sql2);
-        $row = $result1->fetch_array(MYSQLI_ASSOC);
-        $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
-        $result = $conn->query($sql1);
-
-        $vn=$_SESSION["firstname"] ;
-        $vn1=$_SESSION["middlename"] ;
-        $vn2=$_SESSION["lastname"] ;
-        $vn3=$_SESSION["accountType"] ;
-        $vn4=$row["barcode"];
-        $vn5=$row["name"];
-
-        $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','add a $vn5','$vn4')";
-        if (mysqli_query($conn, $sql3)){}
-        else echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        
       }
     }
     else echo "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -199,6 +182,25 @@ if (isset($_POST['submit']))
     exit();
     }
       $_SESSION['notification']=1;
+
+      date_default_timezone_set("Asia/Manila");
+        $vd=date("Y-m-d h:i:a");
+        $sql2 ="select * from hardware ORDER BY asset_id DESC LIMIT 1"; 
+        $result1 = $conn->query($sql2);
+        $row = $result1->fetch_array(MYSQLI_ASSOC);
+        $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
+        $result = $conn->query($sql1);
+
+        $vn=$_SESSION["firstname"] ;
+        $vn1=$_SESSION["middlename"] ;  
+        $vn2=$_SESSION["lastname"] ;
+        $vn3=$_SESSION["accountType"] ;
+        $vn4=$row["barcode"];
+        $vn5=$row["name"];
+
+        $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','add $vn5','$vn4')";
+        if (mysqli_query($conn, $sql3)){}
+        else echo "Error: " . $sql . "<br>" . mysqli_error($conn);
       echo "<script>window.location.href='hardware';</script>";
       exit();
 }

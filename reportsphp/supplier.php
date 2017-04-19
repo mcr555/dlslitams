@@ -92,10 +92,14 @@ $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hard
 		//$pdf->Ln(10);
 		$pdf->SetFont('arial','b',10);
 
-		$pdf->setX(90);$pdf->Cell(0,0,'ID',0,0,'L');
-		$pdf->setX(112);$pdf->Cell(0,0,'Name',0,0,'L');
-		$pdf->setX(150);$pdf->Cell(0,0,'Asset Name',0,0,'L');
-		$pdf->setX(180);$pdf->Cell(0,0,'Address',0,0,'L');
+		$pdf->setX(50);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(80);$pdf->Cell(0,0,'Supplier Representative',0,0,'L');
+		$pdf->setX(135);$pdf->Cell(0,0,'Address',0,0,'L');
+		$pdf->setX(170);$pdf->Cell(0,0,'Contact no.',0,0,'L');
+		$pdf->setX(210);$pdf->Cell(0,0,'Email',0,0,'L');
+		$pdf->setX(250);$pdf->Cell(0,0,'Asset Name',0,0,'L');
+
+
 
 
 
@@ -103,7 +107,7 @@ $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hard
 		//$pdf->Ln(6.0001);
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
 		$pdf->Ln(3);
-		$pdf->setX(5);$pdf->Cell(0,0,'__________________________________________________________',0,0,'C');
+		$pdf->setX(30);$pdf->Cell(0,0,'_____________________________________________________________________________________________________________________________',0,0,'C');
 		while($row=$result->fetch_assoc())
 		{
 		
@@ -114,10 +118,13 @@ $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hard
 		
 		
 
-		$pdf->setX(90);$pdf->Cell(0,0,''.$row['supplier_id'],0,0,'L');
-		$pdf->setX(115);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');
-		$pdf->setX(150);$pdf->Cell(0,0,''.$row['name'],0,0,'L');	
-		$pdf->setX(180);$pdf->Cell(0,0,''.$row['supplier_address'],0,0,'L');
+		$pdf->setX(50);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');
+		$pdf->setX(90);$pdf->Cell(0,0,''.$row['supplier_representative'],0,0,'L');	
+		$pdf->setX(130);$pdf->Cell(0,0,''.$row['supplier_address'],0,0,'L');
+		$pdf->setX(170);$pdf->Cell(0,0,''.$row['supplier_contact'],0,0,'L');
+		$pdf->setX(205);$pdf->Cell(0,0,''.$row['supplier_email'],0,0,'L');
+		$pdf->setX(250);$pdf->Cell(0,0,''.$row['name'],0,0,'L');	
+
 
 
 
@@ -127,7 +134,7 @@ $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hard
 	
 		$pdf->Ln(7);
 		$pdf->setX(7);$pdf->Cell(0,0,' ',0,0,'C');
-		$pdf->setX(5);$pdf->Cell(0,0,'__________________________________________________________',0,0,'C');
+		$pdf->setX(30);$pdf->Cell(0,0,'_____________________________________________________________________________________________________________________________',0,0,'C');
 $pdf->Output();
 $pdf->Output('supplier.pdf', 'F');
 
