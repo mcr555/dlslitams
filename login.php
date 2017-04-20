@@ -73,7 +73,7 @@
                 header("Location: admin/home");
                 die();}
                   
-              else if($row["accountType"]=="Regular Employee"){
+              else if($row["accountType"]=="Faculty1"||$row["accountType"]=="Faculty2"||$row["accountType"]=="Staff"){
                 header("Location: user1/home");
                 die();}
                   

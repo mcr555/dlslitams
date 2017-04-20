@@ -28,18 +28,71 @@ if (isset($_POST['submit']))
           while($row2 = $result2->fetch_assoc()) 
           {
               $email=$row2['email'];
-              $message="Your request has been sent to the Dean for approval <a href='http://dlsl.comeze.com/forms/viewATR?id=$ticket_id' > View </a>";
+              $message="Your request has been sent for approval <a href='http://dlsl.comeze.com/forms/viewATR?id=$ticket_id' > View </a>";
               sendMail($email,$message);
           }
       }
 
-
-
-
       $sql = "INSERT INTO ticket_view (ticket_id,tuser_id,position,tistatus)
   VALUES ('$ticket_id','$idnumber','requestor',3)";
       mysqli_query($conn, $sql);
-      requestDean($ticket_id,$conn);
+      //requestDean($ticket_id,$conn);
+      //send request
+      $acc=$_SESSION["accountType"];
+      if($acc=='Faculty1')
+      {
+        $dep=$_SESSION['department']. ' Department Chair';
+        $sql3 = "SELECT * FROM users WHERE accountType='$dep'";
+        $result3 = $conn->query($sql3);
+        if ($result3->num_rows > 0)
+        {
+          while($row3 = $result3->fetch_assoc()) 
+          {
+            $user_id=$row3['idnumber'];
+            $position=$row3['accountType'];
+          }
+        }
+        $sql = "INSERT INTO ticket_view (ticket_id,tuser_id,position,tistatus,step)
+    VALUES ('$ticket_id','$user_id','$position',0,1)";
+        mysqli_query($conn, $sql);
+
+      }
+      if($acc=='Faculty2')
+      {
+        $sql3 = "SELECT * FROM users WHERE accountType='Curriculum Coordinator'";
+        $result3 = $conn->query($sql3);
+        if ($result3->num_rows > 0)
+        {
+          while($row3 = $result3->fetch_assoc()) 
+          {
+            $user_id=$row3['idnumber'];
+            $position=$row3['accountType'];
+          }
+        }
+        $sql = "INSERT INTO ticket_view (ticket_id,tuser_id,position,tistatus,step)
+    VALUES ('$ticket_id','$user_id','$position',0,1)";
+        mysqli_query($conn, $sql);
+
+      }
+      if($acc=='Staff')
+      {
+        $sql3 = "SELECT * FROM users WHERE accountType='Manager'";
+        $result3 = $conn->query($sql3);
+        if ($result3->num_rows > 0)
+        {
+          while($row3 = $result3->fetch_assoc()) 
+          {
+            $user_id=$row3['idnumber'];
+            $position=$row3['accountType'];
+          }
+        }
+        $sql = "INSERT INTO ticket_view (ticket_id,tuser_id,position,tistatus,step)
+    VALUES ('$ticket_id','$user_id','$position',0,1)";
+        mysqli_query($conn, $sql);
+
+        
+      }
+      //
 
       $acc=$_SESSION["accountType"];
 
@@ -67,7 +120,7 @@ if (isset($_POST['submit']))
             {echo "Error: " . $sql . "<br>" . mysqli_error($conn); exit();}
           die();}
           
-      else if($acc=="Regular Employee"){
+      else if($acc=="Faculty1"||$acc=="Faculty2"||$acc=="Staff"){
           $_SESSION['notification']=1;
           echo "<script>alert('Request Successfully Sent');window.location.href='../user1/userHistory';</script>";
           date_default_timezone_set("Asia/Manila"); 

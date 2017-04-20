@@ -134,17 +134,17 @@ echo '<link rel="stylesheet" type="text/css" href="../css/design1.css"/>';
                               <!-- /.box -->
 
                               <div class="form-group">
-                              <label>Approved By (Dean/Director/Principal)</label>
+                              <label>Approved By</label>
                               <input type='text' class='form-control' readonly value='<?= getName($conn,$ticket_id,1) ?>'>
                             </div>
 
                             <div class="form-group">
-                              <label>Processed By (Property Custodian)</label>
-                              <input type='text' class='form-control' readonly value='<?= getName($conn,$ticket_id,2) ?>'>
+                              <label>Processed By</label>
+                              <input type='text' class='form-control' readonly value='<?= getName($conn,$ticket_id,0) ?>'>
                             </div>
 
                             <div class="form-group">
-                              <label>Affirmed By (Pro)</label>
+                              <label>Affirmed By</label>
                               <input type='text' class='form-control' readonly  value='<?= getName($conn,$ticket_id,3) ?>'>
                             </div>
 

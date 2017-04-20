@@ -51,8 +51,13 @@ else if($_GET['accept']==1)
 	$ticket_id=$_GET['id'];
 	$user_id=$_SESSION["idnumber"];
 	$idnumber='';
-	if($step==1) $next='Property Custodian';
-	if($step==2) $next='Properties and Reservation Officer';
+	if($_SESSION['accountType']=='Manager')
+	{
+		$next='Director';
+		$step=1;
+
+	} 
+	if($_SESSION['accountType']=='Director') $next='Director';
 
 	if (isset($next)){
 	$sql = "SELECT * FROM users WHERE accountType='$next'";

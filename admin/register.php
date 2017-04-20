@@ -168,7 +168,7 @@ function isNumberKey(evt){
     $email=$_POST["email"];
     $department=$_POST["department"];
     $accounttype=$_POST["accounttype"];
-    if($accounttype=='Immediate Superior' ||$accounttype=='Dean') $accounttype= $department . ' ' . $accounttype;
+    if($accounttype=='Department Chair' ||$accounttype=='Dean') $accounttype= $department . ' ' . $accounttype;
 
      $sql = "SELECT * FROM users WHERE idnumber='$idnumber' OR email='$email'";
      $result = $conn->query($sql);
@@ -208,7 +208,9 @@ function isNumberKey(evt){
             else 
             echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
 
-        header("Location: users");
+        echo "<script>
+              window.location.href='users';
+        </script>";
         exit();
       }
 
