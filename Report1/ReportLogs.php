@@ -33,6 +33,18 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
+  <script>
+function validateForm() {
+    var startdate = document.forms["myForm"]["startdate"].value;
+    var enddate = document.forms["myForm"]["enddate"].value;
+    
+
+    if (startdate > enddate) {
+      alert("End date is earlier than the Start Date");
+      return false;
+    }
+}
+</script>
 <?php
   session_start();
   include_once('../Admin/denyAccess.php');
@@ -73,10 +85,11 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border" >
-        <form action="../reportsphp/Logs.php" method="POST">
+        <form role="form" name="myForm" onsubmit="return validateForm()" action="../reportsphp/Logs.php" method="POST">
           <h3 class="box-title">Log Report</h3>
         </div>
         <div class="box-body">
+
 
 
           <!-- /.form group -->
