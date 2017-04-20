@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,30 +24,144 @@
   <link rel="stylesheet" type="text/css" href="../logo/design1.css"/>
   <link rel="icon" href="../images/icon.png"/>
 
+  <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../dist/js/demo.js"></script>
+<script>
+</script>
+
+<script type="text/javascript">
+/* This script and many more are available free online at
+The JavaScript Source!! http://javascript.internet.com
+Created by: Kiran Pai | http://www.codecoffee.com/ 
+*/
+// Modified From: http://javascript.internet.com/forms/multi-value-drop-down-list-2.html
+// Modified extensively again for: http://www.codingforums.com/showthread.php?t=245935
+
+var ICT= ["ICT Manager|ICT Manager", "Section Head|Section Head", "Helpdesk|Helpdesk","Supervisor|Supervisor","Hardware Admin|Hardware Admin","Software Admin|Software Admin","Network Admin|Network Admin",    "Admin|ICT Administrator"];
+var IS= ["Faculty2|Faculty", "Curriculum Coordinator|Curriculum Coordinator",  "Principal|Principal"];
+var Faculty= ["Faculty1|Faculty", "Dean|Dean",  "Department Chair|Department Chair"];
+var FRD= ["FRD Manager|FRD Manager", "Budget Analyst|Budget Analyst",  "FHP Director|FHP Director"];
+var Others= ["VCAR|VCAR", "VCAD|VCAD",  "VCM|VCM"];
+var ILFO= ["Staff|Staff", "Manager|Manager",  "Director|Director"];
+
+function set_course() {
+  var select_dept = document.myform.department;
+  var select_course = document.myform.accounttype;
+  var selected_dept = select_dept.options[select_dept.selectedIndex].value;
+
+  select_course.options.length=0;
+  var tarr = [];
+  switch (selected_dept) {
+
+
+  case 'ICTC' :
+    for(var i=0; i<ICT.length; i++) {
+     tarr = ICT[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+    break;
+
+   case 'CITE' : case 'CIHTM' : case 'CBEAM' : case 'CEAS' : case 'CON' : case 'COL' :
+    for(var i=0; i<Faculty.length; i++) {
+     tarr = Faculty[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+    break;
+
+   case 'FRD' :
+    for(var i=0; i<FRD.length; i++) {
+     tarr = FRD[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+    break;
+
+   case 'ILFO' :
+    for(var i=0; i<ILFO.length; i++) {
+     tarr = ILFO[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+    break;
+
+   case 'Others' :
+    for(var i=0; i<Others.length; i++) {
+     tarr = Others[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+    break;
+
+
+   case 'IS' : 
+    for(var i=0; i<IS.length; i++) {
+     tarr = IS[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+  }
+}
+
+function ShowSelection(flag) {
+  var select_dept = document.myform.department;
+  var select_course = document.myform.accounttype;
+  var selected_dept = select_dept.options[select_dept.selectedIndex].value;
+  var selected_course = select_course.options[select_course.selectedIndex].value;
+  if (flag == false) {
+    alert('Selection: '+selected_dept+ ' : ' + selected_course);
+  } else {
+    var sel = document.getElementById('Courses').getElementsByTagName('div');
+    for (var i=0; i<sel.length; i++) { sel[i].style.display = 'none'; }
+    if (selected_course != '') {
+      document.getElementById(selected_course).style.display = 'block';
+    }
+  }
+}
+
+</script>
+
+<script>
+function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+</script>
+
+
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-  <script>
-  $('#password, #confirm_password').on('keyup', function () {
-    if ($('#password').val() == $('#confirm_password').val()) {
-        $('#message').html('Matching').css('color', 'green');
-    } else 
-        $('#message').html('Not Matching').css('color', 'red');
-});</script>
+
+
 </head>
 <?php
-  session_start();
+  
   include_once('denyAccess.php');
   require_once('../db.php');
   if (isset($_POST['reg']))
   {
     $idnumber=$_POST["idnumber"];
     $password=$_POST["password"];
+    $confirm_password=$_POST["confirm_password"];
+    if($password!=$confirm_password){
+      echo "Password does not match<BR>";
+      ?><button onclick="history.go(-1);">Back </button><?php
+      exit();
+    }
     $password=md5($password);
     $lastname=$_POST["lastname"];
+    $contact=$_POST["contact"];
     $firstname=$_POST["firstname"];
     $middlename=$_POST["middlename"];
     $gender=$_POST["gender"];
@@ -70,14 +185,12 @@
 
     else
     {
-      $sql = "INSERT INTO users (idnumber,password,lastname,firstname,middlename,gender,department,email,accountType)
-      VALUES ($idnumber,'$password','$lastname','$firstname','$middlename','$gender','$department','$email','$accounttype')";
+      $_SESSION['notification']=1;
+      $sql = "INSERT INTO users (contact,idnumber,password,lastname,firstname,middlename,gender,department,email,accountType)
+      VALUES ('$contact',$idnumber,'$password','$lastname','$firstname','$middlename','$gender','$department','$email','$accounttype')";
 
       if (mysqli_query($conn, $sql)) 
       {
-        echo "Registration Successfull! You will be redirected in 3 Seconds";
-        $_SESSION['notification']=1;
-        header( "refresh:3;url=users" );  
          date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
                 $sql1 = "select * from users where idnumber = '".$_SESSION['idnumber']."'"; 
@@ -95,6 +208,7 @@
             else 
             echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
 
+        header("Location: users");
         exit();
       }
 
@@ -144,7 +258,7 @@
           <h3 class="box-title">Create new account</h3>
         </div>
         <div class="box-body">
-          <form role="form" action='register' method="post">
+          <form role="form" name="myform" action="" method="post">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -160,7 +274,7 @@
                       </div>
                       <div class="form-group">
                         <label>Confirm Password</label>
-                        <input type="password" id="password" class="form-control" required name="confirm_password" id="confirm_pasasword" pattern=".{4,}" title="Four or more characters" placeholder="Enter Password" >
+                        <input type="password" id="password" class="form-control" required name="confirm_password" id="confirm_password" pattern=".{4,}" title="Four or more characters" placeholder="Enter Password" >
                         <span id='message'></span>
                       </div>
                       <!-- /.form-group -->
@@ -173,13 +287,19 @@
                         <label>Middle Name</label>
                         <input type="text" required name="middlename" class="form-control" placeholder="Enter Middle name" >
                       </div>
+
+                      <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" required name="lastname" class="form-control" placeholder="Enter Last name">
+                      </div>
+
                       <!-- /.form-group -->
                     </div>
                     <!-- /.col -->
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" required name="lastname" class="form-control" placeholder="Enter Last name">
+                        <label>Contact Number</label>
+                        <input type="text" required name="contact" class="form-control" placeholder="Enter Contact Number">
                       </div>
                       <!-- /.form-group -->
                     <div class="form-group">
@@ -197,37 +317,26 @@
                     <!-- /.form-group -->
                     <div class="form-group">
                       <label>Department</label>
-                      <select class="form-control" name="department">
-                        <option value="CITE">CITE</option>  
-                        <option value="CIHTM" >CIHTM</option>
-                        <option value="CBEAM">CBEAM</option>
-                        <option value="CEAS" >CEAS</option>
-                        <option value="CON" >CON</option>
-                        <option value="COL" >COL</option>
-                      </select>
+                      <select name="department" class="form-control" onchange="set_course()">
+                      <option value="">Select Department</option>
+                      <option value="CITE">CITE</option>  
+                      <option value="CIHTM" >CIHTM</option>
+                      <option value="CBEAM">CBEAM</option>
+                      <option value="CEAS" >CEAS</option>
+                      <option value="CON" >CON</option>
+                      <option value="COL" >COL</option>
+                      <option value="ILFO">ILFO</option>
+                      <option value="IS">IS</option>
+                      <option value="FRD">FRD</option>
+                      <option value="ICTC">ICTC</option>
+                      <option value="Others">Others</option>
+                     </select>
                     </div>
                     <!-- /.form-group -->
                     <div class="form-group">
-                      <label>Privelege</label>
-                      <select class="form-control" name="accounttype">
-                          <option value="Regular Employee">Regular Employee</option>  
-                          <option value="Immediate Superior" >Immediate Superior</option>
-                          <option value="Dean">Dean</option>
-                          <option value="Budget Analyst" >Budget Analyst</option>
-                          <option value="FRD Manager" >FRD Manager</option>
-                          <option value="VCAR" >VCAR</option>
-                          <option value="VCAD" >VCAD</option>
-                          <option value="VCM" >VCM</option>
-                          <option value="Chancellor" >Chancellor</option>
-                          <option value="FHP Director" >FHP Director</option>
-                          <option value="Property Custodian" >Property Custodian</option>
-                          <option value="Properties and Reservation Officer" >Properties and Reservations Officer</option>
-                          <option value="ICT Manager" >ICT Manager</option>
-                          <option value="Admin" >ICT Administrator</option>
-                          <option value="ICT Staff" >ICT Staff</option>
-                          <option value="Director" >Director</option>
-                          <option value="Section Head" >Section Head</option>
-                          <option value="Principal" >Principal</option>
+                      <label>Privilege</label>
+                      <select name="accounttype" class="form-control" onchange="ShowSelection(true)"
+                      <option value=""> ------ </option>
                       </select>
                     </div>
                     <!-- /.form-group -->
@@ -252,24 +361,6 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 2.2.3 -->
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="../bootstrap/js/bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="../plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="../dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../dist/js/demo.js"></script>
-<script>
-function isNumberKey(evt){
-    var charCode = (evt.which) ? evt.which : event.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57))
-        return false;
-    return true;
-}
-</script>
+
 </body>
 </html>

@@ -151,11 +151,11 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li role="presentation">
-                  <input type="submit" class="btn btn-default"  name="donate" value="Donate"
+                  <input type="submit" class="btn btn-block btn-default"  name="donate" value="Donate"
                   onclick="myform.target='POPUPW'; POPUPW = window.open(
                   'about:blank','POPUPW','width=600,height=400');"></li>
-                  <li role="presentation"><input type="submit" class="btn btn-default"  name="retire" value="Retire"/></li>
-                  <li role="presentation"><input type="submit" class="btn btn-default"  name="decommission" value="Decommission"/></li>
+                  <li role="presentation"><input type="submit" class="btn btn-block btn-default"  name="retire" value="Retire"/></li>
+                  <li role="presentation"><input type="submit" class="btn btn-block btn-default"  name="decommission" value="Decommission"/></li>
                 </ul>
               </li>
             </ul>

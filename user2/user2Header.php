@@ -43,11 +43,17 @@
       	<li><a href="rejected"><i class="fa fa-circle-o"></i> Rejected Requests</a></li>
       </ul>
     </li>
+    <li class="treeview">
+          <a href="userHistory">
+            <i class="fa fa-history"></i> <span>Request Made</span>
+          </a>
+        </li>
      <li class="treeview">
           <a href="profile1">
             <i class="fa fa-history"></i> <span>Profile</span>
           </a>
         </li>
+
     <li class="treeview">
       <a href="../logout">
         <i class="fa fa-sign-out"></i> <span>Log out</span>

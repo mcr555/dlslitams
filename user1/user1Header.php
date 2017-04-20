@@ -20,11 +20,6 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-laptop"></i> <span>My Assets</span>
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="#">
             <i class="fa fa-file-text-o"></i> <span>Forms</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -37,8 +32,8 @@
           </ul>
         </li>
         <li class="treeview">
-          <a href="user1History">
-            <i class="fa fa-history"></i> <span>My History Requests</span>
+          <a href="userHistory">
+            <i class="fa fa-history"></i> <span>Request Made</span>
           </a>
         </li>
          </li>

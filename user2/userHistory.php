@@ -17,8 +17,8 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../dist/css/skins/skin-green.min.css">
-        <!-- bootstrap datepicker -->
-  <link rel="stylesheet" href="../plugins/datepicker/datepicker3.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css">
   <!-- inadd -->
   <link rel="stylesheet" type="text/css" href="../logo/design1.css"/>
   <link rel="icon" href="../images/icon.png"/>
@@ -54,43 +54,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs"><?php echo $_SESSION['firstname'];?></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
-                <p>
-                  <?php echo $_SESSION['firstname'];?>
-                  <small>Member since Nov. 2012</small>
-                </p>
-              </li>
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="changePass" class="btn btn-default btn-flat">Change Password</a>
-                </div>
-                <div class="pull-right">
-                  <a href="../logout" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
     </nav>
   </header>
 
   <!-- =============================================== -->
 
-  <?php include_once('user1Header.php') ?>
+  <?php include_once('user2Header.php') ?>
 
   <!-- =============================================== -->
 
@@ -99,11 +68,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Forms
+        History
       </h1>
       <ol class="breadcrumb">
-        <li>Forms</li>
-        <li>CKR</li>
+        <li>History</li>
       </ol>
     </section>
 
@@ -113,16 +81,48 @@
       <!-- Default box -->
       <div class="box box-success">
         <div class="box-header with-border">
-          <h3 class="box-title">CKR</h3>
+          <h3 class="box-title">Requests</h3>
         </div>
         <div class="box-body">
-          <?php include_once('../forms/CKR.php') ?>
+           
+            <?php
+            $idnumber=$_SESSION["idnumber"];
+            $sql = "SELECT * FROM ticket WHERE user_id=$idnumber ORDER BY ticket_id desc";
+            $result = $conn->query($sql);
+
+
+            echo '<table id="example1" class="table table-bordered table-striped"><thead>
+            <tr>
+              <th>ID</th>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>&nbsp;</th>
+              </tr></thead><tbody>';
+
+            if ($result->num_rows > 0)
+            {
+                while($row = $result->fetch_assoc()) 
+                {
+                  echo "<tr><td>";
+                  echo $row["ticket_id"]."</td><td>";
+                  echo $row["ticket_type"]."</td><td>";
+                  echo $row["date_requested"]."</td><td>";
+                  if($row["tstatus"]==0) echo 'Ongoing';
+                  if($row["tstatus"]==1) echo 'Accepted';
+                  if($row["tstatus"]==2) echo 'Rejected';
+                  echo "</td><td>";
+                  $go='view'.$row["ticket_type"]?>
+                  <button type='button' class="btn btn-default" onClick="popitup2('../forms/<?php echo $go;?>?id=<?php echo $row['ticket_id'];?>')"><i class="fa fa-eye"></i> View Details</button>
+                  <?php echo "</td></tr>";    
+                }
+            }
+            echo "</tbody></table>";
+            ?>
         </div>
         <!-- /.box-body -->
-
       </div>
       <!-- /.box -->
-<div>&nbsp;</div>
     </section>
     <!-- /.content -->
   </div>
@@ -150,7 +150,27 @@
 <script src="../dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
-<!-- bootstrap datepicker -->
-<script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
+<!-- DataTables -->
+<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script>
+  $(function () {
+        $("#example1").DataTable({
+      "order": [],
+      "columnDefs": [{
+        'orderable': false, 'targets': [4]
+      }]
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
+<script src="../js/popup.js"></script> 
 </body>
 </html>

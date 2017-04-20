@@ -6,31 +6,16 @@ if (isset($_POST['submit']))
   session_start();
 
   $dateNeeded=$_POST['dateNeeded'];
-  $quantity=$_POST['quantity'];
-  $specs=$_POST['specs'];
   $justification=$_POST['justification'];
-  $tto=$_POST['tto'];
-  $tfrom=$_POST['tfrom'];
-  $squantity= serialize($quantity);
-  $sspecs= serialize($specs);
-  $stto= serialize($tto);
-  $stfrom= serialize($tfrom);
+  $name=$_POST['name'];
+  $office=$_POST['office'];
+  $asset=$_POST['asset'];
+  $sasset= serialize($asset);
   $idnumber=$_SESSION["idnumber"];
+  $department=$_SESSION['department'];
 
-  $sql2 = "SELECT * FROM users WHERE idnumber='$idnumber'";
-    $result2 = $conn->query($sql2);
-    if ($result2->num_rows > 0)
-    {
-        while($row2 = $result2->fetch_assoc()) 
-        {
-            $department=$row2['department'];
-        }
-    }
-  
-  $sql = "INSERT INTO ticket (ticket_type,requestedFor,dateNeeded,justification,quantity,specs,user_id,tto,tfrom)
-  VALUES ('ATR','$department','$dateNeeded','$justification','$squantity','$sspecs','$idnumber','$stto','$stfrom')";
-
-
+  $sql = "INSERT INTO ticket (ticket_type,requestedFor,dateNeeded,justification,user_id,tto,tfrom,specs)
+  VALUES ('ATR','$department','$dateNeeded','$justification','$idnumber','$name','$office','$sasset')";
 
   if (mysqli_query($conn, $sql)) 
   {
@@ -84,7 +69,7 @@ if (isset($_POST['submit']))
           
       else if($acc=="Regular Employee"){
           $_SESSION['notification']=1;
-          echo "<script>window.location.href='../user1/user1History';</script>";
+          echo "<script>alert('Request Successfully Sent');window.location.href='../user1/userHistory';</script>";
           date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
                 $sql2 ="select * from ticket ORDER BY ticket_id DESC LIMIT 1"; 
@@ -109,7 +94,7 @@ if (isset($_POST['submit']))
           
       else{
           $_SESSION['notification']=1;
-          echo "<script>window.location.href='../user2/workOrder';</script>";
+          echo "<script>alert('Request Successfully Sent');window.location.href='../user2/userHistory';</script>";
           date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
                 $sql2 ="select * from ticket ORDER BY ticket_id DESC LIMIT 1"; 
@@ -172,6 +157,20 @@ function add_fields() {
 }
 
 </script>
+
+<script>
+function validateForm() {
+    var dateNeeded = document.forms["myForm"]["dateNeeded"].value;
+    
+    var selectedDate = new Date(dateNeeded);
+    var now = new Date();
+    if (selectedDate <= now) {
+      alert("Date needed should be greater than current date");
+      return false;
+    }
+}
+</script>
+
 <script>
 $( document ).ready(function() {
     $("#from-datepicker").datepicker({ 
@@ -191,40 +190,43 @@ $( document ).ready(function() {
   <title>ATR</title>
  </head>
 <body>
-<form method='post' action='../forms/ATR'>
+<form role="form" name="myForm" onsubmit="return validateForm()" action='../forms/ATR' method="post">
   <div class="row">
     <div class="col-md-6">
-      
-            <!-- /.form-group -->
+
       <div class="form-group">
-              <input type="button" id="more_fields" onclick="add_fields();" class="btn btn-default" value="Add Item" />
+          <label>Requested for</label>
+          <input type="text" class="form-control" disabled value='<?php echo $_SESSION["department"];?>'>
+      </div>
+
+            <div class="form-group">
+        <label>Date Requested</label>
+        <input type="text" class="form-control" disabled value='<?php echo date("Y-m-d");?>'>
       </div>
             <!-- /.form-group -->
-      <div id="room_fields">
-        <div class="form-group">
-              <label>Quantity/Unit</label>
-              <input type="text" class="form-control" required name="quantity[]" value="" />
-        </div>
-
-        <div class="form-group">
-              <label>Particulars/Specifications</label>
-              <input type="text" class="form-control" required  name="specs[]" value="" />
-        </div>
-
-        <div class="form-group">
-              <label>Transfer From</label>
-              <input type="text" class="form-control" required name="tfrom[]" value="" />
-        </div>
-
-        <div class="form-group">
-              <label>Transfer To</label>
-              <input type="text" class="form-control" required name="tto[]" value="" />
-        </div>
-      </div>
+      
 
         <div class="form-group">
               <label>Reason/Purpose</label>
               <textarea class="form-control" name="justification" rows="3" placeholder="Enter ..."></textarea>
+        </div>
+
+        <div class="form-group">
+              <label>Assets to transfer</label><BR>
+              <?php
+              $idnumber=$_SESSION['idnumber'];
+              $sql = "SELECT * FROM hardware WHERE custodian=$idnumber";
+              $result = $conn->query($sql);
+              if ($result->num_rows > 0)
+              {
+                  $select= '<select multiple required class="form-control" name="asset[]">';
+                  while($row = $result->fetch_assoc()) 
+                      $select.='<option value="'.$row['asset_id'].'">'.$row['name'].'</option>';
+              }
+              $select.='</select>';
+              echo $select;
+              ?>
+
         </div>
             <!-- /.form-group -->
     </div>
@@ -234,9 +236,51 @@ $( document ).ready(function() {
               <label>Date Needed</label>
               <input type="text" class="form-control" required name='dateNeeded' id="from-datepicker" placeholder="Enter Date needed">
         </div>
+
+        
+
+        <div class="form-group">
+              <label>Transfer To</label>
+              <?php
+              $sql = "SELECT * FROM users ORDER BY lastname asc ";
+              $result = $conn->query($sql);
+              if ($result->num_rows > 0)
+              {
+                $idnumber=$_SESSION['idnumber'];
+                  echo '<select class="form-control" name="name">';
+                  while($row = $result->fetch_assoc()) {
+                    ?>
+                    <option value="<?php echo $row['idnumber'];?>" <?php if ($row['idnumber']==$idnumber) { ?>selected="selected"<?php } ?>>
+                    <?php echo $row['lastname'] . ', ' . $row['firstname'];?>
+                    </option>
+                    <?php
+                  }
+              }
+              echo '</select>';
+              ?>
+              <BR><label>Location</label>
+
+              <?php
+              $sql = "SELECT * FROM dropdown_list WHERE dropdown_type=3 ORDER BY dropdown_name asc";
+              $result = $conn->query($sql);
+              if ($result->num_rows > 0)
+              {
+                  echo '<select class="form-control" name="office">';
+                  while($row = $result->fetch_assoc()) {
+                    ?>
+                    <option value="<?php echo $row['dropdown_name'];?>">
+                    <?php echo $row['dropdown_name'];?>
+                    </option>
+                    <?php
+                  }
+              }
+              echo '</select>';
+              ?>
+
+        </div>
             <!-- /.form-group -->
         <div class="form-group">
-        </div>
+
     </div>
   </div>
 
