@@ -2,8 +2,85 @@
     window.onunload = refreshParent;
     function refreshParent() {
         window.opener.location.reload();
-        window.close();
     }
+</script>
+<script type="text/javascript">
+var ICT= ["ICT Manager|ICT Manager", "Section Head|Section Head", "Helpdesk|Helpdesk","Supervisor|Supervisor","Hardware Admin|Hardware Admin","Software Admin|Software Admin","Network Admin|Network Admin",    "Admin|ICT Administrator"];
+var IS= ["Faculty2|Faculty", "Curriculum Coordinator|Curriculum Coordinator",  "Principal|Principal"];
+var Faculty= ["Faculty1|Faculty", "Dean|Dean",  "Department Chair|Department Chair"];
+var FRD= ["FRD Manager|FRD Manager", "Budget Analyst|Budget Analyst",  "FHP Director|FHP Director"];
+var Others= ["VCAR|VCAR", "VCAD|VCAD",  "VCM|VCM"];
+var ILFO= ["Staff|Staff", "Manager|Manager",  "Director|Director"];
+
+function set_course() {
+  var select_dept = document.myform.department;
+  var select_course = document.myform.accounttype;
+  var selected_dept = select_dept.options[select_dept.selectedIndex].value;
+
+  select_course.options.length=0;
+  var tarr = [];
+  switch (selected_dept) {
+
+
+  case 'ICTC' :
+    for(var i=0; i<ICT.length; i++) {
+     tarr = ICT[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+    break;
+
+   case 'CITE' : case 'CIHTM' : case 'CBEAM' : case 'CEAS' : case 'CON' : case 'COL' :
+    for(var i=0; i<Faculty.length; i++) {
+     tarr = Faculty[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+    break;
+
+   case 'FRD' :
+    for(var i=0; i<FRD.length; i++) {
+     tarr = FRD[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+    break;
+
+   case 'ILFO' :
+    for(var i=0; i<ILFO.length; i++) {
+     tarr = ILFO[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+    break;
+
+   case 'Others' :
+    for(var i=0; i<Others.length; i++) {
+     tarr = Others[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+    break;
+
+
+   case 'IS' : 
+    for(var i=0; i<IS.length; i++) {
+     tarr = IS[i].split('|');
+     select_course.options[select_course.options.length] = new Option(tarr[1],tarr[0]);
+    }
+  }
+}
+
+function ShowSelection(flag) {
+  var select_dept = document.myform.department;
+  var select_course = document.myform.accounttype;
+  var selected_dept = select_dept.options[select_dept.selectedIndex].value;
+  var selected_course = select_course.options[select_course.selectedIndex].value;
+  if (flag == false) {
+    alert('Selection: '+selected_dept+ ' : ' + selected_course);
+  } else {
+    var sel = document.getElementById('Courses').getElementsByTagName('div');
+    for (var i=0; i<sel.length; i++) { sel[i].style.display = 'none'; }
+    if (selected_course != '') {
+      document.getElementById(selected_course).style.display = 'block';
+    }
+  }
+}
 </script>
 <?php
 session_start();
@@ -17,7 +94,7 @@ if (isset($_POST['accounttype']))
     $department=$_POST['department'];
     $accounttype=$_POST['accounttype'];
     if($accounttype=='Immediate Superior' ||$accounttype=='Dean') $accounttype= $department . ' ' . $accounttype; 
-    $sql ="UPDATE users SET accountType = '$accounttype' WHERE idnumber = '$idnumber'";
+    $sql ="UPDATE users SET department='$department',accountType = '$accounttype' WHERE idnumber = '$idnumber'";
     if (mysqli_query($conn, $sql)) echo "<script>window.close();</script>";
     else echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 
@@ -46,7 +123,7 @@ if (isset($_POST['accounttype']))
     exit();
     
 }
-echo $_POST['firstname'] .' '. $_POST['lastname'];
+
 ?>
 <html>
 <head>
@@ -57,31 +134,33 @@ echo $_POST['firstname'] .' '. $_POST['lastname'];
 </head>
 <body>
 <BR></BR>
-<form method='post' action=''>
-Priviledge: <select type="text"   name="accounttype" ><br><br>
-                          <option value="Regular Employee">Regular Employee</option>  
-                          <option value="Immediate Superior" >Immediate Superior</option>
-                          <option value="Dean">Dean</option>
-                          <option value="Budget Analyst" >Budget Analyst</option>
-                          <option value="FRD Manager" >FRD Manager</option>
-                          <option value="VCAR" >VCAR</option>
-                          <option value="VCAD" >VCAD</option>
-                          <option value="VCM" >VCM</option>
-                          <option value="Chancellor" >Chancellor</option>
-                          <option value="FHP Director" >FHP Director</option>
-                          <option value="Property Custodian" >Property Custodian</option>
-                          <option value="Properties and Reservation Officer" >Properties and Reservations Officer</option>
-                          <option value="ICT Manager" >ICT Manager</option>
-                          <option value="Admin" >ICT Administrator</option>
-                          <option value="ICT Staff" >ICT Staff</option>
-                          <option value="Director" >Director</option>
-                          <option value="Principal" >Principal</option>
-                          </select><BR><BR>  
+<form role="form" name="myform" action="" method="post">
+
+<label>Department</label>
+                      <select name="department" class="form-control" onchange="set_course()">
+                      <option value="">Select Department</option>
+                      <option value="CITE">CITE</option>  
+                      <option value="CIHTM" >CIHTM</option>
+                      <option value="CBEAM">CBEAM</option>
+                      <option value="CEAS" >CEAS</option>
+                      <option value="CON" >CON</option>
+                      <option value="COL" >COL</option>
+                      <option value="ILFO">ILFO</option>
+                      <option value="IS">IS</option>
+                      <option value="FRD">FRD</option>
+                      <option value="ICTC">ICTC</option>
+                      <option value="Others">Others</option>
+                     </select>
+
+<label>Privilege</label>
+                      <select name="accounttype" class="form-control" onchange="ShowSelection(true)"
+                      <option value=""> ------ </option>
+                      </select>
+
 <input type='hidden' name='lastname' value="<?php echo $_POST["lastname"]?>">
 <input type='hidden' name='firstname' value="<?php echo $_POST["firstname"]?>">
 <input type='hidden' name='idnumber' value="<?php echo $_POST["idnumber"]?>">
-<input type='hidden' name='department' value="<?php echo $_POST["department"]?>">
-<input type="BUTTON" Value="Back" Onclick="window.location.href='users'">
+<input type="BUTTON" Value="Back" Onclick="window.close();">
 <input type="submit" name="save"  value="Save">
 </form>
 

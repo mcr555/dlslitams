@@ -7,7 +7,18 @@
                 $sql2 = "select imagepath from users where idnumber = '".$_SESSION['id']."'"; 
                 $result1 = $conn->query($sql2);
                 $row = $result1->fetch_array(MYSQLI_ASSOC);
+
+            if ($row['imagepath']>= 1){
+              echo"<div class='user-panel'>
+  <div class='pull-left image'>  <img src='../img/$row[imagepath]'  class='img-circle' alt='User Image'>";
+    
+
+    }
+else
+echo"<div class='user-panel'>
+  <div class='pull-left image'> <img src='../dist/img/user2-160x160.jpg'  class='img-circle' alt='User Image'>";
 ?>
+
 <?php
             if ($row['imagepath']>= 1){
               echo"<div class='user-panel'><div class='pull-left image'> <img src='../img/$row[imagepath]'  class='img-circle' alt='User Image'>";
@@ -18,6 +29,7 @@ else
 echo"<div class='user-panel'>
   <div class='pull-left image'> <img src='../dist/img/user2-160x160.jpg'  class='img-circle' alt='User Image'>";
 ?>
+
      
 
   </div>

@@ -134,22 +134,31 @@
                   echo $row["department"]."</td><td>";
                   echo $row["accountType"];
                   echo "</td><td>";
+                  $idnumber=$row['idnumber'];
+                  $sql2 = "SELECT * FROM hardware WHERE custodian='$idnumber'";
+                  $result2 = $conn->query($sql2);
+                  if ($result2->num_rows > 0)
+                  {
+                    $showButton=1;
+                  }
+                  else $showButton=0;
                   echo "<form name='myform' method='POST' action='changePrivilege'>";?>
                   <input type='hidden' name='lastname' value="<?php echo $row["lastname"]?>">
                   <input type='hidden' name='firstname' value="<?php echo $row["firstname"]?>">
                   <input type='hidden' name='idnumber' value="<?php echo $row["idnumber"]?>">
-                  <input type='hidden' name='department' value="<?php echo $row["department"]?>">
 
                   <input type="submit" class="btn btn-default" value="Change Privilege"
                   onclick="myform.target='POPUPW'; POPUPW = window.open(
                   'about:blank','POPUPW','width=600,height=400');">
+
 
                   <?php
                   echo "</form>"; ?>
                   <form action="users" method="POST" onsubmit="return confirm('Are you sure you want to deactivate user?');">
                   <input type="hidden" name="idnumber" value="<?php echo $row['idnumber'];?>" />
                   <td><input type="submit" class="btn btn-default" name="deactivate" value="Deactivate" /></td>
-                  <td><button type='button' class="btn btn-default" onClick="popitup2('usersEdit?id=<?php echo $row['idnumber'];?>')" name='submit'><i class="fa fa-edit"></i> Edit</button></td></tr>
+                  <td><button type='button' class="btn btn-default" onClick="popitup2('usersEdit?id=<?php echo $row['idnumber'];?>')" name='submit'><i class="fa fa-edit"></i> Edit</button>
+                  <?php if($showButton==1){?><button type='button' class="btn btn-default" onClick="popitup2('showCustody?id=<?php echo $row['idnumber'];?>')" name='submit'><i class="fa fa-eye"></i> Assets</button><?php } ?></td></tr>
                   <?php
                 }
             }

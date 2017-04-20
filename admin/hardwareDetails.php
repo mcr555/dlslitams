@@ -105,14 +105,16 @@ if($asset_type==2)
       echo "<tr><th>";
       echo "Category</th><th>";
       echo "Name</th><th>";
-      echo "Date Added</th>";
+      echo "Date Added</th><th>";
+      echo "Remove</th>";
       while($row = $result->fetch_assoc())  
       {
         echo "<tr><td>";
+        $component_id=$row['component_id'];
         echo $row["component_category"]."</td><td>";
         echo $row["name"]."</td><td>";
         echo $row["dateAdded"]."</td>";
-        echo "</td></tr>";
+        echo "<td><a href='componentRemove?id=$component_id&hid=$asset_id'>Remove</a></td></tr>";
       }
       echo "</table>";
   }

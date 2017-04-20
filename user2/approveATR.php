@@ -51,8 +51,18 @@ else if($_GET['accept']==1)
 	$ticket_id=$_GET['id'];
 	$user_id=$_SESSION["idnumber"];
 	$idnumber='';
-	if($step==1) $next='Property Custodian';
-	if($step==2) $next='Properties and Reservation Officer';
+	if($_SESSION['accountType']=='Manager')
+	{
+		$next='Director';
+		$step=1;
+
+	} 
+	if($_SESSION['accountType']=='Director')
+	{
+		$next='Director';
+		$step=2;
+
+	}
 
 	if (isset($next)){
 	$sql = "SELECT * FROM users WHERE accountType='$next'";
@@ -70,7 +80,6 @@ else if($_GET['accept']==1)
   		exit();
   	}
   }
-  	$step=$step+1;
 
 	$sql="UPDATE ticket_view SET tistatus = '1' WHERE ticket_id = '$ticket_id' AND tuser_id = '$user_id'";
 	if (mysqli_query($conn, $sql)){}

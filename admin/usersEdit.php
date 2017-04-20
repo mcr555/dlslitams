@@ -15,9 +15,8 @@ if(isset($_POST['edit']))
   $firstname=$_POST['firstname'];
   $middlename=$_POST['middlename'];
   $lastname=$_POST['lastname'];
-  $department=$_POST['department'];
   $email=$_POST['email'];
-  $sql="UPDATE users SET firstname = '$firstname', middlename = '$middlename', lastname = '$lastname', department = '$department',
+  $sql="UPDATE users SET firstname = '$firstname', middlename = '$middlename', lastname = '$lastname',
   email = '$email' WHERE idnumber = '$idnumber'";
   if (mysqli_query($conn, $sql)){}
   else 
@@ -44,6 +43,7 @@ if(isset($_POST['edit']))
             if (mysqli_query($conn, $sql3)){}
             else 
             echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
+          
   exit();
 }
 
@@ -62,7 +62,6 @@ if(isset($_GET['id']))
         echo '<BR>First Name: <input type="text" name="firstname" value="' .$row["firstname"] . '">';
         echo '<BR>Middle Name: <input type="text" name="middlename" value="' .$row["middlename"] . '">';
         echo '<BR>Last Name: <input type="text" name="lastname" value="' .$row["lastname"] . '">';
-        echo '<BR>Department: <input type="text" name="department" value="' .$row["department"] . '">';
         echo '<BR>Email: <input type="text" name="email" value="' .$row["email"] . '">';
         echo '<input type="submit" name="edit"  value="Edit">';
         echo '</form>';

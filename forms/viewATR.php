@@ -50,11 +50,7 @@ echo '<link rel="stylesheet" type="text/css" href="../css/design1.css"/>';
                     {
                         while($row = $result->fetch_assoc()) 
                         {
-                            $quantity=unserialize($row['quantity']);
-                            $amount=unserialize($row['amount']);
-                            $specs=unserialize($row['specs']);
-                            $tto=unserialize($row['tto']);
-                            $tfrom=unserialize($row['tfrom']);
+                            $asset=unserialize($row['specs']);
                             $name=$row["firstname"] . ' ' . $row["lastname"];
                             $ticket_id=$row["ticket_id"];
                             ?>
@@ -89,17 +85,47 @@ echo '<link rel="stylesheet" type="text/css" href="../css/design1.css"/>';
                                 <div class="box-body no-padding">
                                   <table class="table table-striped">
                                     <?php echo "<tr>
-                                        <th>Quantity/Unit</th>
-                                        <th>Particulars/Specifications</th>
+                                        <th>Unit</th>
                                         <th>Transfer From</th>
                                         <th>Transfer To</th>
                                         </tr>";
-                                        foreach( $quantity as $key => $n ) {
+                                        $nextCustodian=$row['tto'];
+                                        $currentCustodian=$row['user_id'];
+                                        $sql3 = "SELECT * FROM users WHERE idnumber='$currentCustodian'";
+                                        $result3 = $conn->query($sql3);
+                                        if ($result3->num_rows > 0)
+                                        {
+                                            while($row3 = $result3->fetch_assoc()) 
+                                            {
+                                              $currentCustodian=$row3['firstname'] .' ' .$row3['lastname'];
+                                            }
+                                        }
+                                        $sql3 = "SELECT * FROM users WHERE idnumber='$nextCustodian'";
+                                        $result3 = $conn->query($sql3);
+                                        if ($result3->num_rows > 0)
+                                        {
+                                            while($row3 = $result3->fetch_assoc()) 
+                                            {
+                                              $nextCustodian=$row3['firstname'] .' ' .$row3['lastname'];
+                                            }
+                                        }
+                                        foreach( $asset as $key => $n ) {
+
+                                        $sql2 = "SELECT * FROM hardware WHERE asset_id='$n'";
+                                        $result2 = $conn->query($sql2);
+                                        if ($result2->num_rows > 0)
+                                        {
+                                            while($row2 = $result2->fetch_assoc()) 
+                                            {
+                                              $asset_name=$row2['name'];
+                                              $location=$row2['location'];
+                                            }
+                                        }
+                                        
                                         echo "<tr><td>"
-                                        .$n."</td><td>"
-                                        .$specs[$key]."</td><td>"
-                                        .$tto[$key]."</td><td>"
-                                        .$tfrom[$key]."</td></tr>";
+                                        .$asset_name."</td><td>"
+                                        ."$currentCustodian<BR>".$location."</td><td>"
+                                        ."$nextCustodian<BR> ".$row['tfrom']."</td></tr>";
                                         }
                                     echo "</table>";?>
                                 </div>
@@ -108,17 +134,17 @@ echo '<link rel="stylesheet" type="text/css" href="../css/design1.css"/>';
                               <!-- /.box -->
 
                               <div class="form-group">
-                              <label>Approved By (Dean/Director/Principal)</label>
+                              <label>Approved By</label>
                               <input type='text' class='form-control' readonly value='<?= getName($conn,$ticket_id,1) ?>'>
                             </div>
 
                             <div class="form-group">
-                              <label>Processed By (Property Custodian)</label>
-                              <input type='text' class='form-control' readonly value='<?= getName($conn,$ticket_id,2) ?>'>
+                              <label>Processed By</label>
+                              <input type='text' class='form-control' readonly value='<?= getName($conn,$ticket_id,0) ?>'>
                             </div>
 
                             <div class="form-group">
-                              <label>Affirmed By (Pro)</label>
+                              <label>Affirmed By</label>
                               <input type='text' class='form-control' readonly  value='<?= getName($conn,$ticket_id,3) ?>'>
                             </div>
 

@@ -1,6 +1,7 @@
 <?php
 require('reports/fpdf.php');
-require("include/conn.php");
+require_once('../db.php');
+
 
 $gen1 = $_POST["startdate"];
 $gen2 = $_POST["enddate"];
@@ -38,22 +39,21 @@ class PDF extends FPDF
 
 	//Instanciation of inherited class
 	//Instanciation of inherited class
-	$pdf=new PDF('L','mm','A4');
+	$pdf=new PDF('L','mm','A3');
 	$pdf->AliasNbPages();
 	$pdf->AddPage();
 
 
 	// Adds image to beginning of d
 
-	$con = mysql_connect("localhost","root","");
-	mysql_select_db("itams", $con);
+	
 
 if($gen=='all')
 {
-	
-    $query = mysql_query("SELECT * FROM hardware supplier_id LEFT JOIN supplier supplier_name ON supplier_id.supplier_id=supplier_name.supplier_id WHERE dateBought >='$gen1' AND dateBought <= '$gen2'");
-			
-if(mysql_num_rows($query) == 0){
+	$sql = "SELECT * FROM hardware supplier_id LEFT JOIN supplier supplier_name ON supplier_id.supplier_id=supplier_name.supplier_id WHERE dateBought >='$gen1' AND dateBought <= '$gen2'";
+        $result = $conn->query($sql);
+
+ if ($result->num_rows == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportHardwareStat.php';</script>";
 		exit(0);
 
@@ -63,25 +63,31 @@ if(mysql_num_rows($query) == 0){
 			  session_start();
 		date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
-               $row = mysql_fetch_assoc($sql1);
 
+		$sql1 = "select * from users where idnumber = '".$_SESSION['id']."'";
+        $result1 = $conn->query($sql1);
 
+ 
+ 			$vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
 
-$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of all $gen hardware date $gen1-$gen2','')") or die(mysql_error());	
-
+            $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','Generate all hardware report  date $gen1-$gen2  ','')";
+			if (mysqli_query($conn, $sql)){}
+            else 
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 
 		
 		
-		$pdf->Ln(2);
-		//Image("image name", y, x, image size);
+		$pdf->Ln(25);
+		$pdf->SetFont('arial','b',25);
+		$pdf->Image("icon.png", 127,10,20);
+		$pdf->setX(145);$pdf->Cell(0,0,' Dlsl IT Asset Management System',0,0,'L');
+		
 		$pdf->Ln(20);
-		$pdf->SetFont('arial','b',50);
-		$pdf->setX(25);$pdf->Cell(0,0,'IT Asset Management System',0,0,'L');
-		
-		$pdf->Ln(30);
 		$pdf->SetFont('arial','b',20);
-		$pdf->setX(120);$pdf->Cell(0,0,'Hardware Reports',0,0,'L');
+		$pdf->setX(180);$pdf->Cell(0,0,'Hardware Reports',0,0,'L');
 		$pdf->Ln(10);
 
 		$pdf->Ln(10);
@@ -90,24 +96,25 @@ $queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,cate
 
 		
 		//$pdf->Ln(10);
-		$pdf->SetFont('arial','b',10);
-		$pdf->setX(10);$pdf->Cell(0,0,'Asset ID',0,0,'L');
-		$pdf->setX(30);$pdf->Cell(0,0,'Barcode',0,0,'L');
-		$pdf->setX(55);$pdf->Cell(0,0,'Name',0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,'Date bought',0,0,'L');
-		$pdf->setX(115);$pdf->Cell(0,0,'Waranty Expiration ',0,0,'L');
-		$pdf->setX(155);$pdf->Cell(0,0,'Book Value',0,0,'L');
-		$pdf->setX(182);$pdf->Cell(0,0,'Buying price',0,0,'L');
-		$pdf->setX(211);$pdf->Cell(0,0,'Location',0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,'Status',0,0,'L');
-		$pdf->setX(270);$pdf->Cell(0,0,'Supplier',0,0,'L');
+		$pdf->SetFont('arial','b',11);
+		$pdf->setX(15);$pdf->Cell(0,0,'Barcode',0,0,'L');
+		$pdf->setX(60);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(95);$pdf->Cell(0,0,'Category',0,0,'L');
+		$pdf->setX(125);$pdf->Cell(0,0,'Date bought',0,0,'L');
+		$pdf->setX(160);$pdf->Cell(0,0,'Lifespan end',0,0,'L');
+		$pdf->setX(195);$pdf->Cell(0,0,'Warranty Expiration',0,0,'L');
+		$pdf->setX(240);$pdf->Cell(0,0,'Book Value',0,0,'L');
+		$pdf->setX(275);$pdf->Cell(0,0,'Buying price',0,0,'L');
+		$pdf->setX(310);$pdf->Cell(0,0,'Location',0,0,'L');
+		$pdf->setX(345);$pdf->Cell(0,0,'Status',0,0,'L');
+		$pdf->setX(380);$pdf->Cell(0,0,'Supplier',0,0,'L');
 
 
 		//$pdf->Ln(6.0001);
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
 		$pdf->Ln(3);
-		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
-		while($row=mysql_fetch_array($query))
+		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');		
+while($row=$result->fetch_assoc())
 		{
 
  if ($row['status'] == "0")
@@ -126,24 +133,25 @@ if ($row['status'] == "4")
 	$status = 'Repaired ';
 
 if ($row['status'] == "5")
-	$status = 'Donated ';
+	$status = 'Borrowed ';
 		
 		
 		$pdf->Ln(7);
 		
 		//$pdf->Image($row['picture'],9.5,8,13);
 		
-		
-		$pdf->setX(13);$pdf->Cell(0,0,''.$row['asset_id'],0,0,'L');
-		$pdf->setX(30);$pdf->Cell(0,0,''.$row['barcode'],0,0,'L');
-		$pdf->setX(55);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,''.$row['dateBought'],0,0,'L');
-		$pdf->setX(120);$pdf->Cell(0,0,''.$row['warranty_expiration'],0,0,'L');
-		$pdf->setX(159);$pdf->Cell(0,0,''.$row['book_value'],0,0,'L');
-		$pdf->setX(186);$pdf->Cell(0,0,''.$row['buying_price'],0,0,'L');
-		$pdf->setX(210);$pdf->Cell(0,0,''.$row['location'],0,0,'L');
-		$pdf->setX(238);$pdf->Cell(0,0,''.$status,0,0,'L');
-		$pdf->setX(267);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');
+
+		$pdf->setX(5);$pdf->Cell(0,0,''.$row['barcode'],0,0,'L');
+		$pdf->setX(60);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
+		$pdf->setX(95);$pdf->Cell(0,0,''.$row['hardware_category'],0,0,'L');
+		$pdf->setX(125);$pdf->Cell(0,0,''.$row['dateBought'],0,0,'L');
+		$pdf->setX(160);$pdf->Cell(0,0,''.$row['lifespanEnd'],0,0,'L');
+		$pdf->setX(203);$pdf->Cell(0,0,''.$row['warranty_expiration'],0,0,'L');
+		$pdf->setX(240);$pdf->Cell(0,0,''.$row['book_value'],0,0,'L');
+		$pdf->setX(278);$pdf->Cell(0,0,''.$row['buying_price'],0,0,'L');
+		$pdf->setX(310);$pdf->Cell(0,0,''.$row['location'],0,0,'L');
+		$pdf->setX(345);$pdf->Cell(0,0,''.$status,0,0,'L');
+		$pdf->setX(380);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');
 
 
 		}
@@ -158,8 +166,10 @@ $pdf->Output('allhardware.pdf', 'F');
 else if($gen == "0" ||  $gen=="1" || $gen=="2"|| $gen=="3"|| $gen=="4"|| $gen=="5")
 {
 	
-    $query = mysql_query("SELECT * FROM hardware supplier_id LEFT JOIN supplier supplier_name ON supplier_id.supplier_id=supplier_name.supplier_id where status ='$gen' And dateBought >='$gen1' AND dateBought <= '$gen2'");
-    if(mysql_num_rows($query) == 0){
+   	 $sql="SELECT * FROM hardware supplier_id LEFT JOIN supplier supplier_name ON supplier_id.supplier_id=supplier_name.supplier_id where status ='$gen' And dateBought >='$gen1' AND dateBought <= '$gen2'";	
+      $result = $conn->query($sql);
+
+ if ($result->num_rows == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportHardwareStat.php';</script>";
 				exit(0);
 
@@ -181,80 +191,82 @@ if ($gen == "4")
 	$status = 'Repaired ';
 
 if ($gen == "5")
-	$status = 'Donated ';
+	$status = 'Borrowed ';
 
 			  session_start();
 		date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
-               $row = mysql_fetch_assoc($sql1);
+                $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'";
+        $result1 = $conn->query($sql1);
+
+ 			$vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
+
+$sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','Generate $status hardware  date $gen1-$gen2 ','')";
+			if (mysqli_query($conn, $sql)){}
+            else 
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 
 
 
-$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of all $status hardware date $gen1-$gen2','')") or die(mysql_error());
-
-
-
-
-
+		$pdf->Ln(25);
+		$pdf->SetFont('arial','b',25);
+		$pdf->Image("icon.png", 127,10,20);
+		$pdf->setX(145);$pdf->Cell(0,0,' Dlsl IT Asset Management System',0,0,'L');
 		
-		
-		$pdf->Ln(2);
-		//Image("image name", y, x, image size);
 		$pdf->Ln(20);
-		$pdf->SetFont('arial','b',50);
-		$pdf->setX(25);$pdf->Cell(0,0,'IT Asset Management System',0,0,'L');
-		
-		$pdf->Ln(30);
 		$pdf->SetFont('arial','b',20);
-		$pdf->setX(100);$pdf->Cell(0,0,$status.'Hardware Reports',0,0,'L');
+		$pdf->setX(164);$pdf->Cell(0,0,$status.'Hardware Reports',0,0,'L');
 
 		$pdf->Ln(10);
 
 		$pdf->Ln(10);
-
 
 
 		
-		$pdf->SetFont('arial','b',10);
-		$pdf->setX(10);$pdf->Cell(0,0,'Asset ID',0,0,'L');
-		$pdf->setX(30);$pdf->Cell(0,0,'Barcode',0,0,'L');
-		$pdf->setX(55);$pdf->Cell(0,0,'Name',0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,'Date bought',0,0,'L');
-		$pdf->setX(115);$pdf->Cell(0,0,'Waranty Expiration ',0,0,'L');
-		$pdf->setX(155);$pdf->Cell(0,0,'Book Value',0,0,'L');
-		$pdf->setX(182);$pdf->Cell(0,0,'Buying price',0,0,'L');
-		$pdf->setX(211);$pdf->Cell(0,0,'Location',0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,'Status',0,0,'L');
-		$pdf->setX(270);$pdf->Cell(0,0,'Supplier',0,0,'L');
+		//$pdf->Ln(10);
+		$pdf->SetFont('arial','b',11);
+		$pdf->setX(15);$pdf->Cell(0,0,'Barcode',0,0,'L');
+		$pdf->setX(60);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(95);$pdf->Cell(0,0,'Category',0,0,'L');
+		$pdf->setX(125);$pdf->Cell(0,0,'Date bought',0,0,'L');
+		$pdf->setX(160);$pdf->Cell(0,0,'Lifespan end',0,0,'L');
+		$pdf->setX(195);$pdf->Cell(0,0,'Warranty Expiration',0,0,'L');
+		$pdf->setX(240);$pdf->Cell(0,0,'Book Value',0,0,'L');
+		$pdf->setX(275);$pdf->Cell(0,0,'Buying price',0,0,'L');
+		$pdf->setX(310);$pdf->Cell(0,0,'Location',0,0,'L');
+		$pdf->setX(345);$pdf->Cell(0,0,'Status',0,0,'L');
+		$pdf->setX(380);$pdf->Cell(0,0,'Supplier',0,0,'L');
+
+
 
 		//$pdf->Ln(6.0001);
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
 		$pdf->Ln(3);
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
-		while($row=mysql_fetch_array($query))
+		while($row=$result->fetch_assoc())
 		{
 
 
 		
-		
-		$pdf->Ln(7);
+	$pdf->Ln(7);
 		
 		//$pdf->Image($row['picture'],9.5,8,13);
 		
-		
-		$pdf->setX(13);$pdf->Cell(0,0,''.$row['asset_id'],0,0,'L');
-		$pdf->setX(30);$pdf->Cell(0,0,''.$row['barcode'],0,0,'L');
-		$pdf->setX(55);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,''.$row['dateBought'],0,0,'L');
-		$pdf->setX(120);$pdf->Cell(0,0,''.$row['warranty_expiration'],0,0,'L');
-		$pdf->setX(159);$pdf->Cell(0,0,''.$row['book_value'],0,0,'L');
-		$pdf->setX(186);$pdf->Cell(0,0,''.$row['buying_price'],0,0,'L');
-		$pdf->setX(210);$pdf->Cell(0,0,''.$row['location'],0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,$status,0,0,'L');
-		$pdf->setX(267);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');
 
-
+		$pdf->setX(5);$pdf->Cell(0,0,''.$row['barcode'],0,0,'L');
+		$pdf->setX(60);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
+		$pdf->setX(95);$pdf->Cell(0,0,''.$row['hardware_category'],0,0,'L');
+		$pdf->setX(125);$pdf->Cell(0,0,''.$row['dateBought'],0,0,'L');
+		$pdf->setX(160);$pdf->Cell(0,0,''.$row['lifespanEnd'],0,0,'L');
+		$pdf->setX(203);$pdf->Cell(0,0,''.$row['warranty_expiration'],0,0,'L');
+		$pdf->setX(240);$pdf->Cell(0,0,''.$row['book_value'],0,0,'L');
+		$pdf->setX(278);$pdf->Cell(0,0,''.$row['buying_price'],0,0,'L');
+		$pdf->setX(310);$pdf->Cell(0,0,''.$row['location'],0,0,'L');
+		$pdf->setX(345);$pdf->Cell(0,0,''.$status,0,0,'L');
+		$pdf->setX(380);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');
 		}
 				
 	
@@ -267,8 +279,10 @@ $pdf->Output('hardwarestatus.pdf', 'F');
 else if($gen == "6")
 {
 	
-    $query = mysql_query("SELECT * FROM hardware supplier_id LEFT JOIN supplier supplier_name ON supplier_id.supplier_id=supplier_name.supplier_id where  warranty_expiration >='$gen1' AND warranty_expiration <= '$gen2' ORDER BY  warranty_expiration ASC");
-    if(mysql_num_rows($query) == 0){
+    $sql="SELECT * FROM hardware supplier_id LEFT JOIN supplier supplier_name ON supplier_id.supplier_id=supplier_name.supplier_id where  warranty_expiration >='$gen1' AND warranty_expiration <= '$gen2' ORDER BY  warranty_expiration ASC";
+    $result = $conn->query($sql);
+
+ if ($result->num_rows == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../Report1/ReportHardwareStat.php';</script>";
 				exit(0);
 
@@ -279,12 +293,20 @@ else if($gen == "6")
 			  session_start();
 		date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
-               $row = mysql_fetch_assoc($sql1);
+                $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'";
+        $result1 = $conn->query($sql1);
 
 
+ 			$vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
 
-$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Report','Generate report of hardware warranty exp on date $gen1-$gen2','')") or die(mysql_error());
+$sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Hardware','Generate hardware report ','')";
+			if (mysqli_query($conn, $sql)){}
+            else 
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+
 
 if ($gen == "0")
 $status = 'Undeployed ';
@@ -302,48 +324,50 @@ if ($gen == "4")
 	$status = 'Repaired ';
 
 if ($gen == "5")
-	$status = 'Donated ';
+	$status = 'Borrowed ';
 
 
 		
 		
-		$pdf->Ln(2);
-		//Image("image name", y, x, image size);
+		
+		$pdf->Ln(25);
+		$pdf->SetFont('arial','b',25);
+		$pdf->Image("icon.png", 127,10,20);
+		$pdf->setX(145);$pdf->Cell(0,0,' Dlsl IT Asset Management System',0,0,'L');
+		
 		$pdf->Ln(20);
-		$pdf->SetFont('arial','b',50);
-		$pdf->setX(25);$pdf->Cell(0,0,'IT Asset Management System',0,0,'L');
-		
-		$pdf->Ln(30);
 		$pdf->SetFont('arial','b',20);
-		$pdf->setX(100);$pdf->Cell(0,0,'Expired Hardware Reports',0,0,'L');
-
-		$pdf->Ln(10);
-
-		$pdf->Ln(10);
-
-
-
+		$pdf->setX(168	);$pdf->Cell(0,0,'Hardware Warranty expiry date',0,0,'L');
+		$pdf->Ln(10); 
+		$pdf->setX(168);$pdf->Cell(0,0,'From: '.$gen.' - '.$gen,0,0,'L');
 		
-		$pdf->SetFont('arial','b',10);
-		$pdf->setX(10);$pdf->Cell(0,0,'Asset ID',0,0,'L');
-		$pdf->setX(30);$pdf->Cell(0,0,'Barcode',0,0,'L');
-		$pdf->setX(55);$pdf->Cell(0,0,'Name',0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,'Date bought',0,0,'L');
-		$pdf->setX(115);$pdf->Cell(0,0,'Waranty Expiration ',0,0,'L');
-		$pdf->setX(155);$pdf->Cell(0,0,'Book Value',0,0,'L');
-		$pdf->setX(182);$pdf->Cell(0,0,'Buying price',0,0,'L');
-		$pdf->setX(211);$pdf->Cell(0,0,'Location',0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,'Status',0,0,'L');
-		$pdf->setX(270);$pdf->Cell(0,0,'Supplier',0,0,'L');
+		$pdf->Ln(10);
+		$pdf->Ln(10);
+
+
+
+		//$pdf->Ln(10);
+		$pdf->SetFont('arial','b',11);
+		$pdf->setX(15);$pdf->Cell(0,0,'Barcode',0,0,'L');
+		$pdf->setX(60);$pdf->Cell(0,0,'Name',0,0,'L');
+		$pdf->setX(95);$pdf->Cell(0,0,'Category',0,0,'L');
+		$pdf->setX(125);$pdf->Cell(0,0,'Date bought',0,0,'L');
+		$pdf->setX(160);$pdf->Cell(0,0,'Lifespan end',0,0,'L');
+		$pdf->setX(195);$pdf->Cell(0,0,'Warranty Expiration',0,0,'L');
+		$pdf->setX(240);$pdf->Cell(0,0,'Book Value',0,0,'L');
+		$pdf->setX(275);$pdf->Cell(0,0,'Buying price',0,0,'L');
+		$pdf->setX(310);$pdf->Cell(0,0,'Location',0,0,'L');
+		$pdf->setX(345);$pdf->Cell(0,0,'Status',0,0,'L');
+		$pdf->setX(380);$pdf->Cell(0,0,'Supplier',0,0,'L');
 
 		//$pdf->Ln(6.0001);
 		//$pdf->setX(20);$pdf->Cell(0,0,'Liquidating',0,0,'L');
 		$pdf->Ln(3);
 		$pdf->setX(7);$pdf->Cell(0,0,'_______________________________________________________________________________________________________________________________________________________________________________________________________________',0,0,'C');
-		while($row=mysql_fetch_array($query))
+		while($row=$result->fetch_assoc())
 		{
 
-			if ($row['status'] == "0")
+if ($row['status'] == "0")
 $status = 'Undeployed ';
 
 if ($row['status'] == "1")
@@ -359,7 +383,7 @@ if ($row['status'] == "4")
 	$status = 'Repaired ';
 
 if ($row['status'] == "5")
-	$status = 'Donated ';
+	$status = 'Borrowed ';
 
 
 		
@@ -369,19 +393,18 @@ if ($row['status'] == "5")
 		//$pdf->Image($row['picture'],9.5,8,13);
 		
 		
-		$pdf->setX(13);$pdf->Cell(0,0,''.$row['asset_id'],0,0,'L');
-		$pdf->setX(30);$pdf->Cell(0,0,''.$row['barcode'],0,0,'L');
-		$pdf->setX(55);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
-		$pdf->setX(90);$pdf->Cell(0,0,''.$row['dateBought'],0,0,'L');
-		$pdf->setX(120);$pdf->Cell(0,0,''.$row['warranty_expiration'],0,0,'L');
-		$pdf->setX(159);$pdf->Cell(0,0,''.$row['book_value'],0,0,'L');
-		$pdf->setX(186);$pdf->Cell(0,0,''.$row['buying_price'],0,0,'L');
-		$pdf->setX(210);$pdf->Cell(0,0,''.$row['location'],0,0,'L');
-		$pdf->setX(240);$pdf->Cell(0,0,$status,0,0,'L');
-		$pdf->setX(267);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');
 
-
-		}
+        $pdf->setX(5);$pdf->Cell(0,0,''.$row['barcode'],0,0,'L');
+$pdf->setX(60);$pdf->Cell(0,0,''.$row['name'],0,0,'L');
+$pdf->setX(95);$pdf->Cell(0,0,''.$row['hardware_category'],0,0,'L');
+$pdf->setX(125);$pdf->Cell(0,0,''.$row['dateBought'],0,0,'L');
+$pdf->setX(160);$pdf->Cell(0,0,''.$row['lifespanEnd'],0,0,'L');
+$pdf->setX(203);$pdf->Cell(0,0,''.$row['warranty_expiration'],0,0,'L');
+$pdf->setX(240);$pdf->Cell(0,0,''.$row['book_value'],0,0,'L');
+$pdf->setX(278);$pdf->Cell(0,0,''.$row['buying_price'],0,0,'L');
+$pdf->setX(310);$pdf->Cell(0,0,''.$row['location'],0,0,'L');
+$pdf->setX(345);$pdf->Cell(0,0,''.$status,0,0,'L');
+$pdf->setX(380);$pdf->Cell(0,0,''.$row['supplier_name'],0,0,'L');         }
 				
 	
 		$pdf->Ln(7);

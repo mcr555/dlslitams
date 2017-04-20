@@ -235,7 +235,7 @@ exit();
 
 
                     <label>Name</label>
-                    <input type="text" class="form-control" id="InputSoftwareName" required name='name' placeholder="Enter Software Name">
+                    <input type="text" class="form-control" id="InputSoftwareName" required name='name' placeholder="Enter Hardware Name">
                 </div>
                 <div class="form-group">
                         <label>Price</label>

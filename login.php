@@ -44,7 +44,7 @@
         $idnumber=$_POST["idnumber"];
         $password=$_POST["password"];
         $md5=md5($password);
-        $sql = "SELECT * FROM users WHERE idnumber='$idnumber' AND password='$md5'";
+        $sql = "SELECT * FROM users WHERE idnumber='$idnumber' AND password='$md5' AND userStatus=0";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0)
@@ -54,44 +54,32 @@
               $_SESSION["firstname"] = $row["firstname"];
               $_SESSION["lastname"] =$row["lastname"];
               $_SESSION["idnumber"] = $row["idnumber"];
+              $_SESSION["contact"] = $row["contact"];
               $_SESSION["middlename"] = $row["middlename"];
               $_SESSION["accountType"] = $row["accountType"];
+              $_SESSION["department"] = $row["department"];
+
+              date_default_timezone_set("Asia/Manila");
+              $vd=date("Y-m-d h:i:a");
+              $_SESSION['id']=$row['idnumber'];//kwaon ang id sang may tyakto nga username kag password ang ibotang sa $_SESSION['adminid']
+              $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Login','Log On to the system',$_SESSION[idnumber])";
+                
+              if (mysqli_query($conn, $sql)){echo "success";}
+              else 
+              echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+
 
               if($row["accountType"]=="Admin"){
-                  date_default_timezone_set("Asia/Manila");
-                  $vd=date("Y-m-d h:i:a");
-                  $_SESSION['id']=$row['idnumber'];//kwaon ang id sang may tyakto nga username kag password ang ibotang sa $_SESSION['adminid']
-                  $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Login','Log On to the system',$_SESSION[idnumber])";
-                
-          if (mysqli_query($conn, $sql)){echo "success";}
-          else 
-          echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 header("Location: admin/home");
-            die();}
+                die();}
                   
-              else if($row["accountType"]=="Regular Employee"){
-                                 date_default_timezone_set("Asia/Manila");
-                  $vd=date("Y-m-d h:i:a");
-                  $_SESSION['id']=$row['idnumber'];//kwaon ang id sang may tyakto nga username kag password ang ibotang sa $_SESSION['adminid']
-                  $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Login','Log On to the system','')";
-                
-          if (mysqli_query($conn, $sql)){echo "success";}
-          else 
-          echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+              else if($row["accountType"]=="Faculty1"||$row["accountType"]=="Faculty2"||$row["accountType"]=="Staff"){
                 header("Location: user1/home");
-            die();}
+                die();}
                   
               else{
-                date_default_timezone_set("Asia/Manila");
-                  $vd=date("Y-m-d h:i:a");
-                  $_SESSION['id']=$row['idnumber'];//kwaon ang id sang may tyakto nga username kag password ang ibotang sa $_SESSION['adminid']
-                  $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Login','Log On to the system','')";
-                
-          if (mysqli_query($conn, $sql)){echo "success";}
-          else 
-          echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 header("Location: user2/home");
-            die();}
+                die();}
 
             }
           }

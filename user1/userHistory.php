@@ -59,7 +59,7 @@
 
   <!-- =============================================== -->
 
-  <?php include_once('user2Header.php') ?>
+  <?php include_once('user1Header.php') ?>
 
   <!-- =============================================== -->
 
@@ -87,7 +87,7 @@
            
             <?php
             $idnumber=$_SESSION["idnumber"];
-            $sql = "SELECT * FROM ticket WHERE user_id=$idnumber ";
+            $sql = "SELECT * FROM ticket WHERE user_id=$idnumber ORDER BY ticket_id desc";
             $result = $conn->query($sql);
 
 

@@ -10,7 +10,9 @@
                 $result1 = $conn->query($sql2);
                 $row = $result1->fetch_array(MYSQLI_ASSOC);
 
+
              if ($result1->num_rows > 0){
+
               echo"<div class='user-panel'>
   <div class='pull-left image'>  <img src='../img/$row[imagepath]'  class='img-circle' alt='User Image'>";
     
@@ -48,8 +50,8 @@ echo"<div class='user-panel'>
           </ul>
         </li>
         <li class="treeview">
-          <a href="user1History">
-            <i class="fa fa-history"></i> <span>My History Requests</span>
+          <a href="userHistory">
+            <i class="fa fa-history"></i> <span>Request Made</span>
           </a>
         </li>
          </li>

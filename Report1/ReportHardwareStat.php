@@ -48,7 +48,7 @@ function validateForm() {
 </head>
 <?php
   session_start();
-  include_once('../Admin/denyAccess.php');
+  include_once('../admin/denyAccess.php');
   require_once('../db.php');
   
 ?>
@@ -61,9 +61,9 @@ function validateForm() {
   <!-- =============================================== -->
 
   <?php 
-  include_once('../Admin/main-header.php');
-  include_once('../Admin/sidebar.php');
-  require_once('../Admin/notification.php');?>
+  include_once('../admin/main-header.php');
+  include_once('sidebar1.php');
+  require_once('../admin/notification.php');?>
 
   <!-- =============================================== -->
 
@@ -104,9 +104,8 @@ function validateForm() {
         <option value="all">All</option>
         <option value="0">Undeployed</option>
         <option value="1">Deployed</option> 
-        <option value="4">Repaired</option>
-        <option value="5">Donated</option>
         <option value="2">Retired</option>
+        <option value="5">Borrowed</option>
         <option value="3">Decomissioned</option>
         <option value="6">Warranty Expiry</option>
         

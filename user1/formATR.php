@@ -85,7 +85,14 @@
           <h3 class="box-title">ATR</h3>
         </div>
         <div class="box-body">
-          <?php require_once('../forms/ATR.php') ?>
+        <?php
+        $idnumber=$_SESSION['idnumber'];
+        $sql = "SELECT * FROM hardware WHERE custodian='$idnumber' ";
+        $result = $conn->query($sql);
+        if ($result->num_rows < 1)
+          echo "You don't have any asset under your custody";
+        else include_once('../forms/ATR.php')
+        ?>
         </div>
         <!-- /.box-body -->
 

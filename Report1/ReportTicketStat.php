@@ -84,6 +84,10 @@ $result = $conn->query($sql);
 
           <!-- /.form group -->
  <div class="form-group" Align='center'>
+           Start Date : <input type="text" required name="startdate"  id="from-datepicker">
+             &nbsp;&nbsp;&nbsp;&nbsp;
+          End Date : <input type="text" required name="enddate" id="from-datepicker2">
+          <br><br><br>
  <select name=ticket>
 
   <option value="all">All</option>
@@ -124,5 +128,22 @@ $result = $conn->query($sql);
 <script src="../dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
+<script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
+<script>
+$( document ).ready(function() {
+    $("#from-datepicker").datepicker({ 
+        format: 'yyyy-mm-dd'
+    });
+    $("#from-datepicker").on("change", function () {
+        var fromdate = $(this).val();
+    });
+    $("#from-datepicker2").datepicker({ 
+        format: 'yyyy-mm-dd'
+    });
+    $("#from-datepicker2").on("change", function () {
+        var fromdate = $(this).val();
+    });
+}); 
+</script>
 </body>
 </html>
