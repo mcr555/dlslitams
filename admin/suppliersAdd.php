@@ -38,13 +38,36 @@
   {
       $supplier_name=$_POST['supplier_name'];
       $supplier_address=$_POST['supplier_address'];
+      $supplier_email=$_POST['supplier_email'];
+      $supplier_contact=$_POST['supplier_contact'];
+      $supplier_representative=$_POST['supplier_representative'];
 
-      $sql = "INSERT INTO supplier (supplier_name,supplier_address)
-          VALUES ('". htmlspecialchars($supplier_name, ENT_QUOTES)."','$supplier_address')";
+      $sql = "INSERT INTO supplier (supplier_name,supplier_address,supplier_contact,supplier_email,supplier_representative)
+          VALUES ('". htmlspecialchars($supplier_name, ENT_QUOTES)."','$supplier_address','$supplier_contact','$supplier_email','$supplier_representative')";
 
-      if (mysqli_query($conn, $sql)){echo "success";}
+      if (mysqli_query($conn, $sql)){echo '<script>window.close();</script>';}
       else echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-      header("Location: suppliers");
+      date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                $sql2 ="select * from supplier ORDER BY supplier_id DESC LIMIT 1"; 
+                $result1 = $conn->query($sql2);
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
+                $sql1 = "select * from users where idnumber = '".$_SESSION['idnumber']."'"; 
+        $result = $conn->query($sql1);
+
+            $vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
+            $vn4=$row["supplier_id"];
+            $vn5=$row["supplier_name"];
+           
+
+            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Supplier','add supplier $vn5','$vn4')";
+
+            if (mysqli_query($conn, $sql3)){}
+            else 
+            echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
       exit();
   }
   ?>
@@ -67,8 +90,23 @@
                       </div>
                       <!-- /.form-group -->
                       <div class="form-group">
-                        <label>Address</label>
-                        <input type="text" class="form-control" required name='supplier_address' placeholder="Enter Supplier Address">
+                        <label>Address</label><BR>
+                        <TEXTAREA NAME='supplier_address' ROWS=4 COLS=40></TEXTAREA>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Contact Number</label>
+                        <input type="text" class="form-control" required name='supplier_contact' placeholder="Enter Contact Number">
+                      </div>
+
+                      <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" required name='supplier_email' placeholder="Enter Email">
+                      </div>
+
+                      <div class="form-group">
+                        <label>Representative</label>
+                        <input type="text" class="form-control" required name='supplier_representative' placeholder="Enter Representative">
                       </div>
                       <!-- /.form-group -->
                     </div>
@@ -82,7 +120,7 @@
         <!-- /.box-body -->
         <div>&nbsp;</div>
           <div class="box-footer">
-            <input type='button' class="btn btn-default" onclick="location.href='suppliers';" value='Cancel'/>
+            <input type='button' class="btn btn-default" onclick="window.close();" value='Cancel'/>
             <input type='submit' class="btn btn-success pull-right" value="Submit" name='submit'/>
           </div>
       </form>
@@ -111,7 +149,6 @@
     window.onunload = refreshParent;
     function refreshParent() {
         window.opener.location.reload();
-        window.close();
     }
 </script>
 </body>

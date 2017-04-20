@@ -88,7 +88,10 @@
               echo "<thead><tr><th>";
               echo "Supplier ID</th><th>";
               echo "Supplier Name</th><th>";
-              echo "Supplier Address</th><th>";
+              echo "Address</th><th>";
+              echo "Contact Number</th><th>";
+              echo "Email</th><th>";
+              echo "Representative</th><th>";
               echo "&nbsp;</th></thead><tbody>";
 
               while($row = $result->fetch_assoc()) 
@@ -97,6 +100,9 @@
                 echo $row["supplier_id"]."</td><td>";
                 echo $row["supplier_name"]."</td><td>";
                 echo $row["supplier_address"]."</td><td>";    
+                echo $row["supplier_contact"]."</td><td>"; 
+                echo $row["supplier_email"]."</td><td>"; 
+                echo $row["supplier_representative"]."</td><td>"; 
                 ?><button type='button' class="btn btn-default" onClick="popitup2('suppliersEdit?sid=<?php echo $row['supplier_id'];?>')"><i class="fa fa-edit"></i> Edit</button><?php
                 echo "</td></tr>";
               }

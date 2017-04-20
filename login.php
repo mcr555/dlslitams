@@ -58,14 +58,38 @@
               $_SESSION["accountType"] = $row["accountType"];
 
               if($row["accountType"]=="Admin"){
+                  date_default_timezone_set("Asia/Manila");
+                  $vd=date("Y-m-d h:i:a");
+                  $_SESSION['id']=$row['idnumber'];//kwaon ang id sang may tyakto nga username kag password ang ibotang sa $_SESSION['adminid']
+                  $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Login','Log On to the system',$_SESSION[idnumber])";
+                
+          if (mysqli_query($conn, $sql)){echo "success";}
+          else 
+          echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 header("Location: admin/home");
             die();}
                   
               else if($row["accountType"]=="Regular Employee"){
+                                 date_default_timezone_set("Asia/Manila");
+                  $vd=date("Y-m-d h:i:a");
+                  $_SESSION['id']=$row['idnumber'];//kwaon ang id sang may tyakto nga username kag password ang ibotang sa $_SESSION['adminid']
+                  $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Login','Log On to the system','')";
+                
+          if (mysqli_query($conn, $sql)){echo "success";}
+          else 
+          echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 header("Location: user1/home");
             die();}
                   
               else{
+                date_default_timezone_set("Asia/Manila");
+                  $vd=date("Y-m-d h:i:a");
+                  $_SESSION['id']=$row['idnumber'];//kwaon ang id sang may tyakto nga username kag password ang ibotang sa $_SESSION['adminid']
+                  $sql = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname] $row[middlename] $row[lastname]','$row[accountType]','$vd','Login','Log On to the system','')";
+                
+          if (mysqli_query($conn, $sql)){echo "success";}
+          else 
+          echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 header("Location: user2/home");
             die();}
 
@@ -91,7 +115,7 @@
       </div>
       <div class="row">
         <div class="col-xs-8">
-          <a href="forgetPassword">I forgot my password</a><br>
+          <a href="forgetPassword">Forgot Password</a><br>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">

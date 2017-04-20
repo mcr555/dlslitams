@@ -138,9 +138,9 @@
                   View <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <ul class="dropdown-menu">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareRetired.php">Retired Asset</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDonated.php">Donated Asset</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDecommissioned.php">Decommissioned Asset</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareRetired">Retired Asset</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDonated">Donated Asset</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDecommissioned">Decommissioned Asset</a></li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="hardware">All Hardware</a></li>
                 </ul>
               </li>
@@ -152,7 +152,7 @@
         <div class="box-body">
           <table id="example1" class="table table-bordered table-striped">
             <?php
-            $sql = "SELECT * FROM donated_assets";
+            $sql = "SELECT * FROM donated_assets ORDER BY dateRetired desc";
             $result = $conn->query($sql);
 
             echo "<thead><tr><th>";

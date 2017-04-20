@@ -50,8 +50,20 @@ if($gen=='all')
 $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber ");
 	if(mysql_num_rows($query) == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
+	exit(0);
+
 		}
-  
+
+			  session_start();
+		date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
+
+
+
+		$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of $gen Request','')") or die(mysql_error());	
+
 
 
 
@@ -135,10 +147,23 @@ else if($gen == "0")
 	$query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber WHERE tstatus = $gen");
 	if(mysql_num_rows($query) == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
+			exit(0);
+
 		}
+			if ($gen == "0")
+			$status = 'Pending ';
+
+			  session_start();
+		date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
+
+
+
+		$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of $status Request','')") or die(mysql_error());	
   
-	if ($gen == "0")
-	$status = 'Pending ';
+
 
 
 
@@ -222,12 +247,22 @@ else if($gen == "1")
 $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber WHERE  tstatus = $gen ");
 	if(mysql_num_rows($query) == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
-		}
-  
-			
-if ($row['tstatus'] == "1")
-	$status = 'Approved ';
+			exit(0);
 
+		}
+			if ($gen == "1")
+				$status = 'Approved ';
+
+			  session_start();
+		date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
+
+
+
+		$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of $status Request','')") or die(mysql_error());	
+  
 
 
 		
@@ -309,11 +344,23 @@ else if($gen=="2")
 $query = mysql_query("SELECT *,users.lastname,users.firstname FROM ticket LEFT JOIN users ON ticket.user_id=users.idnumber where  tstatus = $gen ");
 	if(mysql_num_rows($query) == 0){
 		echo "<script>alert('No report found. Please try again'); location.href='../ticketRep.php';</script>";
+				exit(0);
+
 		}
-  
 	if ($gen == "2")
 	$status = 'Rejected ';
 
+
+			  session_start();
+		date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                 $sql1=mysql_query("select * from users where idnumber = '".$_SESSION['id']."'");
+               $row = mysql_fetch_assoc($sql1);
+
+
+
+		$queryy = mysql_query("INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$row[firstname].$row[middlename].$row[lastname]','$row[accountType]','$vd','Report','Generate Report of $status Request','')") or die(mysql_error());	
+  
 
 
 

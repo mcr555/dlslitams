@@ -98,7 +98,7 @@
         <div class="box-body">
           <table id="example1" class="table table-bordered table-striped">
             <?php
-            $sql = "SELECT * FROM software WHERE type=1 ORDER BY date_warn asc";
+            $sql = "SELECT * FROM software WHERE type=1 ORDER BY software_id desc";
             $result = $conn->query($sql);
 
                 echo "<thead><tr><th>";

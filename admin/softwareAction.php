@@ -78,24 +78,27 @@ if (isset($_POST['use2']))
 	    	$sql="UPDATE software SET asset_id = '$asset_id' WHERE software_id = '$id'";
 	    	if (mysqli_query($conn, $sql)){}
 	    	else echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-	     date_default_timezone_set("Asia/Manila"); 
+	      date_default_timezone_set("Asia/Manila"); 
                 $vd=date("Y-m-d h:i:a");
-                $sql2 ="select * from software ORDER BY $id DESC LIMIT 1"; 
+                $sql2 ="select * from software WHERE software_id=$software_id"; 
                 $result1 = $conn->query($sql2);
-
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
                  $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
            $result = $conn->query($sql1);
 
-            $vn=$_SESSION["firstname"] ;
-             $vn1=$_SESSION["middlename"] ;	
+             $vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
             $vn2=$_SESSION["lastname"] ;
             $vn3=$_SESSION["accountType"] ;
-            
+            $vn4=$software_id;
+            $vn5=$row["name"];
+           
 
-                  $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time, Log_Function) VALUES ('$vn $vn1 $vn2','$vn3','$vd','used a software($id)')";
-                  if (mysqli_query($conn, $sql3)){}
+            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Software','use a $vn5','$vn4')";
+
+            if (mysqli_query($conn, $sql3)){}
             else 
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
 		}
 	}
 $_SESSION['notification']=1;

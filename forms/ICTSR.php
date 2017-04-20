@@ -23,26 +23,7 @@ if (isset($_POST['submit']))
   $sql = "INSERT INTO ticket (ticket_type,requestedFor,justification,contact,remarks,user_id)
   VALUES ('ICTSR','$department','$justification','$contact','$remarks','$idnumber')";
 
-   date_default_timezone_set("Asia/Manila"); 
-                $vd=date("Y-m-d h:i:a");
-                $sql2 ="select * from ticket ORDER BY ticket_id DESC LIMIT 1"; 
-                $result1 = $conn->query($sql2);
-                $row = $result1->fetch_array(MYSQLI_ASSOC);
-                 $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
-                $result = $conn->query($sql1);
 
-            $vn=$_SESSION["firstname"] ;
-             $vn1=$_SESSION["middlename"] ;
-            $vn2=$_SESSION["lastname"] ;
-            $vn3=$_SESSION["accountType"] ;
-            $vn4=$row["ticket_id"];
-            $vn5=$vn4+1;
-
-                  $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time, Log_Function) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Send ICTSR form($vn5)')";
-
-            if (mysqli_query($conn, $sql3)){}
-            else 
-            {echo "Error: " . $sql . "<br>" . mysqli_error($conn); exit();}
   if (mysqli_query($conn, $sql)) 
   {
     $ticket_id = mysqli_insert_id($conn);
@@ -71,6 +52,25 @@ if (isset($_POST['submit']))
         alert('Request Successfully Sent');
         window.location.href='../admin/workOrder';
         </script>";
+         date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                $sql2 ="select * from ticket ORDER BY ticket_id DESC LIMIT 1"; 
+                $result1 = $conn->query($sql2);
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
+                 $sql1 = "select * from users where idnumber = '".$_SESSION['idnumber']."'"; 
+                $result = $conn->query($sql1);
+
+            $vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
+            $vn4=$row["ticket_id"];
+
+                  $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Request','Send ICTSR form','$vn4')";
+
+            if (mysqli_query($conn, $sql3)){}
+            else 
+            {echo "Error: " . $sql . "<br>" . mysqli_error($conn); exit();}
         die();}
         
     else if($acc=="Regular Employee"){
@@ -79,6 +79,25 @@ if (isset($_POST['submit']))
         window.location.href='../user1/workOrder';
         </script>";
         //header("Location: ../user1/workOrder");
+         date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                                $sql2 ="select * from ticket ORDER BY ticket_id DESC LIMIT 1"; 
+                $result1 = $conn->query($sql2);
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
+                 $sql1 = "select * from users where idnumber = '".$_SESSION['idnumber']."'"; 
+                $result = $conn->query($sql1);
+
+            $vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
+            $vn4=$row["ticket_id"];
+
+                  $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Request','Send ICTSR form','$vn4')";
+
+            if (mysqli_query($conn, $sql3)){}
+            else 
+            {echo "Error: " . $sql . "<br>" . mysqli_error($conn); exit();}
         die();}
         
     else{
@@ -86,6 +105,25 @@ if (isset($_POST['submit']))
         alert('Request Successfully Sent');
         window.location.href='../user2/workOrder';
         </script>";
+         date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                $sql2 ="select * from ticket ORDER BY ticket_id DESC LIMIT 1"; 
+                $result1 = $conn->query($sql2);
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
+                 $sql1 = "select * from users where idnumber = '".$_SESSION['idnumber']."'"; 
+                $result = $conn->query($sql1);
+
+            $vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
+            $vn4=$row["ticket_id"];
+
+                  $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Request','Send ICTSR form','$vn4')";
+
+            if (mysqli_query($conn, $sql3)){}
+            else 
+            {echo "Error: " . $sql . "<br>" . mysqli_error($conn); exit();}
         die();}
 
   

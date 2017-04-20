@@ -30,5 +30,8 @@ ticket
 	2=rejected
 	3=requestor
 
-
-
+dropdown
+	1=hardware
+	2=component
+	3=office
+	

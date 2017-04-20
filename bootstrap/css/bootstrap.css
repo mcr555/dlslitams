@@ -77,6 +77,12 @@ sup {
   line-height: 0;
   vertical-align: baseline;
 }
+
+image{
+  height: 10px;
+  width: 10px
+  border-radius:50%;
+}
 sup {
   top: -.5em;
 }
@@ -1114,18 +1120,21 @@ figure {
 }
 img {
   vertical-align: middle;
+
 }
 .img-responsive,
 .thumbnail > img,
 .thumbnail a > img,
+
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
   display: block;
-  max-width: 100%;
-  height: auto;
+  max-width: 10%;
+  height: 100px;
 }
 .img-rounded {
   border-radius: 6px;
+
 }
 .img-thumbnail {
   display: inline-block;

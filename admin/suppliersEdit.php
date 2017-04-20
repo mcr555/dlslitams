@@ -35,12 +35,36 @@ if (isset($_POST['submit']))
   $supplier_id=$_POST['supplier_id'];
   $supplier_name=$_POST['supplier_name'];
   $supplier_address=$_POST['supplier_address'];
+  $supplier_email=$_POST['supplier_email'];
+  $supplier_contact=$_POST['supplier_contact'];
+  $supplier_representative=$_POST['supplier_representative'];
   
 
-  $sql="UPDATE supplier SET supplier_name ='". htmlspecialchars($supplier_name, ENT_QUOTES)."',supplier_address = '$supplier_address' WHERE supplier_id = '$supplier_id'";
-  if (mysqli_query($conn, $sql)){}
+  $sql="UPDATE supplier SET supplier_name ='". htmlspecialchars($supplier_name, ENT_QUOTES)."',supplier_address = '$supplier_address',supplier_email = '$supplier_email',supplier_contact = '$supplier_contact',supplier_representative = '$supplier_representative' WHERE supplier_id = '$supplier_id'";
+  if (mysqli_query($conn, $sql)){echo '<script>window.close();</script>';}
   else 
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+  date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                $sql2 ="select * from supplier WHERE supplier_id = '$supplier_id'";
+                $result1 = $conn->query($sql2);
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
+                $sql1 = "select * from users where idnumber = '".$_SESSION['idnumber']."'"; 
+                 $result = $conn->query($sql1);
+
+            $vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
+            $vn4=$row["supplier_id"];
+            $vn5=$row["supplier_name"];
+           
+
+            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Supplier','edit supplier $vn5','$vn4')";
+
+            if (mysqli_query($conn, $sql3)){}
+            else 
+            echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
   exit();
 
 }
@@ -67,8 +91,23 @@ if (isset($_POST['submit']))
                     </div>
 
                     <div class="form-group">
-                      <label>Software Name</label>
+                      <label>Address</label>
                       <?php echo "<input type='text' class='form-control' name='supplier_address' value='".$row['supplier_address'] . "' >"; ?>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Contact</label>
+                      <?php echo "<input type='text' class='form-control' name='supplier_contact' value='".$row['supplier_contact'] . "' >"; ?>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Email</label>
+                      <?php echo "<input type='email' class='form-control' name='supplier_email' value='".$row['supplier_email'] . "' >"; ?>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Representative</label>
+                      <?php echo "<input type='text' class='form-control' name='supplier_representative' value='".$row['supplier_representative'] . "' >"; ?>
                     </div>
                   <?php
                 }
@@ -103,7 +142,6 @@ if (isset($_POST['submit']))
     window.onunload = refreshParent;
     function refreshParent() {
         window.opener.location.reload();
-        window.close();
     }
 </script>
 </body>

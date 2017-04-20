@@ -25,6 +25,8 @@
   <link rel="stylesheet" type="text/css" href="../logo/design1.css"/>
   <link rel="icon" href="../images/icon.png"/>
 
+
+
   <!-- jQuery 2.2.3 -->
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
@@ -105,16 +107,15 @@
         <div class="box-body">
         
           <table id="example1" class="table table-bordered table-striped">
+            <button type='button' class="btn btn-default" onClick="popitup2('addDropdown?type=1')" name='submit'> Add Hardware Category</button>
+            <button type='button' class="btn btn-default" onClick="popitup2('addDropdown?type=2')" name='submit'> Add Component Category</button>
+            <button type='button' class="btn btn-default" onClick="popitup2('addDropdown?type=3')" name='submit'> Add Offices</button>
             <?php
-            $sql = "SELECT *,supplier.supplier_name FROM hardware LEFT JOIN supplier ON hardware.supplier_id=supplier.supplier_id WHERE status!=2";
+            $sql = "SELECT * FROM dropdown_list WHERE dropdown_type=1";
             $result = $conn->query($sql);
-
+            echo '<h2>Hardware Category</h2>';
             echo "<thead><tr><th></th><th>";
-            echo "Asset ID</th><th>";
-            echo "Barcode</th><th>";
-            echo "Name</th><th>";
-            echo "Location</th><th>";
-            echo "Status</th><th>";
+            echo "Dropdown Name</th><th>";
             echo "&nbsp;</th></thead><tbody>";
 
 
@@ -123,35 +124,63 @@
                 while($row = $result->fetch_assoc()) 
                 {
                   echo "<tr><td>";
-                  echo "<input type='checkbox' name='checkbox[]' class='flat-red' value='". $row["asset_id"] ."'/></td><td>";
-                  echo $row["asset_id"]."</td><td>";
-                  echo $row["barcode"]."</td><td>";
-                  echo $row["name"]."</td><td>";
-                  echo $row["location"]."</td><td>";
-                  if($row["status"]==0) 
-                  {
-                    if($row["asset_type"]==1)
-                    {
-                      if($row["user_id"]==NULL || $row["user_id"]==0) 
-                        echo '<span class="label bg-blue">Not Borrowed</span>';
-                      else echo '<span class="label bg-orange">Borrowed';
-                    }
-                    else echo "<span class='label bg-purple'>Undeployed</span>";
-                    }
-                    if($row["status"]==1)
-                    {
-                      echo "<span class='label bg-olive'>Deployed</span>";
-                    }
-                    if($row["status"]==2)
-                    {
-                      echo "<span class='label bg-maroon'>Retired</span>";
-                    }
-                    if($row["status"]==3)
-                    {
-                      echo "<span class='label bg-red'>Decommissioned</span>";
-                    }
-                  echo "</td><td>";
-                  ?><button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> View Details</button><?php
+                  echo "<input type='checkbox' name='checkbox[]' class='flat-red' value='". $row["dropdown_id"] ."'/></td><td>";
+                  echo $row["dropdown_name"]."</td><td>";
+                  
+                  ?><button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> Edit</button>
+                  <button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> Delete</button><?php
+                  echo "</td></tr>";    
+                }
+            }
+            echo "</tbody></table></form>";
+            ?>
+
+          <table id="example1" class="table table-bordered table-striped">
+            
+            <?php
+            $sql = "SELECT * FROM dropdown_list WHERE dropdown_type=2";
+            $result = $conn->query($sql);
+            echo '<h2>Component Category</h2>';
+            echo "<thead><tr><th></th><th>";
+            echo "Dropdown Name</th><th>";
+            echo "&nbsp;</th></thead><tbody>";
+
+            if ($result->num_rows > 0)
+            {
+                while($row = $result->fetch_assoc()) 
+                {
+                  echo "<tr><td>";
+                  echo "<input type='checkbox' name='checkbox[]' class='flat-red' value='". $row["dropdown_id"] ."'/></td><td>";
+                  echo $row["dropdown_name"]."</td><td>";
+                  
+                  ?><button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> Edit</button>
+                  <button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> Delete</button><?php
+                  echo "</td></tr>";    
+                }
+            }
+            echo "</tbody></table></form>";
+            ?>
+
+          <table id="example1" class="table table-bordered table-striped">
+            
+            <?php
+            $sql = "SELECT * FROM dropdown_list WHERE dropdown_type=3";
+            $result = $conn->query($sql);
+            echo '<h2>Offices</h2>';
+            echo "<thead><tr><th></th><th>";
+            echo "Dropdown Name</th><th>";
+            echo "&nbsp;</th></thead><tbody>";
+
+            if ($result->num_rows > 0)
+            {
+                while($row = $result->fetch_assoc()) 
+                {
+                  echo "<tr><td>";
+                  echo "<input type='checkbox' name='checkbox[]' class='flat-red' value='". $row["dropdown_id"] ."'/></td><td>";
+                  echo $row["dropdown_name"]."</td><td>";
+                  
+                  ?><button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> Edit</button>
+                  <button type='button' class="btn btn-default" onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')" name='submit'><i class="fa fa-eye"></i> Delete</button><?php
                   echo "</td></tr>";    
                 }
             }

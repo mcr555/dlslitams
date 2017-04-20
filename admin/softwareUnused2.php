@@ -15,29 +15,33 @@ if (isset($_POST['submit']))
   $asset_id=$_POST['asset_id'];
   $_SESSION['notification']=1;
   $sql="UPDATE software SET asset_id = '$asset_id' WHERE software_id = '$software_id'";
-  date_default_timezone_set("Asia/Manila"); 
-                $vd=date("Y-m-d h:i:a");
-                $sql2 ="select * from software ORDER BY $id DESC LIMIT 1"; 
-                $result1 = $conn->query($sql2);
-
-                 $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
-           $result = $conn->query($sql1);
-
-            $vn=$_SESSION["firstname"] ;
-             $vn1=$_SESSION["middlename"] ; 
-            $vn2=$_SESSION["lastname"] ;
-            $vn3=$_SESSION["accountType"] ;
-            
-
-                  $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time, Log_Function) VALUES ('$vn $vn1 $vn2','$vn3','$vd','used a software($software_id)')";
-
-            if (mysqli_query($conn, $sql3)){}
-            else 
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+ 
   
   if (mysqli_query($conn, $sql)){}
   else 
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+  date_default_timezone_set("Asia/Manila"); 
+                $vd=date("Y-m-d h:i:a");
+                $sql= "SELECT software.asset_id,software.name as sname,serial,hardware.name as hname FROM software LEFT JOIN hardware ON hardware.asset_id=software.asset_id WHERE software_id = '$software_id'";
+            $result = $conn->query($sql);
+                $row = $result->fetch_array(MYSQLI_ASSOC);
+                 $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
+           $result = $conn->query($sql1);
+
+             $vn=$_SESSION["firstname"] ;
+             $vn1=$_SESSION["middlename"] ;
+            $vn2=$_SESSION["lastname"] ;
+            $vn3=$_SESSION["accountType"] ;
+            $vn5=$row["sname"];
+            $vn6=$row["hname"];
+            $vn7=$row["serial"];
+           
+
+            $sql3 = "INSERT INTO tbl_log(Log_Name, Log_LOP, Log_Date_Time,category, Log_Function,id) VALUES ('$vn $vn1 $vn2','$vn3','$vd','Software','use $vn5 to $vn6','$vn7')";
+
+            if (mysqli_query($conn, $sql3)){}
+            else 
+            echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
   exit();
 
 }
