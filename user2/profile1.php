@@ -115,15 +115,19 @@ include_once('user2Header.php');
             <div class="row">
               <div class="col-md-6">
             <div>
-  <?php
-            if ($row['imagepath']>= 1){
+
+            if ($result1->num_rows > 0)
+            {
+
               echo" <div> <img src='../img/$row[imagepath]'  width=200 height=200  alt='User Image'>";
     
 
     }
 else
 
+
  echo "<div> <img src='../dist/img/user2-160x160.jpg'  width=200 height=200  alt='User Image'>";
+
 
                     
                     ?>

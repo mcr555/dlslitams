@@ -1,4 +1,4 @@
-  <!-- Left side column. contains the sidebar -->
+<!-- Left side column. contains the sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -10,7 +10,9 @@
                 $result1 = $conn->query($sql2);
                 $row = $result1->fetch_array(MYSQLI_ASSOC);
 
-            if ($row['imagepath']>= 1){
+
+             if ($result1->num_rows > 0){
+
               echo"<div class='user-panel'>
   <div class='pull-left image'>  <img src='../img/$row[imagepath]'  class='img-circle' alt='User Image'>";
     
@@ -42,8 +44,8 @@ echo"<div class='user-panel'>
             </span>
           </a>
           <ul class="treeview-menu">
-          	<li><a href="formCAPEX"><i class="fa fa-circle-o"></i> CAPEX</a></li>
-          	<li><a href="formICTSR"><i class="fa fa-circle-o"></i> ICTSR</a></li>
+            <li><a href="formCAPEX"><i class="fa fa-circle-o"></i> CAPEX</a></li>
+            <li><a href="formICTSR"><i class="fa fa-circle-o"></i> ICTSR</a></li>
             <li><a href="formATR"><i class="fa fa-circle-o"></i> ATR</a></li>
           </ul>
         </li>

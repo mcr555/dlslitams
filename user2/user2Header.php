@@ -10,7 +10,9 @@
                 $result1 = $conn->query($sql2);
                 $row = $result1->fetch_array(MYSQLI_ASSOC);
 
-            if ($row['imagepath']>= 1){
+            if ($result1->num_rows > 0)
+            {
+
               echo"<div class='user-panel'>
   <div class='pull-left image'>  <img src='../img/$row[imagepath]'  class='img-circle' alt='User Image'>";
     
@@ -53,9 +55,9 @@ echo"<div class='user-panel'>
         </span>
       </a>
       <ul class="treeview-menu">
-      	<li><a href="pending"><i class="fa fa-circle-o"></i> Pending Requests</a></li>
-      	<li><a href="approved"><i class="fa fa-circle-o"></i> Approved Requests</a></li>
-      	<li><a href="rejected"><i class="fa fa-circle-o"></i> Rejected Requests</a></li>
+        <li><a href="pending"><i class="fa fa-circle-o"></i> Pending Requests</a></li>
+        <li><a href="approved"><i class="fa fa-circle-o"></i> Approved Requests</a></li>
+        <li><a href="rejected"><i class="fa fa-circle-o"></i> Rejected Requests</a></li>
       </ul>
     </li>
     <li class="treeview">
