@@ -83,19 +83,15 @@ $result = $conn->query($sql);
 
 
           <!-- /.form group -->
-          <div class="form-group" Align='center'>
-  <?php
-
-    $select= '<select name="asset_id">';
-    
-    while($row = $result->fetch_assoc()) 
-    $select.='<option value="'.$row['location'].'">'.$row['location'].'</option>';
-    $select.='</select>';
-
-
-
-echo $select;
-?>
+          <div class="form-group">
+            <?php
+              $select= '<select class="form-control" name="asset_id">'; 
+                while($row = $result->fetch_assoc()) 
+                $select.='<option value="'.$row['location'].'">'.$row['location'].'</option>';
+                $select.='</select>';
+              echo $select;
+            ?>
+          </div>
           <!-- /.form group -->
         </div>
         <!-- /.box-body -->

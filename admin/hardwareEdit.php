@@ -38,6 +38,12 @@ if($asset_type==2)
   $sql= "SELECT * FROM hardware WHERE asset_id=$asset_id";
   $result = $conn->query($sql);
 
+  ?>
+  <form>
+    <input type="number" read-only value="<?php echo $row["asset_id"] ?>">
+  </form>
+  <?php
+
   if ($result->num_rows > 0)
   {
       echo "<table border=1>";

@@ -69,18 +69,19 @@
       <div class="box">
         <div class="box-header with-border" >
         <form action="../reportsphp/hardwarewarranty.php" method="POST">
-          <h3 class="box-title">Hardware warranty expires</h3>
+          <h3 class="box-title">Hardware warranty expiration</h3>
         </div>
         <div class="box-body">
-
-
           <!-- /.form group -->
-          <div class="form-group" Align='center'> 
-          Starting Date<input type="text"  name="startdate" id="from-datepicker">
-          Ending Date<input type="text"  name="enddate" id="from-datepicker2">
-    
-          
-            
+          <div class="form-group">
+            <label>Start Date:</label>
+            <input type="text" required name="startdate"  id="from-datepicker">
+          </div>
+
+          <div class="form-group">
+            <label>End Date:</label>
+            <input type="text" required name="enddate" id="from-datepicker2">
+          </div>
           <!-- /.form group -->
         </div>
         <!-- /.box-body -->

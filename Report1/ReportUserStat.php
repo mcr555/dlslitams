@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+      <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="../plugins/datepicker/datepicker3.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../dist/css/skins/skin-green.min.css">
@@ -35,7 +37,7 @@
 </head>
 <?php
   session_start();
-  include_once('../Admin/denyAccess.php');
+  include_once('../admin/denyAccess.php');
   require_once('../db.php');
   
 ?>
@@ -48,9 +50,9 @@
   <!-- =============================================== -->
 
   <?php 
-  include_once('../Admin/main-header.php');
-  include_once('../Admin/sidebar.php');
-  require_once('../Admin/notification.php');?>
+  include_once('../admin/main-header.php');
+  include_once('../admin/sidebar.php');
+  require_once('../admin/notification.php');?>
 
   <!-- =============================================== -->
 
@@ -77,24 +79,25 @@
           <h3 class="box-title">User Report</h3>
         </div>
         <div class="box-body">
-
-
           <!-- /.form group -->
-          <div class="form-group" Align='center'>
-             Start Date : <input type="text" required name="startdate"  id="from-datepicker">
-             &nbsp;&nbsp;&nbsp;&nbsp;
-          End Date : <input type="text" required name="enddate" id="from-datepicker2">
-          <br><br><br>
-            <select  name=user>
+          <div class="form-group">
+            <label>Start Date:</label>
+            <input type="text" required name="startdate"  id="from-datepicker">
+          </div>
 
-        <option value="all">All</option>
-        <option value="0">Activated</option>
-        <option value="1">Deactivated</option>
-        
+          <div class="form-group">
+            <label>End Date:</label>
+            <input type="text" required name="enddate" id="from-datepicker2">
+          </div>
 
-
-        </select>
-            
+          <div class="form-group col-md-4">
+            <label></label>
+            <select class="form-control">
+              <option value="all">All</option>
+              <option value="0">Activated</option>
+              <option value="1">Deactivated</option>
+            </select>
+          </div>
           <!-- /.form group -->
         </div>
         <!-- /.box-body -->

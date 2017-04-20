@@ -120,45 +120,8 @@
       <!-- Default box -->
       <div class="box box-success">
         <div class="box-header with-border">
-          
-           <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs pull-right">
-             
-              <li class="pull-left header">Hardware</li>
-               <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                  More <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </a>
-                <ul class="dropdown-menu">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareComputerAdd">Add Hardware</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareAdd">Add Asset</a></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                  View <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </a>
-                <ul class="dropdown-menu">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareRetired.php">Retired Asset</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDonated.php">Donated Asset</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardwareDecommissioned.php">Decommissioned Asset</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="hardware">All Hardware</a></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                  Action <span class="caret"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </a>
-                <ul class="dropdown-menu">
-                  <li role="presentation"><input type="submit" class="btn btn-default"  name="donate" value="Donate"/></li>
-                  <li role="presentation"><input type="submit" class="btn btn-default"  name="retire" value="Retire"/></li>
-                  <li role="presentation"><input type="submit" class="btn btn-default"  name="decommission" value="Decommission"/></li>
-                </ul>
-              </li>
-            </ul>
-           
-            <!-- /.tab-content -->
-          </div>
+          <div class="nav-tabs-custom"></div>
+          <h4>Pending Work Order</h4>
         </div>
         <div class="box-body">
         
