@@ -8,8 +8,19 @@
                 $result1 = $conn->query($sql2);
                 $row = $result1->fetch_array(MYSQLI_ASSOC);
 ?>
-<div class="user-panel">
-  <div class="pull-left image"> <img src="../img/<?php echo $row["imagepath"];?>" class="img-circle" alt="User Image"></div>
+<?php
+            if ($row['imagepath']>= 1){
+              echo"<div class='user-panel'><div class='pull-left image'> <img src='../img/$row[imagepath]'  class='img-circle' alt='User Image'>";
+    
+
+    }
+else
+echo"<div class='user-panel'>
+  <div class='pull-left image'> <img src='../dist/img/user2-160x160.jpg'  class='img-circle' alt='User Image'>";
+?>
+     
+
+  </div>
   <div class="pull-left info">
     <p><?php echo $_SESSION['firstname'];?></p>
     <a href="#"><?php echo $_SESSION['accountType'];?> </a>
@@ -99,6 +110,11 @@
         </ul>
       </li>
     </ul>
+    <ul class="treeview-menu">
+    <li>
+     <li><a href="../Report1/ReportComponents"><i class="fa fa-circle-o"></i>Components</a></li>
+    </li>
+    </ul>
         <ul class="treeview-menu">
       <li>
         <a href="#"><i class="fa fa-circle-o"></i>User
@@ -114,6 +130,7 @@
     </ul>
     <ul class="treeview-menu">
     <li>
+     <li><a href="../Report1/ReportTicketStat"><i class="fa fa-circle-o"></i>Request</a></li>
       <li><a href="../Report1/ReportSupplier"><i class="fa fa-circle-o"></i>Supplier</a></li>
       <li><a href="../Report1/ReportLogs"><i class="fa fa-circle-o"></i>Logs</a></li>
     </li>

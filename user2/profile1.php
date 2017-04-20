@@ -46,6 +46,23 @@
 <body class="hold-transition skin-green sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
+ <header class="main-header">
+    <!-- Logo -->
+    <a href="../../index2.html" class="logo">
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>ITAMS</b></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+    </nav>
+  </header>
 
 
   <!-- =============================================== -->
@@ -78,10 +95,10 @@ include_once('user2Header.php');
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Create new account
+        Profile
       </h1>
       <ol class="breadcrumb">
-        <li>Create new account</li>
+        <li>Profile</li>
       </ol>
     </section>
 
@@ -98,8 +115,20 @@ include_once('user2Header.php');
             <div class="row">
               <div class="col-md-6">
             <div>
-  <div> <img src="../img/<?php echo $row["imagepath"];?>"  width=200 height=200  alt="User Image">
+  <?php
+            if ($result1->num_rows > 0)
+            {
+              echo" <div> <img src='../img/$row[imagepath]'  width=200 height=200  alt='User Image'>";
+    
+
+    }
+else
+{
+
+ echo "<div> <img src='../dist/img/user2-160x160.jpg'  width=200 height=200  alt='User Image'>";
+}
                     
+                    ?>
                         <input name="uploadedimage" type="file" value="change" >
                          <input name="Upload Now" type="submit" value="Upload Image">
                          </form>

@@ -2,9 +2,25 @@
 <aside class="main-sidebar">
 <!-- sidebar: style can be found in sidebar.less -->
 <section class="sidebar">
-              <div class="user-panel">
-        <div class="pull-left image">
-          <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                       <?php
+             
+            require_once('../db.php');
+
+                $sql2 = "select imagepath from users where idnumber = '".$_SESSION['id']."'"; 
+                $result1 = $conn->query($sql2);
+                $row = $result1->fetch_array(MYSQLI_ASSOC);
+
+            if ($result1->num_rows > 0)
+            {
+              echo"<div class='user-panel'>
+  <div class='pull-left image'>  <img src='../img/$row[imagepath]'  class='img-circle' alt='User Image'>";
+    
+
+    }
+else
+echo"<div class='user-panel'>
+  <div class='pull-left image'> <img src='../dist/img/user2-160x160.jpg'  class='img-circle' alt='User Image'>";
+?>
         </div>
         <div class="pull-left info">
           <p><?php echo $_SESSION['firstname'];?></p>
@@ -38,9 +54,9 @@
         </span>
       </a>
       <ul class="treeview-menu">
-      	<li><a href="pending"><i class="fa fa-circle-o"></i> Pending Requests</a></li>
-      	<li><a href="approved"><i class="fa fa-circle-o"></i> Approved Requests</a></li>
-      	<li><a href="rejected"><i class="fa fa-circle-o"></i> Rejected Requests</a></li>
+        <li><a href="pending"><i class="fa fa-circle-o"></i> Pending Requests</a></li>
+        <li><a href="approved"><i class="fa fa-circle-o"></i> Approved Requests</a></li>
+        <li><a href="rejected"><i class="fa fa-circle-o"></i> Rejected Requests</a></li>
       </ul>
     </li>
      <li class="treeview">

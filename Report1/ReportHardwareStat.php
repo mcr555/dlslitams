@@ -26,6 +26,19 @@
     }
   </style>
 
+  <script>
+function validateForm() {
+    var startdate = document.forms["myForm"]["startdate"].value;
+    var enddate = document.forms["myForm"]["enddate"].value;
+    
+
+    if (startdate > enddate) {
+      alert("End date is earlier than the Start Date");
+      return false;
+    }
+}
+</script>
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -73,7 +86,8 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border" >
-        <form action="../reportsphp/hardwarestat.php" method="POST">
+           <form role="form" name="myForm" onsubmit="return validateForm()" action="../reportsphp/hardwarestat.php" method="POST">
+
           <h3 class="box-title">Hardware Report</h3>
         </div>
         <div class="box-body">

@@ -55,7 +55,7 @@
   include_once('sidebar.php');
                 $sql2 = "select imagepath from users where idnumber = '".$_SESSION['id']."'"; 
                 $result1 = $conn->query($sql2);
-                $row = $result1->fetch_array(MYSQLI_ASSOC);
+                $row = $result1->fetch_array(MYSQLI_ASSOC); 
 
                  $sql1 = "select * from users where idnumber = '".$_SESSION['id']."'"; 
                 $result = $conn->query($sql1);
@@ -99,8 +99,16 @@
             <div class="row">
               <div class="col-md-6">
             <div>
-  <div> <img src="../img/<?php echo $row["imagepath"];?>"  width=200 height=200  alt="User Image">
-                    
+          <?php
+            if ($row['imagepath']>= 1){
+              echo" <div> <img src='../img/$row[imagepath]'  width=200 height=200  alt='User Image'>";
+    
+
+    }
+else
+
+ echo "<div> <img src='../dist/img/user2-160x160.jpg'  width=200 height=200  alt='User Image'>";
+?>
                         <input name="uploadedimage" type="file" value="change" >
                          <input name="Upload Now" type="submit" value="Upload Image">
                          </form>
