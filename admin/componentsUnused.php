@@ -159,9 +159,9 @@
 
             echo "<thead><tr><th></th><th>";
             echo "Component ID</th><th>";
-            echo "Asset Barcode</th><th>";
             echo "Name</th><th>";
             echo "Category</th><th>";
+            echo "Date Bought</th><th>";
             echo "&nbsp;</th></thead><tbody>";
 
 
@@ -172,11 +172,9 @@
                   echo "<tr><td>";
                   echo "<input type='checkbox' name='checkbox[]' class='flat-red' value='". $row["component_id"] ."'/></td><td>";
                   echo $row["component_id"]."</td><td>";
-                  ?><a href='#' onClick="popitup2('hardwareDetails?hid=<?php echo $row['asset_id'];?>')"><?php
-                  echo $row["barcode"] . '</a>';
-                  echo "</td><td>";
                   echo $row["cname"]."</td><td>";
                   echo $row["component_category"]."</td><td>";
+                  echo $row["dateBuy"]."</td><td>";
                   echo "</td></tr>";    
                 }
             }
