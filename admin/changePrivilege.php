@@ -157,9 +157,7 @@ if (isset($_POST['accounttype']))
                       <option value=""> ------ </option>
                       </select>
 
-<input type='hidden' name='lastname' value="<?php echo $_POST["lastname"]?>">
-<input type='hidden' name='firstname' value="<?php echo $_POST["firstname"]?>">
-<input type='hidden' name='idnumber' value="<?php echo $_POST["idnumber"]?>">
+<input type='hidden' name='idnumber' value="<?php echo $_GET["id"]?>">
 <input type="BUTTON" Value="Back" Onclick="window.close();">
 <input type="submit" name="save"  value="Save">
 </form>

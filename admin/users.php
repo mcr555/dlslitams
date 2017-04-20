@@ -142,18 +142,8 @@
                     $showButton=1;
                   }
                   else $showButton=0;
-                  echo "<form name='myform' method='POST' action='changePrivilege'>";?>
-                  <input type='hidden' name='lastname' value="<?php echo $row["lastname"]?>">
-                  <input type='hidden' name='firstname' value="<?php echo $row["firstname"]?>">
-                  <input type='hidden' name='idnumber' value="<?php echo $row["idnumber"]?>">
-
-                  <input type="submit" class="btn btn-default" value="Change Privilege"
-                  onclick="myform.target='POPUPW'; POPUPW = window.open(
-                  'about:blank','POPUPW','width=600,height=400');">
-
-
-                  <?php
-                  echo "</form>"; ?>
+                  ?>
+                  <button type='button' class="btn btn-default" onClick="popitup2('changePrivilege?id=<?php echo $row['idnumber'];?>')" name='submit'><i class="fa fa-edit"></i> Change Privilege</button>
                   <form action="users" method="POST" onsubmit="return confirm('Are you sure you want to deactivate user?');">
                   <input type="hidden" name="idnumber" value="<?php echo $row['idnumber'];?>" />
                   <td><input type="submit" class="btn btn-default" name="deactivate" value="Deactivate" /></td>
