@@ -46,7 +46,7 @@ Created by: Kiran Pai | http://www.codecoffee.com/
 // Modified From: http://javascript.internet.com/forms/multi-value-drop-down-list-2.html
 // Modified extensively again for: http://www.codingforums.com/showthread.php?t=245935
 
-var ICT= ["ICT Manager|ICT Manager", "Section Head|Section Head", "Helpdesk|Helpdesk","Supervisor|Supervisor","Hardware Admin|Hardware Admin","Software Admin|Software Admin","Network Admin|Network Admin",    "Admin|ICT Administrator"];
+var ICT= ["ICT Manager|ICT Manager","ICT Staff|ICT Staff", "Section Head|Section Head", "Helpdesk|Helpdesk","Supervisor|Supervisor","Hardware Admin|Hardware Admin","Software Admin|Software Admin","Network Admin|Network Admin",    "Admin|ICT Administrator"];
 var IS= ["Faculty2|Faculty", "Curriculum Coordinator|Curriculum Coordinator",  "Principal|Principal"];
 var Faculty= ["Faculty1|Faculty", "Dean|Dean",  "Department Chair|Department Chair"];
 var FRD= ["FRD Manager|FRD Manager", "Budget Analyst|Budget Analyst",  "FHP Director|FHP Director"];

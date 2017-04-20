@@ -5,7 +5,6 @@
            <?php
              
             require_once('../db.php');
-
                 $sql2 = "select imagepath from users where idnumber = '".$_SESSION['id']."'"; 
                 $result1 = $conn->query($sql2);
                 $row = $result1->fetch_array(MYSQLI_ASSOC);

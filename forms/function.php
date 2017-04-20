@@ -37,7 +37,7 @@ function getData($conn,$table,$s1,$s2,$dbRow){
 function requestIS($ticket_id,$conn){
   $idnumber=$_SESSION["idnumber"];
   $department=getData($conn,'users','idnumber',$idnumber,'department');
-  $position= $department . ' Immediate Superior';
+  $position= $department . ' Department Chair';
   $user_id=getData($conn,'users','accountType',$position,'idnumber');
 
   $sql = "INSERT INTO ticket_view (ticket_id,tuser_id,position,tistatus,step)

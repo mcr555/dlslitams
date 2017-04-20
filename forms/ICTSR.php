@@ -30,7 +30,7 @@ if (isset($_POST['submit']))
         while($row2 = $result2->fetch_assoc()) 
         {
             $email=$row2['email'];
-            $message="Your request has been sent to the Dean for approval <a href='http://dlsl.comeze.com/forms/viewICTSR?id=$ticket_id' > View </a>";
+            $message="Your request has been sent for approval <a href='http://dlsl.comeze.com/forms/viewICTSR?id=$ticket_id' > View </a>";
             sendMail($email,$message);
         }
     }

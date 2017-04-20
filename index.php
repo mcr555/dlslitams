@@ -7,7 +7,17 @@ if (isset($_SESSION["accountType"]))
 		header("Location: admin/home");
 		die();
 	}
-	else if($_SESSION["accountType"]=="Regular Employee")
+	else if($_SESSION["accountType"]=="Faculty1")
+	{
+		header("Location: user1/home");
+		die();
+	}
+	else if($_SESSION["accountType"]=="Faculty2")
+	{
+		header("Location: user1/home");
+		die();
+	}
+	else if($_SESSION["accountType"]=="Staff")
 	{
 		header("Location: user1/home");
 		die();
