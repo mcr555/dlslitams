@@ -57,7 +57,12 @@ else if($_GET['accept']==1)
 		$step=1;
 
 	} 
-	if($_SESSION['accountType']=='Director') $next='Director';
+	if($_SESSION['accountType']=='Director')
+	{
+		$next='Director';
+		$step=2;
+
+	}
 
 	if (isset($next)){
 	$sql = "SELECT * FROM users WHERE accountType='$next'";
@@ -75,7 +80,6 @@ else if($_GET['accept']==1)
   		exit();
   	}
   }
-  	$step=$step+1;
 
 	$sql="UPDATE ticket_view SET tistatus = '1' WHERE ticket_id = '$ticket_id' AND tuser_id = '$user_id'";
 	if (mysqli_query($conn, $sql)){}
