@@ -119,7 +119,7 @@
                   echo $row["expiration_date"]."</td><td>";
                   echo $row["date_bought"]."</td><td>";
                   echo $row["serial"]."</td><td>";
-                  ?><button type="submit" class="btn btn-default" name="submit" onclick="return ConfirmDelete('serialDelete?id=<?php echo $row['software_id'];?>')" /><i class="fa fa-trash"></i> Remove</button><?php
+                  ?><button type="submit" class="btn btn-default" name="submit" onclick="return popitup2('serialDelete?id=<?php echo $row['software_id'];?>')" /><i class="fa fa-trash"></i> Remove</button><?php
                   echo "</td></tr>";
                 }
             }
