@@ -149,7 +149,8 @@
                   <form action="users" method="POST" onsubmit="return confirm('Are you sure you want to deactivate user?');">
                   <input type="hidden" name="idnumber" value="<?php echo $row['idnumber'];?>" />
                   <td><input type="submit" class="btn btn-default" name="deactivate" value="Deactivate" /></td>
-                  <td><button type='button' class="btn btn-default" onClick="popitup2('usersEdit?id=<?php echo $row['idnumber'];?>')" name='submit'><i class="fa fa-edit"></i> Edit</button></td></tr>
+                  <td><button type='button' class="btn btn-default" onClick="popitup2('usersEdit?id=<?php echo $row['idnumber'];?>')" name='submit'><i class="fa fa-edit"></i> Edit</button>
+                  <button type='button' class="btn btn-default" onClick="popitup2('usersEdit?id=<?php echo $row['idnumber'];?>')" name='submit'><i class="fa fa-edit"></i> Edit</button></td></tr>
                   <?php
                 }
             }

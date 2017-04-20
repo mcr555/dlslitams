@@ -12,8 +12,16 @@ if (isset($_POST['submit']))
   $remarks=$_POST['remarks'];
   $justification=$_POST['justification'];
   $idnumber=$_SESSION["idnumber"];
-  $department=$_SESSION["department"];
-  
+
+  $sql2 = "SELECT * FROM users WHERE idnumber='$idnumber'";
+    $result2 = $conn->query($sql2);
+    if ($result2->num_rows > 0)
+    {
+        while($row2 = $result2->fetch_assoc()) 
+        {
+            $department=$row2['department'];
+        }
+    }
 
   $sql = "INSERT INTO ticket (ticket_type,requestedFor,justification,contact,remarks,user_id)
   VALUES ('ICTSR','$department','$justification','$contact','$remarks','$idnumber')";
@@ -84,7 +92,7 @@ if (isset($_POST['submit']))
     else{
         echo "<script>
         alert('Request Successfully Sent');
-        window.location.href='userHistory';
+        window.location.href='../user2/userHistory';
         </script>";
          
         die();}
@@ -110,6 +118,71 @@ exit();
 
  </head>
 <body>
+<form method='post' action='../forms/ICTSR'>
+  <div class="row">
 
+    <div class="col-md-6">
+      <div class="form-group">
+          <label>Requested for</label>
+          <input type="text" class="form-control" disabled value='<?php echo $_SESSION["department"];?>'>
+      </div>
+      <!-- /.form-group -->
+      
+      <div class="form-group">
+        <label>Date Requested</label>
+        <input type="text" class="form-control" disabled pattern='[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}' value='<?php echo date("Y-m-d");?>'>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Local/Contact No.</label>
+        <input type="text" class="form-control" disabled pattern='[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}' value='<?php echo $_SESSION['contact'];?>'>
+      </div>
+
+      <div class="form-group">
+        <label>Remarks</label>
+        <input type="text" class="form-control" required name='remarks' value="" placeholder="Enter Remarks" />
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Request Description</label>
+        <textarea class="form-control" name="justification" rows="3" placeholder="Enter Request Description"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Asset Quantity</label>
+        <input type='text' name='quantity' value='<?php echo $quantity;?>'>
+      </div>
+      <div class="form-group">
+        <label><input type='submit' value="Change QUantity" class="btn btn-success pull-right" name='changer'/></label>
+
+        <?php
+          $idnumber=$_SESSION['idnumber'];
+          $sql = "SELECT * FROM hardware WHERE custodian=$idnumber";
+          $result = $conn->query($sql);
+          if ($result->num_rows > 0)
+          {
+              $select= '<select name="asset[]">';
+              while($row = $result->fetch_assoc()) 
+                  $select.='<option value="'.$row['asset_id'].'">'.$row['name'].'</option>';
+          }
+          $select.='</select>';
+          ?>
+      </div>
+      <div id='room_fields' class="form-group">
+        <?php for($i=0;$i<$quantity;$i++) echo $select;?>
+      </div>
+    </div>
+
+
+  </div>
+
+<div class="box-footer">
+  <input type='submit' value="Submit" class="btn btn-success pull-right" name='submit'/>
+</div>
+</form>
 </body>
 </html>

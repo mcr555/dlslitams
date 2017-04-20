@@ -48,8 +48,8 @@ echo"<div class='user-panel'>
           </ul>
         </li>
         <li class="treeview">
-          <a href="user1History">
-            <i class="fa fa-history"></i> <span>My History Requests</span>
+          <a href="userHistory">
+            <i class="fa fa-history"></i> <span>Request Made</span>
           </a>
         </li>
          </li>

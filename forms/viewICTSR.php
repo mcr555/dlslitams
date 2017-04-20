@@ -109,6 +109,26 @@ echo '<link rel="stylesheet" type="text/css" href="../css/design1.css"/>';
                               <label>Affirmed by (ICT Admin)</label>
                               <input type='text' class='form-control' readonly  value='<?= getName($conn,$ticket_id,4) ?>'>
                             </div>
+
+                            <div class="form-group">
+                              <label>Units:</label><BR>
+                              <?php
+                               $specs=unserialize($row['specs']);
+                               foreach( $specs as $key => $n )
+                                {
+                                  $sql2="SELECT * FROM hardware WHERE asset_id='$n' ";
+                                  $result2 = $conn->query($sql2);
+                                  if ($result2->num_rows > 0)
+                                  {
+                                    while($row2 = $result2->fetch_assoc()) 
+                                    {
+                                      echo $row2['name'] . ' <BR>';
+                                    }
+                                  }
+                                }
+                                 
+                              ?>
+                            </div>
                         </div>
                         <?php
                         }
